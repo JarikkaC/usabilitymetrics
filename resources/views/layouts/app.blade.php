@@ -78,7 +78,7 @@
         </v-card>
 
         <main class="my-4">
-            @yield('content')
+            @yield('content') 
         </main>
     </div>
 
