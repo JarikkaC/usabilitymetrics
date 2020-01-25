@@ -79,6 +79,7 @@
 
         <main class="my-4">
             @yield('content') 
+            <!-- start dev -->
         </main>
     </div>
 
