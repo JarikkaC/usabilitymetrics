@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Usability Metrics</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -70,11 +70,30 @@
     .m-b-md {
         margin-bottom: 30px;
     }
+
+    .btn {
+        border: 2px solid #CCA69A;
+        background-color: #CCA69A;
+        color: white;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 20px;
+    }
+
+    .default {
+        border-color: #CCA69A;
+        color: black;
+    }
+
+    .default:hover {
+        border-color: #e7e7e7;
+        background: #e7e7e7;
+    }
     </style>
 </head>
 
 <body>
-
     <div class="flex-center position-ref full-height">
         <div class="top-right links">
             <a href="{{ url('/home') }}">Home</a>
@@ -85,8 +104,7 @@
             @if (Route::has('login'))
             @auth
             <a herf="#"> {{ Auth::user()->username }}</a>
-            <a herf="{{ route('logout') }}"
-                onclick="event.preventDefault(); 
+            <a herf="{{ route('logout') }}" onclick="event.preventDefault(); 
                 document.getElementById('logout-form').submit();">
                 {{ __('logout') }}
             </a>
@@ -116,17 +134,18 @@
                 expedita quis laboriosam, ullam facere adipisci,iusto, voluptate sapiente corrupti asperiores rem
                 nemo numquam fuga ab at.
 
+                <br><br>
 
-            </div>
+                <button class="btn default"
+                    style="font-size: 20px; font-family: 'Nunito', sans-serif; font-weight: bold; color: white;">
+                    <a href="{{ route('login') }}"> Get Start </a>
+                </button>
 
-            <div id="app">
-                <v-btn>Get Start</v-btn>
             </div>
 
 
 
         </div>
-
     </div>
 
 </body>

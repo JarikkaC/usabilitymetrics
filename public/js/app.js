@@ -38279,39 +38279,36 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
-    { staticClass: "p-0", attrs: { fluid: "" } },
+    "v-parallax",
+    {
+      staticStyle: { height: "660px" },
+      attrs: {
+        dark: "",
+        src:
+          "https://cdn.pixabay.com/photo/2014/05/02/21/49/home-office-336373_1280.jpg"
+      }
+    },
     [
       _c(
-        "v-parallax",
-        {
-          attrs: {
-            src:
-              "https://cdn.pixabay.com/photo/2014/05/02/21/49/home-office-336373_1280.jpg"
-          }
-        },
+        "v-row",
         [
           _c(
-            "v-row",
+            "v-col",
+            { staticClass: "text-center" },
             [
-              _c(
-                "v-col",
-                { staticClass: "text-center" },
-                [
-                  _c("h1", { staticClass: "display-1 font-weight-thin mb-6" }, [
-                    _vm._v("Welcome")
-                  ]),
-                  _vm._v(" "),
-                  _c("h4", { staticClass: "subheading" }, [
-                    _vm._v(
-                      "\n                    Create your project and import graphic media before\n                    start the evaluation.\n                "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("v-btn", [_vm._v("Create Project")])
-                ],
-                1
-              )
+              _c("h1", { staticClass: "display-1 font-weight-thin mb-6" }, [
+                _c("br"),
+                _c("br"),
+                _vm._v("Welcome")
+              ]),
+              _vm._v(" "),
+              _c("h4", { staticClass: "subheading" }, [
+                _vm._v(
+                  "\n                Create your project and import graphic media before\n                start the evaluation.\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-btn", [_vm._v("Create Project")])
             ],
             1
           )
