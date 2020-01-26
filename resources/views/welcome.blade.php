@@ -76,32 +76,35 @@
 <body>
 
     <div class="flex-center position-ref full-height">
-
-        <!-- as a member -->
-
-        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false" v-pre>
-            {{ Auth::user()->Name }} <span class="caret"></span>
-        </a>
-
-        <a href="{{ url('/home') }}">Home</a>
-        <a href="{{ url('/example') }}">Document</a>
-        <a href="{{ url('') }}">About Us</a>
-
-        @if (Route::has('login'))
         <div class="top-right links">
+            <a href="{{ url('/home') }}">Home</a>
+            <a herf="#">Document</a>
+            <a herf="#">About Us</a>
+
+            <!-- as a member -->
+            @if (Route::has('login'))
             @auth
-            <a href="">Log Out</a>
+            <a herf="#"> {{ Auth::user()->username }}</a>
+            <a herf="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                {{ __('logout') }}
+            </a>
+
             <!-- as a guest -->
             @else
             <a href="{{ route('login') }}">Login</a>
-
             @if (Route::has('register'))
             <a href="{{ route('register') }}">Register</a>
             @endif
             @endauth
         </div>
         @endif
+
+        <!-- logout form -->
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
 
         <div class="content">
 
