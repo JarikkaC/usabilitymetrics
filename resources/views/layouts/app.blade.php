@@ -19,6 +19,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+    a{ 
+        color: black;
+    }
+    </style>
 </head>
 
 
@@ -30,13 +36,9 @@
 
             <v-spacer></v-spacer>
 
-            
             <span class="ml-3 text-uppercase">
                 <a href="{{ url('/home') }}">Home</a>
             </span>
-
-            @if(Route::has('login'))
-            @auth
             <span class="ml-3 text-uppercase">
                 <a href="{{ url('/example')}}">Document</a>
             </span>
@@ -44,13 +46,32 @@
                 <a href="{{ url('/example') }}">About Us</a>
             </span>
 
+            @if(Route::has('login'))
+            @auth
+            <span class="ml-3 text-uppercase">
+                <a href="#">{{ Auth::user()->username }}</a>
+            </span>
+
             <v-btn class="ml-3" flat color="#E1DCD6">
-                <span href="{{ route('login') }}">Login</span>
+                <span>
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                    document.getElementById('logout-form').submit();">
+                        {{ __('logout') }}
+                    </a>
+                </span>
             </v-btn>
 
+            @else
+            <v-btn class="ml-3" flat color="#E1DCD6">
+                <span>
+                    <a href="{{ route('login') }}">Login</a>
+                </span>
+            </v-btn>
             @if (Route::has('register'))
             <v-btn text class="ml-3" outlined color="#A8947D">
-                <span href="{{ route('register') }}">Register</span>
+                <span>
+                    <a href="{{ route('register') }}">Register </a>
+                </span>
             </v-btn>
             @endif
             @endauth
@@ -58,6 +79,7 @@
             @endif
 
         </v-toolbar>
+
         <v-row class="md-3" no-gutters>
             <leftnav-component></leftnav-component>
             <v-col class="md-9">
@@ -65,7 +87,9 @@
             </v-col>
         </v-row>
 
-
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
 
 
     </div>

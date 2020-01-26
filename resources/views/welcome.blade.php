@@ -86,7 +86,8 @@
             @auth
             <a herf="#"> {{ Auth::user()->username }}</a>
             <a herf="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                onclick="event.preventDefault(); 
+                document.getElementById('logout-form').submit();">
                 {{ __('logout') }}
             </a>
 
