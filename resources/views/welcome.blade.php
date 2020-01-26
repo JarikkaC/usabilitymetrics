@@ -70,8 +70,6 @@
     .m-b-md {
         margin-bottom: 30px;
     }
-
-
     </style>
 </head>
 
@@ -79,13 +77,23 @@
 
     <div class="flex-center position-ref full-height">
 
+        <!-- as a member -->
+
+        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" v-pre>
+            {{ Auth::user()->Name }} <span class="caret"></span>
+        </a>
+
+        <a href="{{ url('/home') }}">Home</a>
+        <a href="{{ url('/example') }}">Document</a>
+        <a href="{{ url('') }}">About Us</a>
+
         @if (Route::has('login'))
         <div class="top-right links">
             @auth
-            <a href="{{ url('/home') }}">Home</a>
+            <a href="">Log Out</a>
+            <!-- as a guest -->
             @else
-            <a herf="">Document</a>
-            <a herf="">About Us</a>
             <a href="{{ route('login') }}">Login</a>
 
             @if (Route::has('register'))
@@ -104,14 +112,13 @@
                 expedita quis laboriosam, ullam facere adipisci,iusto, voluptate sapiente corrupti asperiores rem
                 nemo numquam fuga ab at.
 
-              
+
             </div>
 
             <div id="app">
-            <v-btn>Get Start</v-btn>
+                <v-btn>Get Start</v-btn>
             </div>
 
-          
 
 
         </div>

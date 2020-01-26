@@ -22,65 +22,52 @@
 </head>
 
 
-
-
-
-
 <body>
     <div id="app">
-        <v-card color="grey lighten-4" flat height="200px" tile>
-            <v-toolbar dense permanent fixed>
-                <v-app-bar-nav-icon></v-app-bar-nav-icon>
-                <v-toolbar-title>Usability Metrics</v-toolbar-title>
-                </v-toolbar-title>
 
-                <v-spacer></v-spacer>
+        <v-toolbar dense>
+            <v-toolbar-title>Usability Metrics</v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            
+            <span class="ml-3 text-uppercase">
+                <a href="{{ url('/home') }}">Home</a>
+            </span>
+
+            @if(Route::has('login'))
+            @auth
+            <span class="ml-3 text-uppercase">
+                <a href="{{ url('/example')}}">Document</a>
+            </span>
+            <span class="ml-3 text-uppercase">
+                <a href="{{ url('/example') }}">About Us</a>
+            </span>
+
+            <v-btn class="ml-3" flat color="#E1DCD6">
+                <span href="{{ route('login') }}">Login</span>
+            </v-btn>
+
+            @if (Route::has('register'))
+            <v-btn text class="ml-3" outlined color="#A8947D">
+                <span href="{{ route('register') }}">Register</span>
+            </v-btn>
+            @endif
+            @endauth
+
+            @endif
+
+        </v-toolbar>
+        <v-row class="md-3" no-gutters>
+            <leftnav-component></leftnav-component>
+            <v-col class="md-9">
+                @yield('content')
+            </v-col>
+        </v-row>
 
 
 
-                <v-toolbar-item>
 
-                    <v-list-title>
-
-                        <v-list-title>
-                            <v-list-title-content>
-
-                                @guest
-                                <v-list-title herf="{{ route('login') }}">{{ __('Login') }} </v-list-title>
-                                <v-list-title herf="#">Document</v-list-title>
-                                <v-list-title herf="#">About Us</v-list-title>
-                                @if (Route::has('register'))
-
-                                <v-list-title href="{{ route('register') }}">{{ __('Register') }}</v-list-title>
-                                @endif
-
-                                @else
-                                <v-list-title herf="#"> {{ Auth::user()->name }} </v-list-title>
-                                <v-list-title herf="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </v-list-title>
-
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-
-                                </form>
-
-                                @endguest
-
-                            </v-list-title-content>
-                        </v-list-title>
-                    </v-list-title>
-                </v-toolbar-item>
-            </v-toolbar>
-        </v-card>
-
-        <main class="my-4">
-            @yield('content') 
-            <!-- start dev -->
-        </main>
     </div>
 
 </body>
