@@ -38240,15 +38240,61 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    { attrs: { "fill-height": "", fluid: "", "grid-list-xl": "" } },
+    { staticClass: "mt-2 mx-2" },
     [
       _c(
-        "v-layout",
-        { attrs: { wrap: "" } },
+        "v-row",
         [
-          _c("v-flex", { attrs: { md12: "", sm12: "", lg4: "" } }, [
-            _c("span", [_vm._v("E hia e sus flkflds;kglsksgdll;sdkg")])
-          ])
+          _c("v-col", { attrs: { cols: "auto" } }, [
+            _c("h3", { staticClass: "mt-3" }, [_vm._v("Project Name:")])
+          ]),
+          _vm._v(" "),
+          _c(
+            "V-col",
+            { attrs: { cols: "auto" } },
+            [
+              _c("v-text-field", {
+                attrs: { outlined: "", color: "indigo", rules: _vm.rules }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        { staticClass: "d-inline-block mx-4" },
+        [
+          _c(
+            "v-row",
+            { attrs: { justify: "space-between" } },
+            [
+              _c(
+                "v-container",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "auto" } },
+                    [
+                      _c("v-img", {
+                        staticClass: "pl-1",
+                        attrs: {
+                          height: "100",
+                          width: "100",
+                          src: "/images/element/add.png"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )
@@ -91581,7 +91627,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('home-component', __webpack
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('project-component', __webpack_require__(/*! ./components/ProjectComponent.vue */ "./resources/js/components/ProjectComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('welcomeproject-component', __webpack_require__(/*! ./components/WelcomeProjectComponent.vue */ "./resources/js/components/WelcomeProjectComponent.vue")["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#app'
+  el: '#app',
+  vuetify: new vuetify__WEBPACK_IMPORTED_MODULE_1___default.a()
 });
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_1___default.a, {
   iconfont: 'mdi'

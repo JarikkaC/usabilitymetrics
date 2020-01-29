@@ -17,6 +17,7 @@ Vue.component('welcomeproject-component', require('./components/WelcomeProjectCo
 
 const app = new Vue({
     el: '#app',
+    vuetify: new Vuetify()
 });
 
 Vue.use(Vuetify, {
