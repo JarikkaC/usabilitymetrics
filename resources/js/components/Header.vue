@@ -1,5 +1,5 @@
 <template>
-  <v-card color="grey lighten-4" flat height="50px" tile>
+  <v-card color="grey lighten-4" height="50px" tile>
     <v-toolbar dense>
       <v-toolbar-title>Usability Metrics</v-toolbar-title>
 
@@ -8,7 +8,7 @@
       <span class="ml-3 text-uppercase">Document</span>
       <span class="ml-3 text-uppercase">About Us</span>
 
-      <v-btn class="ml-3" flat color="#E1DCD6">
+      <v-btn class="ml-3" color="#E1DCD6">
         <span>Sign in</span>
       </v-btn>
 

@@ -52,7 +52,7 @@
                 <a href="#">{{ Auth::user()->username }}</a>
             </span>
 
-            <v-btn class="ml-3" flat color="#E1DCD6">
+            <v-btn class="ml-3" color="#E1DCD6">
                 <span>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); 
                     document.getElementById('logout-form').submit();">
@@ -62,7 +62,7 @@
             </v-btn>
 
             @else
-            <v-btn class="ml-3" flat color="#E1DCD6">
+            <v-btn class="ml-3" color="#E1DCD6">
                 <span>
                     <a href="{{ route('login') }}">Login</a>
                 </span>
