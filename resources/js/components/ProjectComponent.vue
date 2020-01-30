@@ -12,7 +12,7 @@
         </V-col>
     </v-row>
 
-    <v-card class="d-inline-block mx-4">
+    <v-card class="d-inline-block mx-4" @click="upload = !upload">
         <v-row justify="space-between">
           <v-container>
             <v-col cols="auto">
@@ -22,7 +22,37 @@
         </v-row>
     </v-card>
 
-  
+
+  <v-card v-model="upload" class="mx-auto" width="500px" height="300px" >
+    <v-card-text>
+        <v-row class="mx-3 mb-3 mt-3">
+            <h3>Upload Your Graphic Media</h3>
+        </v-row>
+
+        <v-row class="mx-3 mb-3 mt-3">
+            <v-file-input label="File input" filled prepend-icon="mdi-camera"></v-file-input>
+        </v-row>
+
+        <v-row class="mx-5 mb-3 mt-3">
+               <v-btn class="mr-4" color="#6495D9">Upload</v-btn>
+               <v-btn>Cancel</v-btn>
+        </v-row>
+
+    </v-card-text>
+
+  </v-card>
 </v-container>
+
 </template>
+
+
+<script>
+export default {
+    data(){
+        return{
+            upload: true,
+        }
+    }
+}
+</script>
 

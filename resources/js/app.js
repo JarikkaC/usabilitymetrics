@@ -13,6 +13,8 @@ Vue.component('leftnav-component', require('./components/LeftNavComponent.vue').
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
 Vue.component('project-component', require('./components/ProjectComponent.vue').default);
 Vue.component('welcomeproject-component', require('./components/WelcomeProjectComponent.vue').default);
+Vue.component('uploadimg-component', require('./components/UploadComponent.vue').default);
+
 
 
 const app = new Vue({
