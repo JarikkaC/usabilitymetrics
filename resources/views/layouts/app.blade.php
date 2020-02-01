@@ -81,10 +81,17 @@
         </v-toolbar>
 
         <v-row class="md-3" no-gutters>
+        
+        @if (Route::has('login'))
+        @auth
             <leftnav-component></leftnav-component>
+            @endif
+            @endauth
+
             <v-col class="md-9">
                 @yield('content')
             </v-col>
+
         </v-row>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

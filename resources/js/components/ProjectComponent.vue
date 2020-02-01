@@ -26,7 +26,7 @@
             </v-row>
         </v-card>
 
-        <v-dialog v-model="upload" width="600px" height="400px">
+<v-dialog v-model="upload" width="600px" height="400px">
             
 
 <v-card >
