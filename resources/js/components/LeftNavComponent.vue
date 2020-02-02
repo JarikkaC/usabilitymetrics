@@ -4,9 +4,9 @@
 <v-navigation-drawer floating permanent>
 <v-list class="mt-3" dense>
    
-   <v-list-title>
+  
      <v-btn class="m-5" color="#E1DCD6"> Create Project</v-btn>
-   </v-list-title>
+   
 
    <v-divider></v-divider>
    
