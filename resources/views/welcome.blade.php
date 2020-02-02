@@ -187,6 +187,9 @@
     </div>
 
     <br><br><br><br><br><br><br>
+
+
+    
     <!-- กูทำอันนี้ -->
 
     <div class="content" style="color:black;">
@@ -225,7 +228,7 @@
             <br><br><br>
 
             <button class="btn1 default1" style="font-size: 20px; font-family: 'Nunito', sans-serif; font-weight: bold; color:black;">
-                <a> All FUTURE </a>
+                <a> All FEATURE </a>
             </button>
 
         </div>

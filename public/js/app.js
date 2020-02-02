@@ -2151,7 +2151,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['username'],
   data: function data() {
     return {
       items: [{
@@ -38580,8 +38583,10 @@ var render = function() {
             "v-list",
             { staticClass: "mt-3", attrs: { dense: "" } },
             [
-              _c("v-btn", { staticClass: "m-5", attrs: { color: "#E1DCD6" } }, [
-                _vm._v(" Create Project")
+              _c("span", [
+                _vm._v(
+                  "\n              " + _vm._s(_vm.username) + "\n            "
+                )
               ]),
               _vm._v(" "),
               _c("v-divider"),

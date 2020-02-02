@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\project;
 
-class ProjectController extends Controller
+class MetricController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('project');
+        return view('selectmetric');
     }
 
     /**
@@ -24,11 +23,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return project::create([
-            'project_name' => $data['projectname'],
-
-        ]);
-
+        //
     }
 
     /**

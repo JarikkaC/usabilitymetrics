@@ -2,7 +2,9 @@
     <v-card width="250">
         <v-navigation-drawer floating permanent>
             <v-list class="mt-3" dense>
-                <v-btn class="m-5" color="#E1DCD6"> Create Project</v-btn>
+                <span>
+                  {{username}}
+                </span>
 
                 <v-divider></v-divider>
 
@@ -22,6 +24,7 @@
 
 <script>
 export default {
+  props: ['username'],
   data () {
     return {
       items: [

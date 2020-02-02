@@ -84,7 +84,7 @@
         
         @if (Route::has('login'))
         @auth
-            <leftnav-component></leftnav-component>
+            <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
             @endif
             @endauth
 
