@@ -37,9 +37,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $projects=new Project();
-        $projects->project_name=$request->get('project_name');
-        $projects->user_id=$request->get('user_id');
+        $projects = new Project();
+        $projects->project_name = $request->get('project_name');
+        $projects->user_id = $request->get('user_id');
         $projects->save();
         return response()->json($projects);
     }
@@ -52,7 +52,8 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $projects = Project::find($id);
+        return response()->json($projects);
     }
 
     /**

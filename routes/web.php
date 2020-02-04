@@ -19,5 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/example', 'ExampleController@index')->name('example');
-Route::get('/project', 'ProjectController@index')->name('project');
+// Route::get('/project', 'ProjectController@index')->name('project');
 Route::get('/selectmetric', 'MetricController@index')->name('selectmetric');
+
+Route::resource('/project','ProjectController');

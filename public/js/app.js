@@ -2002,6 +2002,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -2018,7 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
         value: "project_name"
       }, {
         text: "Date/Time",
-        value: "create_at"
+        value: "created_at"
       }, {
         text: "Actions",
         value: "action",
@@ -38393,7 +38394,7 @@ var render = function() {
                                                       )
                                                     },
                                                     expression:
-                                                      "editedItem.project_name"
+                                                      "\n                                                    editedItem.project_name\n                                                "
                                                   }
                                                 })
                                               ],
@@ -38458,19 +38459,9 @@ var render = function() {
                 fn: function(ref) {
                   var item = ref.item
                   return [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.editItem(item)
-                          }
-                        }
-                      },
-                      [_vm._v("\n                    view\n                ")]
-                    ),
+                    _c("v-btn", { attrs: { href: /project/ + item.id } }, [
+                      _vm._v("view")
+                    ]),
                     _vm._v(" "),
                     _c(
                       "v-icon",

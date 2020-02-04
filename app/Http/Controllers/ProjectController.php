@@ -24,11 +24,6 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return project::create([
-            'project_name' => $data['projectname'],
-
-        ]);
-
     }
 
     /**
@@ -39,7 +34,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -50,7 +44,8 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $projects = Project::find($id);
+        return view('pages/yourproject', compact('id'));
     }
 
     /**

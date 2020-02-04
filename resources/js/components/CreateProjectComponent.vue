@@ -35,7 +35,9 @@
                                         <v-row>
                                             <v-col>
                                                 <v-text-field
-                                                    v-model="editedItem.project_name"
+                                                    v-model="
+                                                        editedItem.project_name
+                                                    "
                                                     label="Project name"
                                                 ></v-text-field>
                                             </v-col>
@@ -63,9 +65,8 @@
                     </v-toolbar>
                 </template>
                 <template v-slot:item.action="{ item }">
-                    <v-icon small class="mr-2" @click="editItem(item)">
-                        view
-                    </v-icon>
+                    <v-btn :href="/project/ + item.id">view</v-btn>
+
                     <v-icon small @click="deleteItem(item)">
                         delete
                     </v-icon>
@@ -75,7 +76,7 @@
     </v-app>
 </template>
 
-<!-- -------------------------------------------------------------------------------------- -->
+<!-- ---------------------------------------------------------------------------------------->
 
 <script>
 export default {
@@ -93,16 +94,16 @@ export default {
                 sortable: false,
                 value: "project_name"
             },
-            { text: "Date/Time", value: "create_at" },
+            { text: "Date/Time", value: "created_at" },
             { text: "Actions", value: "action", sortable: false }
         ],
         projects: [],
         editedIndex: -1,
         editedItem: {
-            project_name: "",
+            project_name: ""
         },
         defaultItem: {
-            project_name: "",
+            project_name: ""
         }
     }),
 
@@ -126,7 +127,7 @@ export default {
         },
 
         addProject() {
-            console.log(this.projects)
+            console.log(this.projects);
             axios.post("api/project", {
                 user_id: this.usernow.user_id,
                 project_name: this.editedItem.project_name
