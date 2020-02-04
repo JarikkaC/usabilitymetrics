@@ -3,7 +3,10 @@
 @section('content')
 <div id="app">
     <!-- <project-component></project-component> -->
-    <create-component></create-component>
-   
+    
+    @if(auth()->check())
+
+    <create-component :usernow="{{ Auth::user() }}"></create-component>
+    @endif
 </div>
 @endsection

@@ -2002,10 +2002,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["usernow"],
+  mounted: function mounted() {
+    this.getProject();
+    console.log(this.usernow);
+  },
   data: function data() {
     return {
       dialog: false,
@@ -2013,24 +2015,22 @@ __webpack_require__.r(__webpack_exports__);
         text: "Project Name",
         align: "left",
         sortable: false,
-        value: "name"
+        value: "project_name"
       }, {
         text: "Date/Time",
-        value: "time"
+        value: "create_at"
       }, {
         text: "Actions",
         value: "action",
         sortable: false
       }],
-      project: [],
+      projects: [],
       editedIndex: -1,
       editedItem: {
-        name: "",
-        time: 0
+        project_name: ""
       },
       defaultItem: {
-        name: "",
-        time: 0
+        project_name: ""
       }
     };
   },
@@ -2044,12 +2044,20 @@ __webpack_require__.r(__webpack_exports__);
       val || this.close();
     }
   },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.project = [];
+    getProject: function getProject() {
+      var _this = this;
+
+      axios.get("api/project").then(function (response) {
+        _this.projects = response.data;
+      });
+    },
+    addProject: function addProject() {
+      console.log(this.projects);
+      axios.post("api/project", {
+        user_id: this.usernow.user_id,
+        project_name: this.editedItem.project_name
+      });
     },
     editItem: function editItem(item) {
       this.editedIndex = this.project.indexOf(item);
@@ -2061,23 +2069,22 @@ __webpack_require__.r(__webpack_exports__);
       confirm("Are you sure you want to delete this item?") && this.project.splice(index, 1);
     },
     close: function close() {
-      var _this = this;
+      var _this2 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this.editedItem = Object.assign({}, _this.defaultItem);
-        _this.editedIndex = -1;
+        _this2.editedItem = Object.assign({}, _this2.defaultItem);
+        _this2.editedIndex = -1;
       }, 300);
-    },
-    save: function save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.project[this.editedIndex], this.editedItem);
-      } else {
-        this.project.push(this.editedItem);
-      }
+    } // save() {
+    //     if (this.editedIndex > -1) {
+    //         Object.assign(this.project[this.editedIndex], this.editedItem);
+    //     } else {
+    //         this.project.push(this.editedItem);
+    //     }
+    //     this.close();
+    // }
 
-      this.close();
-    }
   }
 });
 
@@ -38295,7 +38302,7 @@ var render = function() {
             staticClass: "elevation-1",
             attrs: {
               headers: _vm.headers,
-              items: _vm.project,
+              items: _vm.projects,
               "sort-by": "time"
             },
             scopedSlots: _vm._u([
@@ -38375,16 +38382,18 @@ var render = function() {
                                                     label: "Project name"
                                                   },
                                                   model: {
-                                                    value: _vm.editedItem.name,
+                                                    value:
+                                                      _vm.editedItem
+                                                        .project_name,
                                                     callback: function($$v) {
                                                       _vm.$set(
                                                         _vm.editedItem,
-                                                        "name",
+                                                        "project_name",
                                                         $$v
                                                       )
                                                     },
                                                     expression:
-                                                      "editedItem.name"
+                                                      "editedItem.project_name"
                                                   }
                                                 })
                                               ],
@@ -38424,7 +38433,7 @@ var render = function() {
                                           color: "blue darken-1",
                                           text: ""
                                         },
-                                        on: { click: _vm.save }
+                                        on: { click: _vm.addProject }
                                       },
                                       [_vm._v("Save")]
                                     )
@@ -38477,22 +38486,6 @@ var render = function() {
                     )
                   ]
                 }
-              },
-              {
-                key: "no-data",
-                fn: function() {
-                  return [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { color: "primary" },
-                        on: { click: _vm.initialize }
-                      },
-                      [_vm._v("Reset")]
-                    )
-                  ]
-                },
-                proxy: true
               }
             ])
           })
