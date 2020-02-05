@@ -2,12 +2,8 @@
 
 @section('content')
 <div id="app">
-
-    <project-component></project-component>
-
-    <!-- @if(auth()->check())
-
-    <create-component :usernow="{{ Auth::user() }}"></create-component>
-    @endif -->
+    @if(auth()->check())
+    <project-component id="{!!$id!!}"  :usernow="{{ Auth::user() }}"></project-component>
+    @endif
 </div>
 @endsection

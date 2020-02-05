@@ -2247,11 +2247,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["usernow", "id"],
+  mounted: function mounted() {
+    this.getProject();
+  },
   data: function data() {
     return {
-      upload: false
+      today: new Date(),
+      upload: false,
+      project: [],
+      picture: [],
+      picture_path: null,
+      image: null
     };
+  },
+  methods: {
+    getProject: function getProject() {
+      var _this = this;
+
+      axios.get("/api/project/" + this.id).then(function (response) {
+        _this.project = response.data;
+      });
+    },
+    addPicture: function addPicture() {
+      axios.post("/api/pictures", {
+        user_id: this.usernow.user_id,
+        picture_path: this.picture_path,
+        project_id: this.id,
+        image: this.image
+      });
+      this.upload = false;
+    },
+    onImageChange: function onImageChange(e) {
+      var _this2 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      this.noUpload = false;
+
+      reader.onloadend = function (e) {
+        _this2.image = reader.result;
+
+        var date = _this2.today.getFullYear() + "-" + (_this2.today.getMonth() + 1) + "-" + _this2.today.getDate();
+
+        var time = _this2.today.getHours() + "-" + _this2.today.getMinutes();
+
+        var x = Math.floor(Math.random() * 100);
+        var dateTime = date + "_" + time;
+        var file_name = "image_" + dateTime + "_" + x + ".png";
+        _this2.picture_path = file_name;
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 });
 
@@ -38646,19 +38708,14 @@ var render = function() {
             "v-row",
             [
               _c("v-col", { attrs: { cols: "auto" } }, [
-                _c("h3", { staticClass: "mt-3" }, [_vm._v("Project Name:")])
-              ]),
-              _vm._v(" "),
-              _c(
-                "V-col",
-                { attrs: { cols: "auto" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { outlined: "", color: "indigo" }
-                  })
-                ],
-                1
-              )
+                _c("h3", { staticClass: "mt-3" }, [
+                  _vm._v(
+                    "\n                    Project Name: " +
+                      _vm._s(this.project.project_name) +
+                      "\n                "
+                  )
+                ])
+              ])
             ],
             1
           ),
@@ -38731,20 +38788,21 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c(
-                        "v-row",
-                        { staticClass: "mx-3 mb-3 mt-3" },
-                        [
-                          _c("v-file-input", {
-                            attrs: {
-                              label: "File input",
-                              filled: "",
-                              "prepend-icon": "mdi-camera"
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                      _c("v-row", { staticClass: "mx-3 mb-3 mt-3" }, [
+                        _c("input", {
+                          attrs: { id: "uploadImage", type: "file" },
+                          on: { change: _vm.onImageChange }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("center", [
+                        _vm.image
+                          ? _c("img", {
+                              staticClass: "img-responsive",
+                              attrs: { src: _vm.image, height: "120" }
+                            })
+                          : _vm._e()
+                      ]),
                       _vm._v(" "),
                       _c(
                         "v-row",
@@ -38754,7 +38812,8 @@ var render = function() {
                             "v-btn",
                             {
                               staticClass: "mr-4",
-                              attrs: { color: "#6495D9" }
+                              attrs: { color: "#6495D9" },
+                              on: { click: _vm.addPicture }
                             },
                             [_vm._v("Upload")]
                           ),
@@ -92381,14 +92440,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./resources/js/components/ProjectComponent.vue ***!
   \******************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectComponent_vue_vue_type_template_id_7b945e4f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectComponent.vue?vue&type=template&id=7b945e4f& */ "./resources/js/components/ProjectComponent.vue?vue&type=template&id=7b945e4f&");
 /* harmony import */ var _ProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ProjectComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -92418,7 +92478,7 @@ component.options.__file = "resources/js/components/ProjectComponent.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/ProjectComponent.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92517,8 +92577,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\usabilitymetrics\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\usabilitymetrics\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\myproject\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\myproject\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
