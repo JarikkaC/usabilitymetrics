@@ -40,7 +40,7 @@
                 <a href="{{ url('/home') }}">Home</a>
             </span>
             <span class="ml-3 text-uppercase">
-                <a href="{{ url('/example')}}">Document</a>
+                <a href="{{ url('/document')}}">Document</a>
             </span>
             <span class="ml-3 text-uppercase">
                 <a href="{{ url('/example') }}">About Us</a>

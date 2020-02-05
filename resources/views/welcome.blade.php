@@ -135,8 +135,8 @@
     <div class="flex-center position-ref full-height">
         <div class="top-right links">
             <a href="{{ url('/home') }}">Home</a>
-            <a herf="#">Document</a>
-            <a herf="#">About Us</a>
+            <a href="{{ url('/document') }}">Document</a>
+            <a href="#">About Us</a>
 
             <!-- as a member -->
             @if (Route::has('login'))
