@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\project;
 
@@ -14,7 +15,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('project');
+        $projects = project::all();
+        return response()->json($projects);
     }
 
     /**
@@ -24,6 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -34,6 +37,11 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $projects = new Project();
+        $projects->project_name = $request->get('project_name');
+        $projects->user_id = $request->get('user_id');
+        $projects->save();
+        return response()->json($projects);
     }
 
     /**
@@ -45,7 +53,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         $projects = Project::find($id);
-        return view('pages/yourproject', compact('id'));
+        return response()->json($projects);
     }
 
     /**

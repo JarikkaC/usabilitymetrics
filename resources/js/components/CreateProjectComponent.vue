@@ -3,7 +3,7 @@
         <v-card class="m-4">
             <v-data-table
                 :headers="headers"
-                :items="project"
+                :items="projects"
                 sort-by="time"
                 class="elevation-1"
             >
@@ -35,7 +35,9 @@
                                         <v-row>
                                             <v-col>
                                                 <v-text-field
-                                                    v-model="editedItem.name"
+                                                    v-model="
+                                                        editedItem.project_name
+                                                    "
                                                     label="Project name"
                                                 ></v-text-field>
                                             </v-col>
@@ -54,7 +56,7 @@
                                     <v-btn
                                         color="blue darken-1"
                                         text
-                                        @click="save"
+                                        @click="addProject"
                                         >Save</v-btn
                                     >
                                 </v-card-actions>
@@ -63,25 +65,26 @@
                     </v-toolbar>
                 </template>
                 <template v-slot:item.action="{ item }">
-                    <v-icon small class="mr-2" @click="editItem(item)">
-                        view
-                    </v-icon>
+                    <v-btn :href="/project/ + item.id">view</v-btn>
+
                     <v-icon small @click="deleteItem(item)">
                         delete
                     </v-icon>
-                </template>
-                <template v-slot:no-data>
-                    <v-btn color="primary" @click="initialize">Reset</v-btn>
                 </template>
             </v-data-table>
         </v-card>
     </v-app>
 </template>
 
-<!-- -------------------------------------------------------------------------------------- -->
+<!-- ---------------------------------------------------------------------------------------->
 
 <script>
 export default {
+    props: ["usernow"],
+    mounted() {
+        this.getProject();
+        console.log(this.usernow);
+    },
     data: () => ({
         dialog: false,
         headers: [
@@ -89,22 +92,18 @@ export default {
                 text: "Project Name",
                 align: "left",
                 sortable: false,
-                value: "name"
+                value: "project_name"
             },
-            { text: "Date/Time", value: "time" },
+            { text: "Date/Time", value: "created_at" },
             { text: "Actions", value: "action", sortable: false }
         ],
-        project: [],
+        projects: [],
         editedIndex: -1,
         editedItem: {
-            name: "",
-            time: 0,
-            
+            project_name: ""
         },
         defaultItem: {
-            name: "",
-            time: 0,
-           
+            project_name: ""
         }
     }),
 
@@ -120,13 +119,19 @@ export default {
         }
     },
 
-    created() {
-        this.initialize();
-    },
-
     methods: {
-        initialize() {
-            this.project = [];
+        getProject() {
+            axios.get("api/project").then(response => {
+                this.projects = response.data;
+            });
+        },
+
+        addProject() {
+            console.log(this.projects);
+            axios.post("api/project", {
+                user_id: this.usernow.user_id,
+                project_name: this.editedItem.project_name
+            });
         },
 
         editItem(item) {
@@ -147,16 +152,16 @@ export default {
                 this.editedItem = Object.assign({}, this.defaultItem);
                 this.editedIndex = -1;
             }, 300);
-        },
-
-        save() {
-            if (this.editedIndex > -1) {
-                Object.assign(this.project[this.editedIndex], this.editedItem);
-            } else {
-                this.project.push(this.editedItem);
-            }
-            this.close();
         }
+
+        // save() {
+        //     if (this.editedIndex > -1) {
+        //         Object.assign(this.project[this.editedIndex], this.editedItem);
+        //     } else {
+        //         this.project.push(this.editedItem);
+        //     }
+        //     this.close();
+        // }
     }
 };
 </script>
