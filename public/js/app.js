@@ -2304,7 +2304,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addPicture: function addPicture() {
-      this.pictures.push({
+      this.pictureFil.push({
         user_id: this.usernow.user_id,
         picture_path: this.picture_path,
         project_id: this.id,

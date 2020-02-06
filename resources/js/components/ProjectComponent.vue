@@ -110,7 +110,7 @@ export default {
         },
 
         addPicture() {
-            this.pictures.push({
+            this.pictureFil.push({
                 user_id: this.usernow.user_id,
                 picture_path: this.picture_path,
                 project_id: this.id,
