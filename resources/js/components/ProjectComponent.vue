@@ -23,6 +23,23 @@
                     </v-container>
                 </v-row>
             </v-card>
+            <br /><br />
+            <v-card
+                class="d-inline-block mx-4"
+                v-for="picture in pictures"
+                :key="picture.picture_path"
+            >
+                <v-row justify="space-between">
+                    <v-container>
+                        <v-col cols="auto">
+                            <img
+                                :src="'/storage/' + picture.picture_path"
+                                height="200px"
+                            />
+                        </v-col>
+                    </v-container>
+                </v-row>
+            </v-card>
 
             <v-dialog v-model="upload" width="600px" height="400px">
                 <v-card>
@@ -47,7 +64,12 @@
                             />
                         </center>
                         <v-row class="mx-5 mb-3 mt-3">
-                            <v-btn class="mr-4" color="#6495D9" @click="addPicture">Upload</v-btn>
+                            <v-btn
+                                class="mr-4"
+                                color="#6495D9"
+                                @click="addPicture"
+                                >Upload</v-btn
+                            >
                             <v-btn @click="upload = false">Cancel</v-btn>
                         </v-row>
                     </v-card-text>
@@ -62,12 +84,13 @@ export default {
     props: ["usernow", "id"],
     mounted() {
         this.getProject();
+        this.getPicture();
     },
     data: () => ({
         today: new Date(),
         upload: false,
         project: [],
-        picture: [],
+        pictures: [],
         picture_path: null,
         image: null
     }),
@@ -78,14 +101,27 @@ export default {
             });
         },
 
+        getPicture() {
+            axios.get("/api/pictures/").then(response => {
+                this.pictures = response.data;
+                console.log("aaa", this.pictures);
+            });
+        },
+
         addPicture() {
-            axios.post("/api/pictures", {
+            this.pictures.push({
                 user_id: this.usernow.user_id,
                 picture_path: this.picture_path,
                 project_id: this.id,
                 image: this.image
-            });
-            this.upload = false
+            }) &&
+                axios.post("/api/pictures", {
+                    user_id: this.usernow.user_id,
+                    picture_path: this.picture_path,
+                    project_id: this.id,
+                    image: this.image
+                });
+            this.upload = false;
         },
 
         onImageChange(e) {
@@ -108,7 +144,7 @@ export default {
                 this.picture_path = file_name;
             };
             reader.readAsDataURL(file);
-        },
+        }
     }
 };
 </script>

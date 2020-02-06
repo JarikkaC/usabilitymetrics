@@ -156,16 +156,6 @@ export default {
                 this.editedIndex = -1;
             }, 300);
         }
-
-
-        // save() {
-        //     if (this.editedIndex > -1) {
-        //         Object.assign(this.project[this.editedIndex], this.editedItem);
-        //     } else {
-        //         this.project.push(this.editedItem);
-        //     }
-        //     this.close();
-        // }
     }
 };
 </script>

@@ -2079,15 +2079,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.editedItem = Object.assign({}, _this2.defaultItem);
         _this2.editedIndex = -1;
       }, 300);
-    } // save() {
-    //     if (this.editedIndex > -1) {
-    //         Object.assign(this.project[this.editedIndex], this.editedItem);
-    //     } else {
-    //         this.project.push(this.editedItem);
-    //     }
-    //     this.close();
-    // }
-
+    }
   }
 });
 
@@ -2257,17 +2249,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
     this.getProject();
+    this.getPicture();
   },
   data: function data() {
     return {
       today: new Date(),
       upload: false,
       project: [],
-      picture: [],
+      pictures: [],
       picture_path: null,
       image: null
     };
@@ -2280,8 +2295,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.project = response.data;
       });
     },
+    getPicture: function getPicture() {
+      var _this2 = this;
+
+      axios.get("/api/pictures/").then(function (response) {
+        _this2.pictures = response.data;
+        console.log("aaa", _this2.pictures);
+      });
+    },
     addPicture: function addPicture() {
-      axios.post("/api/pictures", {
+      this.pictures.push({
+        user_id: this.usernow.user_id,
+        picture_path: this.picture_path,
+        project_id: this.id,
+        image: this.image
+      }) && axios.post("/api/pictures", {
         user_id: this.usernow.user_id,
         picture_path: this.picture_path,
         project_id: this.id,
@@ -2290,23 +2318,23 @@ __webpack_require__.r(__webpack_exports__);
       this.upload = false;
     },
     onImageChange: function onImageChange(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       var file = e.target.files[0];
       var reader = new FileReader();
       this.noUpload = false;
 
       reader.onloadend = function (e) {
-        _this2.image = reader.result;
+        _this3.image = reader.result;
 
-        var date = _this2.today.getFullYear() + "-" + (_this2.today.getMonth() + 1) + "-" + _this2.today.getDate();
+        var date = _this3.today.getFullYear() + "-" + (_this3.today.getMonth() + 1) + "-" + _this3.today.getDate();
 
-        var time = _this2.today.getHours() + "-" + _this2.today.getMinutes();
+        var time = _this3.today.getHours() + "-" + _this3.today.getMinutes();
 
         var x = Math.floor(Math.random() * 100);
         var dateTime = date + "_" + time;
         var file_name = "image_" + dateTime + "_" + x + ".png";
-        _this2.picture_path = file_name;
+        _this3.picture_path = file_name;
       };
 
       reader.readAsDataURL(file);
@@ -38764,6 +38792,40 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _vm._l(_vm.pictures, function(picture) {
+            return _c(
+              "v-card",
+              { key: picture.picture_path, staticClass: "d-inline-block mx-4" },
+              [
+                _c(
+                  "v-row",
+                  { attrs: { justify: "space-between" } },
+                  [
+                    _c(
+                      "v-container",
+                      [
+                        _c("v-col", { attrs: { cols: "auto" } }, [
+                          _c("img", {
+                            attrs: {
+                              src: "/storage/" + picture.picture_path,
+                              height: "200px"
+                            }
+                          })
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
           _c(
             "v-dialog",
             {
@@ -38843,7 +38905,7 @@ var render = function() {
             1
           )
         ],
-        1
+        2
       )
     ],
     1
