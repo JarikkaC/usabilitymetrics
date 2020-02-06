@@ -47,17 +47,19 @@
 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="close"
-                                        >Cancel</v-btn
-                                    >
+                                    
                                     <v-btn
                                         color="blue darken-1"
                                         text
                                         @click="addProject"
                                         >Save</v-btn
+                                    >
+
+                                    <v-btn
+                                        color="#CD4D4D"
+                                        text
+                                        @click="close"
+                                        >Cancel</v-btn
                                     >
                                 </v-card-actions>
                             </v-card>
@@ -67,9 +69,9 @@
                 <template v-slot:item.action="{ item }">
                     <v-btn :href="/project/ + item.id">view</v-btn>
 
-                    <v-icon small @click="deleteItem(item)">
+                    <v-btn class="ml-4" outlined color="#CD4D4D" @click="deleteItem(item)">
                         delete
-                    </v-icon>
+                    </v-btn>
                 </template>
             </v-data-table>
         </v-card>
@@ -127,11 +129,12 @@ export default {
         },
 
         addProject() {
-            console.log(this.projects);
+            
             axios.post("api/project", {
                 user_id: this.usernow.user_id,
-                project_name: this.editedItem.project_name
+                project_name: this.editedItem.project_name, 
             });
+            this.close();
         },
 
         editItem(item) {
@@ -153,6 +156,7 @@ export default {
                 this.editedIndex = -1;
             }, 300);
         }
+
 
         // save() {
         //     if (this.editedIndex > -1) {

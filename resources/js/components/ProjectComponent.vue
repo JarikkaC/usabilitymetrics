@@ -32,14 +32,6 @@
                         </v-row>
 
                         <v-row class="mx-3 mb-3 mt-3">
-                            <!-- <v-file-input
-                                label="File input"
-                                filled
-                                prepend-icon="mdi-camera"
-                                id="uploadImage"
-                                type="file"
-                                @change="onImageChange"
-                            ></v-file-input> -->
                             <input
                                 id="uploadImage"
                                 type="file"

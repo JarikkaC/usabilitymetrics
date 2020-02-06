@@ -2003,6 +2003,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -2054,11 +2056,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addProject: function addProject() {
-      console.log(this.projects);
       axios.post("api/project", {
         user_id: this.usernow.user_id,
         project_name: this.editedItem.project_name
       });
+      this.close();
     },
     editItem: function editItem(item) {
       this.editedIndex = this.project.indexOf(item);
@@ -2161,22 +2163,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['username'],
+  props: ["username"],
   data: function data() {
     return {
       items: [{
-        title: 'Home',
-        href: '/home'
+        title: "Home",
+        href: "/home"
       }, {
-        title: 'Your Project',
-        href: '/project'
+        title: "Your Project",
+        href: "/project"
       }, {
-        title: 'Evaluation Form',
-        href: ''
+        title: "Evaluation Form",
+        href: ""
       }, {
-        title: 'Report',
-        href: ''
+        title: "Report",
+        href: ""
       }]
     };
   }
@@ -2193,14 +2198,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -38484,21 +38481,18 @@ var render = function() {
                                           color: "blue darken-1",
                                           text: ""
                                         },
-                                        on: { click: _vm.close }
+                                        on: { click: _vm.addProject }
                                       },
-                                      [_vm._v("Cancel")]
+                                      [_vm._v("Save")]
                                     ),
                                     _vm._v(" "),
                                     _c(
                                       "v-btn",
                                       {
-                                        attrs: {
-                                          color: "blue darken-1",
-                                          text: ""
-                                        },
-                                        on: { click: _vm.addProject }
+                                        attrs: { color: "#CD4D4D", text: "" },
+                                        on: { click: _vm.close }
                                       },
-                                      [_vm._v("Save")]
+                                      [_vm._v("Cancel")]
                                     )
                                   ],
                                   1
@@ -38526,9 +38520,10 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c(
-                      "v-icon",
+                      "v-btn",
                       {
-                        attrs: { small: "" },
+                        staticClass: "ml-4",
+                        attrs: { outlined: "", color: "#CD4D4D" },
                         on: {
                           click: function($event) {
                             return _vm.deleteItem(item)
@@ -38629,10 +38624,16 @@ var render = function() {
             "v-list",
             { staticClass: "mt-3", attrs: { dense: "" } },
             [
-              _c("span", [
-                _vm._v(
-                  "\n              " + _vm._s(_vm.username) + "\n            "
-                )
+              _c("span", { staticClass: "text-center" }, [
+                _c("p", [_vm._v(" You loged in as:  ")]),
+                _vm._v(" "),
+                _c("h2", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.username) +
+                      "\n                "
+                  )
+                ])
               ]),
               _vm._v(" "),
               _c("v-divider"),

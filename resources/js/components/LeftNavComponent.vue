@@ -2,8 +2,11 @@
     <v-card width="250">
         <v-navigation-drawer floating permanent>
             <v-list class="mt-3" dense>
-                <span>
-                  {{username}}
+                <span class="text-center">
+                  <p> You loged in as:  </p>
+                    <h2>
+                        {{ username }}
+                    </h2>
                 </span>
 
                 <v-divider></v-divider>
@@ -24,16 +27,16 @@
 
 <script>
 export default {
-  props: ['username'],
-  data () {
-    return {
-      items: [
-        {title: 'Home', href: '/home'},
-        {title: 'Your Project', href: '/project'},
-        {title: 'Evaluation Form', href: ''},
-        {title: 'Report', href: ''}
-      ]
+    props: ["username"],
+    data() {
+        return {
+            items: [
+                { title: "Home", href: "/home" },
+                { title: "Your Project", href: "/project" },
+                { title: "Evaluation Form", href: "" },
+                { title: "Report", href: "" }
+            ]
+        };
     }
-  }
-}
+};
 </script>
