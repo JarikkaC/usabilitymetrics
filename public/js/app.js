@@ -2339,6 +2339,15 @@ __webpack_require__.r(__webpack_exports__);
 
       reader.readAsDataURL(file);
     }
+  },
+  computed: {
+    pictureFil: function pictureFil() {
+      var _this4 = this;
+
+      return this.pictures.filter(function (picture) {
+        return picture.project_id == _this4.id;
+      });
+    }
   }
 });
 
@@ -38795,7 +38804,7 @@ var render = function() {
           _c("br"),
           _c("br"),
           _vm._v(" "),
-          _vm._l(_vm.pictures, function(picture) {
+          _vm._l(_vm.pictureFil, function(picture) {
             return _c(
               "v-card",
               { key: picture.picture_path, staticClass: "d-inline-block mx-4" },

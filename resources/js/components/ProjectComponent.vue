@@ -26,7 +26,7 @@
             <br /><br />
             <v-card
                 class="d-inline-block mx-4"
-                v-for="picture in pictures"
+                v-for="picture in pictureFil"
                 :key="picture.picture_path"
             >
                 <v-row justify="space-between">
@@ -94,6 +94,7 @@ export default {
         picture_path: null,
         image: null
     }),
+
     methods: {
         getProject() {
             axios.get("/api/project/" + this.id).then(response => {
@@ -144,6 +145,16 @@ export default {
                 this.picture_path = file_name;
             };
             reader.readAsDataURL(file);
+        }
+    },
+
+    computed: {
+        pictureFil: function() {
+            return this.pictures.filter(picture => {
+                return (
+                    picture.project_id == this.id 
+                );
+            });
         }
     }
 };
