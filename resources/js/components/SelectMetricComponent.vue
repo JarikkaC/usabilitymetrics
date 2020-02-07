@@ -21,7 +21,13 @@
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-btn color="#64AC8F"> Save </v-btn>
+                            <v-btn
+                                color="#64AC8F"
+                                @click="postMetric"
+                                :href="/showmetric/ + this.id"
+                            >
+                                Save
+                            </v-btn>
                         </v-col>
                     </v-row>
 
@@ -38,12 +44,13 @@
                             v-for="item in metric.submetric"
                         >
                             <v-checkbox
+                                return-object
                                 v-model="selected"
                                 v-if="item.submetric_name"
                                 :key="item.submetric_name"
                                 class="ml-10"
                                 :label="item.submetric_name"
-                                :value="item.submetric_name"
+                                :value="item"
                             >
                             </v-checkbox>
                         </template>
@@ -56,21 +63,28 @@
 
 <script>
 export default {
+    props: ["id"],
     mounted() {
         this.getMetric();
     },
     data: () => ({
         metrics: [],
-        submetrics: [],
         selected: []
     }),
 
     methods: {
         getMetric() {
-            axios.get("api/metrics").then(response => {
+            axios.get("/api/metrics").then(response => {
                 this.metrics = response.data;
-                this.submetrics = response.data;
-              
+            });
+        },
+        postMetric() {
+            this.selected.forEach(element => {
+                axios.post("/api/metricmodel", {
+                    project_id: this.id,
+                    submetric_id: element.id,
+                    metric_id: element.metric_id
+                });
             });
         }
     }

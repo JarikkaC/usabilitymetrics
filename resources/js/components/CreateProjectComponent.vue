@@ -129,7 +129,6 @@ export default {
         },
 
         addProject() {
-            
             axios.post("api/project", {
                 user_id: this.usernow.user_id,
                 project_name: this.editedItem.project_name, 

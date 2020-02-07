@@ -16,4 +16,8 @@ class metric extends Model
     {
         return $this->hasMany(submetric::class, 'metric_id');
     }
+
+    public function metricmodel(){
+        return $this->belongsTo(metricmodel::class,'id');
+    }
 }

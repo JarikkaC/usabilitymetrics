@@ -21,4 +21,5 @@ Route::resource('project','Api\ProjectController');
 Route::resource('pictures','Api\PictureController');
 Route::resource('metrics','Api\MetricController');
 Route::resource('submetrics', 'Api\SubmetricController');
+Route::resource('metricmodel', 'Api\ModelController');
 
