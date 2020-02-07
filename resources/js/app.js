@@ -14,6 +14,7 @@ Vue.component('project-component', require('./components/ProjectComponent.vue').
 Vue.component('welcomeproject-component', require('./components/WelcomeProjectComponent.vue').default);
 Vue.component('create-component', require('./components/CreateProjectComponent.vue').default);
 Vue.component('selectmetric-component', require('./components/SelectMetricComponent.vue').default);
+Vue.component('showmetric-component', require('./components/ShowMetricComponent.vue').default);
 
 
 
