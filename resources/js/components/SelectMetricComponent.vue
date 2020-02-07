@@ -25,21 +25,6 @@
                         </v-col>
                     </v-row>
 
-                    <!-- <v-row>
-                        <v-data-table
-                            :headers="headers"
-                            :items="submetrics"
-                            sort-by="time"
-                            class="elevation-1"
-                        >
-                            <template v-slot:top>
-                                <v-toolbar flat color="white">
-                                    <v-toolbar-title>Metrics</v-toolbar-title>
-                                </v-toolbar>
-                            </template>
-                        </v-data-table>
-                    </v-row> -->
-
                     <template v-for="metric in metrics">
                         <v-checkbox
                             :key="metric.metric_name"
@@ -48,8 +33,12 @@
                             :value="metric.metric_name"
                         >
                         </v-checkbox>
-                        <template v-if="metric.submetric" v-for="item in metric.submetric">
+                        <template
+                            v-if="metric.submetric"
+                            v-for="item in metric.submetric"
+                        >
                             <v-checkbox
+                                v-model="selected"
                                 v-if="item.submetric_name"
                                 :key="item.submetric_name"
                                 class="ml-10"
@@ -67,37 +56,21 @@
 
 <script>
 export default {
-    // props: ["usernow", "id"],
     mounted() {
         this.getMetric();
-        this.getSubmetric();
     },
     data: () => ({
         metrics: [],
         submetrics: [],
         selected: []
-
-        // headers: [
-        //     {
-        //         text: "Metric Name",
-        //         align: "left",
-        //         sortable: false,
-        //         value: "submetric_name"
-        //     }
-        // ]
     }),
 
     methods: {
         getMetric() {
             axios.get("api/metrics").then(response => {
                 this.metrics = response.data;
-                console.log(this.metrics);
-            });
-        },
-
-        getSubmetric() {
-            axios.get("api/submetrics").then(response => {
                 this.submetrics = response.data;
+              
             });
         }
     }

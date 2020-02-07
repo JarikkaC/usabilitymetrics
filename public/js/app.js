@@ -2418,36 +2418,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: ["usernow", "id"],
   mounted: function mounted() {
     this.getMetric();
-    this.getSubmetric();
   },
   data: function data() {
     return {
       metrics: [],
       submetrics: [],
-      selected: [] // headers: [
-      //     {
-      //         text: "Metric Name",
-      //         align: "left",
-      //         sortable: false,
-      //         value: "submetric_name"
-      //     }
-      // ]
-
+      selected: []
     };
   },
   methods: {
@@ -2456,14 +2435,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("api/metrics").then(function (response) {
         _this.metrics = response.data;
-        console.log(_this.metrics);
-      });
-    },
-    getSubmetric: function getSubmetric() {
-      var _this2 = this;
-
-      axios.get("api/submetrics").then(function (response) {
-        _this2.submetrics = response.data;
+        _this.submetrics = response.data;
       });
     }
   }
@@ -39234,6 +39206,13 @@ var render = function() {
                                     attrs: {
                                       label: item.submetric_name,
                                       value: item.submetric_name
+                                    },
+                                    model: {
+                                      value: _vm.selected,
+                                      callback: function($$v) {
+                                        _vm.selected = $$v
+                                      },
+                                      expression: "selected"
                                     }
                                   })
                                 : _vm._e()
@@ -92644,11 +92623,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('home-component', __webpack
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('project-component', __webpack_require__(/*! ./components/ProjectComponent.vue */ "./resources/js/components/ProjectComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('welcomeproject-component', __webpack_require__(/*! ./components/WelcomeProjectComponent.vue */ "./resources/js/components/WelcomeProjectComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('create-component', __webpack_require__(/*! ./components/CreateProjectComponent.vue */ "./resources/js/components/CreateProjectComponent.vue")["default"]);
-<<<<<<< HEAD
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('selectmetric-component', __webpack_require__(/*! ./components/SelectMetricComponent.vue */ "./resources/js/components/SelectMetricComponent.vue")["default"]);
-=======
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('showmetric-component', __webpack_require__(/*! ./components/ShowMetricComponent.vue */ "./resources/js/components/ShowMetricComponent.vue")["default"]);
->>>>>>> showmetric
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   vuetify: new vuetify__WEBPACK_IMPORTED_MODULE_1___default.a()
@@ -92980,29 +92956,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ "./resources/js/components/SelectMetricComponent.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/SelectMetricComponent.vue ***!
   \***********************************************************/
-=======
-/***/ "./resources/js/components/ShowMetricComponent.vue":
-/*!*********************************************************!*\
-  !*** ./resources/js/components/ShowMetricComponent.vue ***!
-  \*********************************************************/
->>>>>>> showmetric
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
 /* harmony import */ var _SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectMetricComponent.vue?vue&type=template&id=580bb294& */ "./resources/js/components/SelectMetricComponent.vue?vue&type=template&id=580bb294&");
 /* harmony import */ var _SelectMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectMetricComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/SelectMetricComponent.vue?vue&type=script&lang=js&");
-=======
-/* harmony import */ var _ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowMetricComponent.vue?vue&type=template&id=b3359356& */ "./resources/js/components/ShowMetricComponent.vue?vue&type=template&id=b3359356&");
-/* harmony import */ var _ShowMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowMetricComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js&");
->>>>>>> showmetric
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -93012,15 +92976,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-<<<<<<< HEAD
   _SelectMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__["render"],
   _SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-=======
-  _ShowMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
->>>>>>> showmetric
   false,
   null,
   null,
@@ -93030,32 +92988,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-<<<<<<< HEAD
 component.options.__file = "resources/js/components/SelectMetricComponent.vue"
-=======
-component.options.__file = "resources/js/components/ShowMetricComponent.vue"
->>>>>>> showmetric
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ "./resources/js/components/SelectMetricComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
   !*** ./resources/js/components/SelectMetricComponent.vue?vue&type=script&lang=js& ***!
   \************************************************************************************/
-=======
-/***/ "./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************/
->>>>>>> showmetric
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SelectMetricComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectMetricComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
@@ -93065,7 +93011,66 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************************************************!*\
   !*** ./resources/js/components/SelectMetricComponent.vue?vue&type=template&id=580bb294& ***!
   \******************************************************************************************/
-=======
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SelectMetricComponent.vue?vue&type=template&id=580bb294& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectMetricComponent.vue?vue&type=template&id=580bb294&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ShowMetricComponent.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/ShowMetricComponent.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowMetricComponent.vue?vue&type=template&id=b3359356& */ "./resources/js/components/ShowMetricComponent.vue?vue&type=template&id=b3359356&");
+/* harmony import */ var _ShowMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowMetricComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ShowMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ShowMetricComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ShowMetricComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowMetricComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
@@ -93075,23 +93080,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/ShowMetricComponent.vue?vue&type=template&id=b3359356& ***!
   \****************************************************************************************/
->>>>>>> showmetric
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SelectMetricComponent.vue?vue&type=template&id=580bb294& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectMetricComponent.vue?vue&type=template&id=580bb294&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMetricComponent_vue_vue_type_template_id_580bb294___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-=======
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ShowMetricComponent.vue?vue&type=template&id=b3359356& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowMetricComponent.vue?vue&type=template&id=b3359356&");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowMetricComponent_vue_vue_type_template_id_b3359356___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
->>>>>>> showmetric
 
 
 
@@ -93168,8 +93165,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\usabilitymetrics\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\usabilitymetrics\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\myproject\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\myproject\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

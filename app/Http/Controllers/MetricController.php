@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\metric;
 
 class MetricController extends Controller
 {
@@ -13,7 +14,7 @@ class MetricController extends Controller
      */
     public function index()
     {
-        return view('/pages/showmetric');
+        return view('selectmetric');
     }
 
     /**
@@ -45,7 +46,8 @@ class MetricController extends Controller
      */
     public function show($id)
     {
-        //
+        $metrics = Metric::find($id);
+        return view('pages/showmetric', compact('id'));
     }
 
     /**
