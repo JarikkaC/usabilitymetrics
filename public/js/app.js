@@ -2422,22 +2422,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ["usernow", "id"],
   mounted: function mounted() {
     this.getMetric();
-    console.log("000", this.id);
+    this.getSubmetric();
   },
   data: function data() {
     return {
       metrics: [],
-      selected: [],
-      headers: [{
-        text: "Metric Name",
-        align: "left",
-        sortable: false,
-        value: "metric_name"
-      }]
+      submetrics: [],
+      selected: [] // headers: [
+      //     {
+      //         text: "Metric Name",
+      //         align: "left",
+      //         sortable: false,
+      //         value: "submetric_name"
+      //     }
+      // ]
+
     };
   },
   methods: {
@@ -2446,6 +2456,14 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("api/metrics").then(function (response) {
         _this.metrics = response.data;
+        console.log(_this.metrics);
+      });
+    },
+    getSubmetric: function getSubmetric() {
+      var _this2 = this;
+
+      axios.get("api/submetrics").then(function (response) {
+        _this2.submetrics = response.data;
       });
     }
   }
@@ -39105,38 +39123,37 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-row",
-                    [
-                      _c("v-data-table", {
-                        staticClass: "elevation-1",
+                  _vm._l(_vm.metrics, function(metric) {
+                    return [
+                      _c("v-checkbox", {
+                        key: metric.metric_name,
+                        staticClass: "ml-5",
                         attrs: {
-                          headers: _vm.headers,
-                          items: _vm.metrics,
-                          "sort-by": "time"
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "top",
-                            fn: function() {
-                              return [
-                                _c(
-                                  "v-toolbar",
-                                  { attrs: { flat: "", color: "white" } },
-                                  [_c("v-toolbar-title", [_vm._v("Metrics")])],
-                                  1
-                                )
-                              ]
-                            },
-                            proxy: true
-                          }
-                        ])
+                          label: metric.metric_name,
+                          value: metric.metric_name
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._l(metric.submetric, function(item) {
+                        return metric.submetric
+                          ? [
+                              item.submetric_name
+                                ? _c("v-checkbox", {
+                                    key: item.submetric_name,
+                                    staticClass: "ml-10",
+                                    attrs: {
+                                      label: item.submetric_name,
+                                      value: item.submetric_name
+                                    }
+                                  })
+                                : _vm._e()
+                            ]
+                          : _vm._e()
                       })
-                    ],
-                    1
-                  )
+                    ]
+                  })
                 ],
-                1
+                2
               )
             ],
             1
@@ -92741,15 +92758,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./resources/js/components/ProjectComponent.vue ***!
   \******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectComponent_vue_vue_type_template_id_7b945e4f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectComponent.vue?vue&type=template&id=7b945e4f& */ "./resources/js/components/ProjectComponent.vue?vue&type=template&id=7b945e4f&");
 /* harmony import */ var _ProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ProjectComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -92779,7 +92795,7 @@ component.options.__file = "resources/js/components/ProjectComponent.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/ProjectComponent.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

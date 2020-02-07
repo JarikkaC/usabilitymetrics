@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class metric extends Model
 {
     protected $primaryKey = 'id';
-    
+
     protected $fillable = [
-        'metric_name',
+        'metric_name', 'id'
     ];
+
+    public function submetric()
+    {
+        return $this->hasMany(submetric::class, 'metric_id');
+    }
 }

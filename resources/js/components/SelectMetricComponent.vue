@@ -24,10 +24,11 @@
                             <v-btn color="#64AC8F"> Save </v-btn>
                         </v-col>
                     </v-row>
-                    <v-row>
+
+                    <!-- <v-row>
                         <v-data-table
-                            :headers="headers" 
-                            :items="metrics"
+                            :headers="headers"
+                            :items="submetrics"
                             sort-by="time"
                             class="elevation-1"
                         >
@@ -37,22 +38,28 @@
                                 </v-toolbar>
                             </template>
                         </v-data-table>
-                    </v-row>
-                </v-container>
+                    </v-row> -->
 
-                <!-- 
-                <v-checkbox
-                    class="ml-5"
-                    v-model="selected"
-                    label="John"
-                    value="John"
-                ></v-checkbox>
-                <v-checkbox
-                    class="ml-5"
-                    v-model="selected"
-                    label="Jacob"
-                    value="Jacob"
-                ></v-checkbox> -->
+                    <template v-for="metric in metrics">
+                        <v-checkbox
+                            :key="metric.metric_name"
+                            class="ml-5"
+                            :label="metric.metric_name"
+                            :value="metric.metric_name"
+                        >
+                        </v-checkbox>
+                        <template v-if="metric.submetric" v-for="item in metric.submetric">
+                            <v-checkbox
+                                v-if="item.submetric_name"
+                                :key="item.submetric_name"
+                                class="ml-10"
+                                :label="item.submetric_name"
+                                :value="item.submetric_name"
+                            >
+                            </v-checkbox>
+                        </template>
+                    </template>
+                </v-container>
             </v-card>
         </v-container>
     </v-app>
@@ -63,26 +70,34 @@ export default {
     // props: ["usernow", "id"],
     mounted() {
         this.getMetric();
-        console.log("000", this.id);
+        this.getSubmetric();
     },
     data: () => ({
         metrics: [],
-        selected: [],
-        headers: [
-            {
-                text: "Metric Name",
-                align: "left",
-                sortable: false,
-                value: "metric_name"
-            }
-        ],
-        
+        submetrics: [],
+        selected: []
+
+        // headers: [
+        //     {
+        //         text: "Metric Name",
+        //         align: "left",
+        //         sortable: false,
+        //         value: "submetric_name"
+        //     }
+        // ]
     }),
 
     methods: {
         getMetric() {
             axios.get("api/metrics").then(response => {
-                this.metrics= response.data;
+                this.metrics = response.data;
+                console.log(this.metrics);
+            });
+        },
+
+        getSubmetric() {
+            axios.get("api/submetrics").then(response => {
+                this.submetrics = response.data;
             });
         }
     }
