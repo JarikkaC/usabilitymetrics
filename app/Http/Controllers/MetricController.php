@@ -13,7 +13,7 @@ class MetricController extends Controller
      */
     public function index()
     {
-        return view('selectmetric');
+        return view('/pages/showmetric');
     }
 
     /**

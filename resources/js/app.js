@@ -13,6 +13,7 @@ Vue.component('home-component', require('./components/HomeComponent.vue').defaul
 Vue.component('project-component', require('./components/ProjectComponent.vue').default);
 Vue.component('welcomeproject-component', require('./components/WelcomeProjectComponent.vue').default);
 Vue.component('create-component', require('./components/CreateProjectComponent.vue').default);
+Vue.component('showmetric-component', require('./components/ShowMetricComponent.vue').default);
 
 
 
