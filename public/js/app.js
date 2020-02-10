@@ -2446,19 +2446,31 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/metrics").then(function (response) {
-        _this.metrics = response.data;
+        var res = response.data; // this.metrics = response.data;
+
+        _this.metrics = _this.tranFormData(res);
+        console.log(_this.metrics);
       });
     },
     postMetric: function postMetric() {
-      var _this2 = this;
-
-      this.selected.forEach(function (element) {
+      for (var index = 0; index < this.selected.length; index++) {
+        var element = this.selected[index];
         axios.post("/api/metricmodel", {
-          project_id: _this2.id,
+          project_id: this.id,
           submetric_id: element.id,
           metric_id: element.metric_id
         });
+      }
+    },
+    tranFormData: function tranFormData(data) {
+      var result = data.map(function (element) {
+        return {
+          id: element.id,
+          metric_name: element.metric_name,
+          submetric: element.submetric
+        };
       });
+      return result;
     }
   }
 });
@@ -2561,16 +2573,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/metricmodel").then(function (response) {
-        var res = response.data;
-        console.log('res', res);
-        _this.metricmodels = _this.tranFormData(res);
-        console.log(_this.metricmodels);
+        var res = response.data; // console.log('res',res);
+
+        _this.metricmodels = _this.tranFormData(res); // console.log(this.metricmodels);
       });
     },
     tranFormData: function tranFormData(data) {
       var result = data.map(function (element) {
         return {
-          submetric_name: element.metric.metric_name,
+          submetric_name: element.submetric.submetric_name,
           purpose: element.submetric.purpose,
           method: element.submetric.method,
           measurement: element.submetric.measurement,

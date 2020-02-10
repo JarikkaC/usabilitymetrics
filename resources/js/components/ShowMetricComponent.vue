@@ -98,14 +98,14 @@ export default {
         getModel() {
             axios.get("/api/metricmodel").then(response => {
                 let res = response.data;
-                console.log('res',res);
+                // console.log('res',res);
                 this.metricmodels = this.tranFormData(res);
-                console.log(this.metricmodels);
+                // console.log(this.metricmodels);
             });
         },
         tranFormData(data) {
             const result = data.map(element => ({
-                submetric_name: element.metric.metric_name,
+                submetric_name: element.submetric.submetric_name,
                 purpose: element.submetric.purpose,
                 method: element.submetric.method,
                 measurement: element.submetric.measurement,
