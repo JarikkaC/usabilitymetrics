@@ -15,15 +15,19 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
-    a{ 
-        color: black;
-    }
+        #app {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        a {
+            color: black;
+        }
     </style>
 </head>
 
@@ -81,9 +85,9 @@
         </v-toolbar>
 
         <v-row class="md-3" no-gutters>
-        
-        @if (Route::has('login'))
-        @auth
+
+            @if (Route::has('login'))
+            @auth
             <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
             @endif
             @endauth

@@ -2270,11 +2270,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -2429,10 +2424,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id"],
   mounted: function mounted() {
     this.getMetric();
+    this.postMetric();
   },
   data: function data() {
     return {
@@ -2473,6 +2474,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2554,22 +2562,23 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/metricmodel").then(function (response) {
         var res = response.data;
-        console.log(res);
+        console.log('res', res);
         _this.metricmodels = _this.tranFormData(res);
+        console.log(_this.metricmodels);
       });
     },
     tranFormData: function tranFormData(data) {
       var result = data.map(function (element) {
         return {
-          submetric_name: element.metric[0].metric_name,
-          purpose: element.submetric[0].purpose,
-          method: element.submetric[0].method,
-          measurement: element.submetric[0].measurement,
-          scale: element.submetric[0].scale,
-          type: element.submetric[0].type,
-          input: element.submetric[0].input,
-          iso: element.submetric[0].iso,
-          target: element.submetric[0].target
+          submetric_name: element.metric.metric_name,
+          purpose: element.submetric.purpose,
+          method: element.submetric.method,
+          measurement: element.submetric.measurement,
+          scale: element.submetric.scale,
+          type: element.submetric.type,
+          input: element.submetric.input,
+          iso: element.submetric.iso,
+          target: element.submetric.target
         };
       });
       return result;
@@ -38985,9 +38994,9 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
-            "v-card",
+            "v-btn",
             {
-              staticClass: "d-inline-block mx-4",
+              attrs: { color: "#64AC8F" },
               on: {
                 click: function($event) {
                   _vm.upload = true
@@ -38995,41 +39004,24 @@ var render = function() {
               }
             },
             [
+              _vm._v("\n            Upload Graphic Media\n            "),
               _c(
-                "v-row",
-                { attrs: { justify: "space-between" } },
-                [
-                  _c(
-                    "v-container",
-                    [
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "auto" } },
-                        [
-                          _c("v-img", {
-                            staticClass: "pl-1",
-                            attrs: {
-                              height: "100",
-                              width: "100",
-                              src: "/images/element/add.png"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
+                "v-icon",
+                { staticClass: "ml-3", attrs: { right: "", dark: "" } },
+                [_vm._v("mdi-cloud-upload")]
               )
             ],
             1
           ),
           _vm._v(" "),
-          _c("v-btn", { attrs: { href: /selectmetric/ + this.id } }, [
-            _vm._v(" Create Model ")
-          ]),
+          _c(
+            "v-btn",
+            {
+              staticClass: "ml-5",
+              attrs: { color: "#648BAC", href: /selectmetric/ + this.id }
+            },
+            [_vm._v("\n            Create Model\n        ")]
+          ),
           _vm._v(" "),
           _c("br"),
           _c("br"),
@@ -39050,7 +39042,7 @@ var render = function() {
                           _c("img", {
                             attrs: {
                               src: "/storage/" + picture.picture_path,
-                              height: "200px"
+                              height: "400px"
                             }
                           })
                         ])
@@ -39182,110 +39174,126 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("br"),
+              _c("v-row", [
+                _c("h3", { staticClass: "mt-10 ml-10" }, [
+                  _c("b", [_vm._v("Select Metrics")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("v-row", [
+                _c("p", { staticClass: "ml-10" }, [
+                  _vm._v(
+                    "\n                    เลือก Metric ที่ต้องการเพื่อสร้าง Measurement Model\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("v-divider"),
               _vm._v(" "),
               _c(
-                "v-container",
-                { staticClass: "m-4" },
+                "v-row",
                 [
-                  _c("v-row", [
-                    _c("h3", [
-                      _vm._v(
-                        "\n                        Select Metrics\n                    "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "v-row",
+                    "v-col",
                     [
                       _c(
                         "v-card",
                         {
-                          staticClass: "ml-3",
-                          attrs: {
-                            width: "1000px",
-                            "max-height": "300px",
-                            outlined: ""
-                          }
+                          staticClass: "mx-auto",
+                          attrs: { width: "500px", outlined: "" }
                         },
+                        [
+                          _vm._l(_vm.metrics, function(metric) {
+                            return [
+                              _c("v-checkbox", {
+                                key: metric.metric_name,
+                                staticClass: "ml-5",
+                                attrs: {
+                                  label: metric.metric_name,
+                                  value: metric.metric_name
+                                }
+                              }),
+                              _vm._v(" "),
+                              _vm._l(metric.submetric, function(item) {
+                                return metric.submetric
+                                  ? [
+                                      item.submetric_name
+                                        ? _c("v-checkbox", {
+                                            key: item.submetric_name,
+                                            staticClass: "ml-10",
+                                            attrs: {
+                                              "return-object": "",
+                                              label: item.submetric_name,
+                                              value: item
+                                            },
+                                            model: {
+                                              value: _vm.selected,
+                                              callback: function($$v) {
+                                                _vm.selected = $$v
+                                              },
+                                              expression: "selected"
+                                            }
+                                          })
+                                        : _vm._e()
+                                    ]
+                                  : _vm._e()
+                              })
+                            ]
+                          })
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-card",
+                        { attrs: { width: "500px", outlined: "" } },
                         [
                           _c("h6", { staticClass: "m-3" }, [
                             _vm._v(_vm._s(_vm.selected))
                           ])
                         ]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-row",
-                    [
-                      _c(
-                        "v-col",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                color: "#64AC8F",
-                                href: /showmetric/ + this.id
-                              },
-                              on: { click: _vm.postMetric }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Save\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.metrics, function(metric) {
-                    return [
-                      _c("v-checkbox", {
-                        key: metric.metric_name,
-                        staticClass: "ml-5",
-                        attrs: {
-                          label: metric.metric_name,
-                          value: metric.metric_name
-                        }
-                      }),
+                      ),
                       _vm._v(" "),
-                      _vm._l(metric.submetric, function(item) {
-                        return metric.submetric
-                          ? [
-                              item.submetric_name
-                                ? _c("v-checkbox", {
-                                    key: item.submetric_name,
-                                    staticClass: "ml-10",
-                                    attrs: {
-                                      "return-object": "",
-                                      label: item.submetric_name,
-                                      value: item
-                                    },
-                                    model: {
-                                      value: _vm.selected,
-                                      callback: function($$v) {
-                                        _vm.selected = $$v
-                                      },
-                                      expression: "selected"
-                                    }
-                                  })
-                                : _vm._e()
-                            ]
-                          : _vm._e()
-                      })
-                    ]
-                  })
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mt-5",
+                          attrs: {
+                            color: "#64AC8F",
+                            href: /showmetric/ + this.id
+                          },
+                          on: { click: _vm.postMetric }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Save\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mt-5 ml-5",
+                          attrs: { href: /project/ + this.id }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Back\n                    "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
                 ],
-                2
+                1
               )
             ],
             1
@@ -39319,53 +39327,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "v-card",
-        { staticClass: "m-3 d-flex justify-center" },
-        [
-          _c("v-data-table", {
-            staticClass: "elevation-1",
-            attrs: {
-              headers: _vm.headers,
-              items: _vm.metricmodels,
-              "multi-sort": ""
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "text-center pt-2" },
-        [
-          _c(
-            "v-btn",
-            {
-              staticClass: "mr-5",
+  return _c("v-app", [
+    _c(
+      "div",
+      [
+        _c(
+          "v-card",
+          { staticClass: "m-3 d-flex justify-center" },
+          [
+            _c("v-data-table", {
+              staticClass: "elevation-1",
               attrs: {
-                color: "black",
-                width: "350",
-                href: /selectmetric/ + this.id
+                headers: _vm.headers,
+                items: _vm.metricmodels,
+                "multi-sort": ""
               }
-            },
-            [_vm._v("Back")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            { staticClass: "ml-5", attrs: { color: "black", width: "350" } },
-            [_vm._v("Create metric model")]
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "text-center pt-2" },
+          [
+            _c(
+              "v-btn",
+              {
+                staticClass: "mr-5",
+                attrs: { width: "350", href: /selectmetric/ + this.id }
+              },
+              [_vm._v("Back")]
+            ),
+            _vm._v(" "),
+            _c("v-btn", { staticClass: "ml-5", attrs: { width: "350" } }, [
+              _vm._v("Create metric model")
+            ])
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

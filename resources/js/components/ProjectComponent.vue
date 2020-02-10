@@ -9,25 +9,20 @@
                 </v-col>
             </v-row>
 
-            <v-card class="d-inline-block mx-4" @click="upload = true">
-                <v-row justify="space-between">
-                    <v-container>
-                        <v-col cols="auto">
-                            <v-img
-                                class="pl-1"
-                                height="100"
-                                width="100"
-                                src="/images/element/add.png"
-                            ></v-img>
-                        </v-col>
-                    </v-container>
-                </v-row>
-            </v-card>
+            <v-btn @click="upload = true" color="#64AC8F">
+                Upload Graphic Media
+                <v-icon class="ml-3" right dark>mdi-cloud-upload</v-icon>
+            </v-btn>
 
-            <v-btn :href="/selectmetric/ + this.id"> Create Model </v-btn>
+            <v-btn
+                class="ml-5"
+                color="#648BAC"
+                :href="/selectmetric/ + this.id"
+            >
+                Create Model
+            </v-btn>
 
-
-            <br><br>
+            <br /><br />
             <v-card
                 class="d-inline-block mx-4"
                 v-for="picture in pictureFil"
@@ -38,7 +33,7 @@
                         <v-col cols="auto">
                             <img
                                 :src="'/storage/' + picture.picture_path"
-                                height="200px"
+                                height="400px"
                             />
                         </v-col>
                     </v-container>
