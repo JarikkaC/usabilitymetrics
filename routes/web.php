@@ -19,12 +19,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/example', 'ExampleController@index')->name('example');
-// Route::get('/project', 'ProjectController@index')->name('project');
-
 Route::get('/document', 'DocumentController@index')->name('document');
-
+Route::resource('/selectmetric', 'MetricController');
 Route::resource('/project','ProjectController');
-Route::resource('/showmetric','MetricController');
+Route::resource('/showmetric','ModelController');
 
-// Route::get('/showmetric', 'MetricController@index')->name('showmetric');
 

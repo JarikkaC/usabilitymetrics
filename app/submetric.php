@@ -14,4 +14,8 @@ class submetric extends Model
         return $this->belongsTo(metric::class,'id');
     }
 
+    public function metricmodel(){
+        return $this->belongsTo(metricmodel::class,'id');
+    }
+
 }

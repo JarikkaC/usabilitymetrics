@@ -2,6 +2,6 @@
 
 @section('content')
 <div id="app">
-    <showmetric-component></showmetric-component>
+    <showmetric-component id="{!!$id!!}"></showmetric-component>
 </div>
 @endsection

@@ -23,7 +23,11 @@
                     </v-container>
                 </v-row>
             </v-card>
-            <br /><br />
+
+            <v-btn :href="/selectmetric/ + this.id"> Create Model </v-btn>
+
+
+            <br><br>
             <v-card
                 class="d-inline-block mx-4"
                 v-for="picture in pictureFil"
@@ -151,9 +155,7 @@ export default {
     computed: {
         pictureFil: function() {
             return this.pictures.filter(picture => {
-                return (
-                    picture.project_id == this.id 
-                );
+                return picture.project_id == this.id;
             });
         }
     }

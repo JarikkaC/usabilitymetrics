@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\metricmodel;
+use App\metric;
 use App\submetric;
 
-class SubmetricController extends Controller
+class ModelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +17,9 @@ class SubmetricController extends Controller
      */
     public function index()
     {
-        $submetrics = submetric::all();
-        return response()->json($submetrics);
+        $modelmetrics = metricmodel::with('metric')->with('submetric')->get();
+
+        return response()->json($modelmetrics);
     }
 
     /**
@@ -37,7 +40,12 @@ class SubmetricController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $metricmodels = new Metricmodel();
+        $metricmodels ->submetric_id= $request->get('submetric_id');
+        $metricmodels ->metric_id= $request->get('metric_id');
+        $metricmodels ->project_id = $request->get('project_id');
+        $metricmodels ->save();
+        return response()->json($metricmodels );
     }
 
     /**

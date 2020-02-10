@@ -2271,6 +2271,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -2425,45 +2429,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: ["usernow", "id"],
+  props: ["id"],
   mounted: function mounted() {
     this.getMetric();
-    this.getSubmetric();
   },
   data: function data() {
     return {
       metrics: [],
-      submetrics: [],
-      selected: [] // headers: [
-      //     {
-      //         text: "Metric Name",
-      //         align: "left",
-      //         sortable: false,
-      //         value: "submetric_name"
-      //     }
-      // ]
-
+      selected: []
     };
   },
   methods: {
     getMetric: function getMetric() {
       var _this = this;
 
-      axios.get("api/metrics").then(function (response) {
+      axios.get("/api/metrics").then(function (response) {
         _this.metrics = response.data;
-        console.log(_this.metrics);
       });
     },
-    getSubmetric: function getSubmetric() {
+    postMetric: function postMetric() {
       var _this2 = this;
 
-      axios.get("api/submetrics").then(function (response) {
-        _this2.submetrics = response.data;
+      this.selected.forEach(function (element) {
+        axios.post("/api/metricmodel", {
+          project_id: _this2.id,
+          submetric_id: element.id,
+          metric_id: element.metric_id
+        });
       });
     }
   }
@@ -2498,64 +2491,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["id"],
+  mounted: function mounted() {
+    this.getModel();
+  },
   data: function data() {
     return {
+      metricmodels: [],
       headers: [{
-        text: 'Metric name',
-        align: 'left',
+        text: "Metric name",
+        align: "left",
         sortable: false,
-        value: 'name'
+        value: "submetric_name"
       }, {
-        text: 'Purpose of the metrics',
-        align: 'left',
+        text: "Purpose of the metrics",
+        align: "left",
         sortable: false,
-        value: 'name'
+        value: "purpose"
       }, {
-        text: 'Method of application',
-        align: 'left',
+        text: "Method of application",
+        align: "left",
         sortable: false,
-        value: 'fat'
+        value: "method"
       }, {
-        text: 'Measurement, formula and data element computations',
-        align: 'left',
+        text: "Measurement, formula and data element computations",
+        align: "left",
         sortable: false,
-        value: 'carbs'
+        value: "measurement"
       }, {
-        text: 'Metric scale type',
-        align: 'left',
+        text: "Metric scale type",
+        align: "left",
         sortable: false,
-        value: 'protein'
+        value: "scale"
       }, {
-        text: 'Measure type',
-        align: 'left',
+        text: "Measure type",
+        align: "left",
         sortable: false,
-        value: 'iron'
+        value: "type"
       }, {
-        text: 'Input to measurement',
-        align: 'left',
+        text: "Input to measurement",
+        align: "left",
         sortable: false,
-        value: 'iron'
+        value: "input"
       }, {
-        text: 'ISO/IEC 12207 SLCP Reference',
-        align: 'left',
+        text: "ISO/IEC 12207 SLCP Reference",
+        align: "left",
         sortable: false,
-        value: 'iron'
+        value: "iso"
       }, {
-        text: 'Target audience',
-        align: 'left',
+        text: "Target audience",
+        align: "left",
         sortable: false,
-        value: 'iron'
-      }],
-      desserts: [{
-        name: 'Frozen Yogurt',
-        calories: 200,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: '1%'
+        value: "target"
       }]
     };
+  },
+  methods: {
+    getModel: function getModel() {
+      var _this = this;
+
+      axios.get("/api/metricmodel").then(function (response) {
+        var res = response.data;
+        console.log(res);
+        _this.metricmodels = _this.tranFormData(res);
+      });
+    },
+    tranFormData: function tranFormData(data) {
+      var result = data.map(function (element) {
+        return {
+          submetric_name: element.metric[0].metric_name,
+          purpose: element.submetric[0].purpose,
+          method: element.submetric[0].method,
+          measurement: element.submetric[0].measurement,
+          scale: element.submetric[0].scale,
+          type: element.submetric[0].type,
+          input: element.submetric[0].input,
+          iso: element.submetric[0].iso,
+          target: element.submetric[0].target
+        };
+      });
+      return result;
+    }
   }
 });
 
@@ -39009,6 +39027,10 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c("v-btn", { attrs: { href: /selectmetric/ + this.id } }, [
+            _vm._v(" Create Model ")
+          ]),
+          _vm._v(" "),
           _c("br"),
           _c("br"),
           _vm._v(" "),
@@ -39203,9 +39225,21 @@ var render = function() {
                       _c(
                         "v-col",
                         [
-                          _c("v-btn", { attrs: { color: "#64AC8F" } }, [
-                            _vm._v(" Save ")
-                          ])
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "#64AC8F",
+                                href: /showmetric/ + this.id
+                              },
+                              on: { click: _vm.postMetric }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Save\n                        "
+                              )
+                            ]
+                          )
                         ],
                         1
                       )
@@ -39232,8 +39266,16 @@ var render = function() {
                                     key: item.submetric_name,
                                     staticClass: "ml-10",
                                     attrs: {
+                                      "return-object": "",
                                       label: item.submetric_name,
-                                      value: item.submetric_name
+                                      value: item
+                                    },
+                                    model: {
+                                      value: _vm.selected,
+                                      callback: function($$v) {
+                                        _vm.selected = $$v
+                                      },
+                                      expression: "selected"
                                     }
                                   })
                                 : _vm._e()
@@ -39288,7 +39330,7 @@ var render = function() {
             staticClass: "elevation-1",
             attrs: {
               headers: _vm.headers,
-              items: _vm.desserts,
+              items: _vm.metricmodels,
               "multi-sort": ""
             }
           })
@@ -39302,14 +39344,21 @@ var render = function() {
         [
           _c(
             "v-btn",
-            { staticClass: "mr-5", attrs: { color: "black", width: "350" } },
-            [_vm._v("Black")]
+            {
+              staticClass: "mr-5",
+              attrs: {
+                color: "black",
+                width: "350",
+                href: /selectmetric/ + this.id
+              }
+            },
+            [_vm._v("Back")]
           ),
           _vm._v(" "),
           _c(
             "v-btn",
             { staticClass: "ml-5", attrs: { color: "black", width: "350" } },
-            [_vm._v("Creat metric model")]
+            [_vm._v("Create metric model")]
           )
         ],
         1
@@ -93186,8 +93235,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\usabilitymetrics\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\usabilitymetrics\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\myproject\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\myproject\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
