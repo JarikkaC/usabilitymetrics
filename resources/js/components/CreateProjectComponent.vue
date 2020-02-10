@@ -3,7 +3,7 @@
         <v-card class="m-4">
             <v-data-table
                 :headers="headers"
-                :items="projects"
+                :items="projectFil"
                 sort-by="time"
                 class="elevation-1"
             >
@@ -47,7 +47,7 @@
 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    
+
                                     <v-btn
                                         color="blue darken-1"
                                         text
@@ -55,10 +55,7 @@
                                         >Save</v-btn
                                     >
 
-                                    <v-btn
-                                        color="#CD4D4D"
-                                        text
-                                        @click="close"
+                                    <v-btn color="#CD4D4D" text @click="close"
                                         >Cancel</v-btn
                                     >
                                 </v-card-actions>
@@ -69,7 +66,12 @@
                 <template v-slot:item.action="{ item }">
                     <v-btn :href="/project/ + item.id">view</v-btn>
 
-                    <v-btn class="ml-4" outlined color="#CD4D4D" @click="deleteItem(item)">
+                    <v-btn
+                        class="ml-4"
+                        outlined
+                        color="#CD4D4D"
+                        @click="deleteItem(item)"
+                    >
                         delete
                     </v-btn>
                 </template>
@@ -112,8 +114,15 @@ export default {
     computed: {
         formTitle() {
             return this.editedIndex === -1 ? "New Project" : "Edit Project";
+        },
+
+        projectFil: function() {
+            return this.projects.filter(project => {
+                return project.user_id == this.usernow.user_id;
+            });
         }
     },
+
 
     watch: {
         dialog(val) {
@@ -131,7 +140,7 @@ export default {
         addProject() {
             axios.post("api/project", {
                 user_id: this.usernow.user_id,
-                project_name: this.editedItem.project_name, 
+                project_name: this.editedItem.project_name,
             });
             this.close();
         },

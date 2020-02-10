@@ -50,6 +50,7 @@
 
         .content {
             text-align: center;
+
         }
 
         .title {
@@ -104,7 +105,7 @@
         }
 
         .button:hover {
-            background-color: grey;
+            background-color: #8c92ac;
         }
 
         .button:hover span {
@@ -125,8 +126,8 @@
             color: black;
             text-align: center;
             font-size: 25px;
-            padding: 15px;
-            width: 200px;
+            padding: 10px;
+            width: 250px;
             transition: all 0.5s;
             cursor: pointer;
             margin: 3px;
@@ -150,7 +151,7 @@
         }
 
         .button1:hover {
-            background-color: grey;
+            background-color: #8c92ac;
         }
 
         .button1:hover span {
@@ -162,31 +163,23 @@
             right: 0;
         }
 
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 31.5%;
+            padding: 10px;
+            height: 300px;
+            /* Should be removed. Only for demonstration */
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
 
 
-
-
-
-
-
-
-            /* Create two equal columns that floats next to each other */
-            .column {
-                float: left;
-                width: 31.5%;
-                padding: 10px;
-                height: 300px;
-                /* Should be removed. Only for demonstration */
-            }
-
-            /* Clear floats after the columns */
-            .row:after {
-                content: "";
-                display: table;
-                clear: both;
-
-
-            }
+        }
     </style>
 </head>
 
@@ -226,7 +219,7 @@
 
             <div class="title m-b-md"> Usability Metrics for Graphic Media </div>
 
-            <div class="col-sm-6" style="column-width: 700px; font-size:20px;">
+            <div style=" width: 1200px; font-size:20px;">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum maiores modi quidem veniam,
                 expedita quis laboriosam, ullam facere adipisci,iusto, voluptate sapiente corrupti asperiores rem
                 nemo numquam fuga ab at.
@@ -250,7 +243,6 @@
 
 
 
-    <!-- กูทำอันนี้ -->
 
     <div class="content" style="color:black;">
 
@@ -283,16 +275,12 @@
 
         </div>
 
-        <div class="col-sm-6" style="column-width: 700px; font-size:20px;">
 
-            <br><br><br>
+        <br><br><br><br><br><br>
 
-            <button class="button1" style="vertical-align:middle" onclick="location.href='/document'">
-                <a> All FEATURES </a>
-            </button>
-
-        </div>
-
+        <button class="button1" style="vertical-align:middle" onclick="location.href='/document'">
+            <a> All FEATURES </a>
+        </button>
     </div>
 
     <br><br><br><br><br><br>

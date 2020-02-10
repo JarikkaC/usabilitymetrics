@@ -81,18 +81,30 @@ export default {
     methods: {
         getMetric() {
             axios.get("/api/metrics").then(response => {
-                this.metrics = response.data;
+                let res = response.data;
+                // this.metrics = response.data;
+                this.metrics = this.tranFormData(res);
+                console.log(this.metrics)
             });
         },
         postMetric() {
-            this.selected.forEach(element => {
+            for (let index = 0; index < this.selected.length; index++) {
+                const element = this.selected[index];
                 axios.post("/api/metricmodel", {
                     project_id: this.id,
                     submetric_id: element.id,
                     metric_id: element.metric_id
                 });
-            });
-        }
+            }
+        },
+        tranFormData(data) {
+            const result = data.map(element => ({
+                id: element.id,
+                metric_name: element.metric_name,
+                submetric: element.submetric
+            }));
+            return result;
+        },
     }
 };
 </script>

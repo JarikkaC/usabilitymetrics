@@ -2005,6 +2005,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -2040,6 +2042,13 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     formTitle: function formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
+    },
+    projectFil: function projectFil() {
+      var _this = this;
+
+      return this.projects.filter(function (project) {
+        return project.user_id == _this.usernow.user_id;
+      });
     }
   },
   watch: {
@@ -2049,10 +2058,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getProject: function getProject() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get("api/project").then(function (response) {
-        _this.projects = response.data;
+        _this2.projects = response.data;
       });
     },
     addProject: function addProject() {
@@ -2072,12 +2081,12 @@ __webpack_require__.r(__webpack_exports__);
       confirm("Are you sure you want to delete this item?") && this.project.splice(index, 1);
     },
     close: function close() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this2.editedItem = Object.assign({}, _this2.defaultItem);
-        _this2.editedIndex = -1;
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
       }, 300);
     }
   }
@@ -2446,19 +2455,31 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/metrics").then(function (response) {
-        _this.metrics = response.data;
+        var res = response.data; // this.metrics = response.data;
+
+        _this.metrics = _this.tranFormData(res);
+        console.log(_this.metrics);
       });
     },
     postMetric: function postMetric() {
-      var _this2 = this;
-
-      this.selected.forEach(function (element) {
+      for (var index = 0; index < this.selected.length; index++) {
+        var element = this.selected[index];
         axios.post("/api/metricmodel", {
-          project_id: _this2.id,
+          project_id: this.id,
           submetric_id: element.id,
           metric_id: element.metric_id
         });
+      }
+    },
+    tranFormData: function tranFormData(data) {
+      var result = data.map(function (element) {
+        return {
+          id: element.id,
+          metric_name: element.metric_name,
+          submetric: element.submetric
+        };
       });
+      return result;
     }
   }
 });
@@ -2561,16 +2582,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/metricmodel").then(function (response) {
-        var res = response.data;
-        console.log('res', res);
-        _this.metricmodels = _this.tranFormData(res);
-        console.log(_this.metricmodels);
+        var res = response.data; // console.log('res',res);
+
+        _this.metricmodels = _this.tranFormData(res); // console.log(this.metricmodels);
       });
     },
     tranFormData: function tranFormData(data) {
       var result = data.map(function (element) {
         return {
-          submetric_name: element.metric.metric_name,
+          submetric_name: element.submetric.submetric_name,
           purpose: element.submetric.purpose,
           method: element.submetric.method,
           measurement: element.submetric.measurement,
@@ -38634,7 +38654,7 @@ var render = function() {
             staticClass: "elevation-1",
             attrs: {
               headers: _vm.headers,
-              items: _vm.projects,
+              items: _vm.projectFil,
               "sort-by": "time"
             },
             scopedSlots: _vm._u([

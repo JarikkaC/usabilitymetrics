@@ -17,7 +17,7 @@ class metricmodel extends Model
 
     public function submetric()
     {
-        return $this->belongsTo(submetric::class, 'metric_id');
+        return $this->belongsTo(submetric::class, 'submetric_id');
     }
 
     public function project(){
