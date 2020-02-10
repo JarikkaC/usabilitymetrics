@@ -12,16 +12,16 @@ class metricmodel extends Model
 
     public function metric()
     {
-        return $this->hasMany(metric::class, 'id');
+        return $this->belongsTo(metric::class, 'metric_id');
     }
 
     public function submetric()
     {
-        return $this->hasMany(submetric::class, 'id');
+        return $this->belongsTo(submetric::class, 'metric_id');
     }
 
     public function project(){
-        return $this->belongsTo(project::class,'id');
+        return $this->belongsTo(project::class,'project_id');
     }
 
 

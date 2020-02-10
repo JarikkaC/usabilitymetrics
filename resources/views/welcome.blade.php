@@ -8,7 +8,7 @@
     <title>Usability Metrics</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" herf="/css/app.css"> -->
 
     <!-- Styles -->
@@ -16,7 +16,7 @@
         html,
         body {
             color: white;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Prompt', sans-serif;
             font-weight: 200;
             height: 100vh;
             margin: 0;
@@ -70,64 +70,123 @@
             margin-bottom: 30px;
         }
 
-        .btn {
-            border: 2px solid #CCA69A;
-            background-color: #CCA69A;
-            color: white;
-            padding: 14px 28px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 20px;
-        }
 
-        .default {
-            border-color: #CCA69A;
-            color: black;
-        }
-
-        .default:hover {
-            border-color: #e7e7e7;
-            background: #e7e7e7;
-        }
-
-        /* กูเริ่มทำอันนี้ */
-        .btn1 {
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: transparent;
             border: 2px solid white;
-            background-color: white;
-            color: white;
-            padding: 14px 28px;
-            font-size: 16px;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 25px;
+            padding: 15px;
+            width: 200px;
+            transition: all 0.5s;
             cursor: pointer;
-
+            margin: 3px;
         }
 
-        .default1 {
-            border-color: black;
+        .button span {
+            font-family: 'Prompt', sans-serif;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover {
+            background-color: grey;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+
+        .button1 {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: transparent;
+            border: 2px solid black;
             color: black;
+            text-align: center;
+            font-size: 25px;
+            padding: 15px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 3px;
         }
 
-        .default1:hover {
-            border-color: black;
-            background: #e7e7e7;
+        .button1 span {
+            font-family: 'Prompt', sans-serif;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
         }
 
-        /* Create two equal columns that floats next to each other */
-        .column {
-            float: left;
-            width: 31.5%;
-            padding: 10px;
-            height: 300px;
-            /* Should be removed. Only for demonstration */
+        .button1 span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
         }
 
-        /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-
-
+        .button1:hover {
+            background-color: grey;
         }
+
+        .button1:hover span {
+            padding-right: 25px;
+        }
+
+        .button1:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+
+
+
+
+
+
+
+
+            /* Create two equal columns that floats next to each other */
+            .column {
+                float: left;
+                width: 31.5%;
+                padding: 10px;
+                height: 300px;
+                /* Should be removed. Only for demonstration */
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+
+
+            }
     </style>
 </head>
 
@@ -174,8 +233,10 @@
 
                 <br><br>
 
-                <button class="btn default" style="font-size: 20px; font-family: 'Nunito', sans-serif; font-weight: bold; color: white;">
-                    <a href="{{ route('login') }}"> Get Start </a>
+                <button class="button" style="vertical-align:middle" onclick="location.href='{{ route('login') }}'">
+                    <span> Get Start </span>
+
+
                 </button>
 
             </div>
@@ -188,12 +249,12 @@
     <br><br><br><br><br><br><br>
 
 
-    
+
     <!-- กูทำอันนี้ -->
 
     <div class="content" style="color:black;">
 
-        <div class="title m-b-md" style="font-family: 'Nunito', sans-serif; font-weight: bold;">
+        <div class="title m-b-md">
             What we can do?
         </div>
 
@@ -226,8 +287,8 @@
 
             <br><br><br>
 
-            <button class="btn1 default1" style="font-size: 20px; font-family: 'Nunito', sans-serif; font-weight: bold; color:black;">
-                <a> All FEATURE </a>
+            <button class="button1" style="vertical-align:middle" onclick="location.href='/document'">
+                <a> All FEATURES </a>
             </button>
 
         </div>

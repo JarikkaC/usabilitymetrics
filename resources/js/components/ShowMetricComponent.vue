@@ -1,20 +1,27 @@
 <template>
-    <div>
-        <v-card class="m-3 d-flex justify-center">
-            <v-data-table
-                :headers="headers"
-                :items="metricmodels"
-                multi-sort
-                class="elevation-1"
-            ></v-data-table>
-        </v-card>
-        <div class="text-center pt-2">
-            <v-btn color="black" class="mr-5" width="350" :href="/selectmetric/ + this.id">Back</v-btn>
-            <v-btn color="black" class="ml-5" width="350"
-                >Create metric model</v-btn
-            >
+    <v-app>
+        <div>
+            <v-card class="m-3 d-flex justify-center">
+                <v-data-table
+                    :headers="headers"
+                    :items="metricmodels"
+                    multi-sort
+                    class="elevation-1"
+                ></v-data-table>
+            </v-card>
+            <div class="text-center pt-2">
+                <v-btn
+                    class="mr-5"
+                    width="350"
+                    :href="/selectmetric/ + this.id"
+                    >Back</v-btn
+                >
+                <v-btn class="ml-5" width="350"
+                    >Create metric model</v-btn
+                >
+            </div>
         </div>
-    </div>
+    </v-app>
 </template>
 
 <script>
@@ -22,10 +29,12 @@ export default {
     props: ["id"],
     mounted() {
         this.getModel();
+      
     },
     data() {
         return {
             metricmodels: [],
+
             headers: [
                 {
                     text: "Metric name",
@@ -89,23 +98,25 @@ export default {
         getModel() {
             axios.get("/api/metricmodel").then(response => {
                 let res = response.data;
-                console.log(res)
+                console.log('res',res);
                 this.metricmodels = this.tranFormData(res);
+                console.log(this.metricmodels);
             });
         },
         tranFormData(data) {
             const result = data.map(element => ({
-                submetric_name: element.metric[0].metric_name,
-                purpose: element.submetric[0].purpose,
-                method: element.submetric[0].method,
-                measurement: element.submetric[0].measurement,
-                scale: element.submetric[0].scale,
-                type: element.submetric[0].type,
-                input: element.submetric[0].input,
-                iso: element.submetric[0].iso,
-                target: element.submetric[0].target
+                submetric_name: element.metric.metric_name,
+                purpose: element.submetric.purpose,
+                method: element.submetric.method,
+                measurement: element.submetric.measurement,
+                scale: element.submetric.scale,
+                type: element.submetric.type,
+                input: element.submetric.input,
+                iso: element.submetric.iso,
+                target: element.submetric.target
             }));
             return result;
+
         }
     }
 };
