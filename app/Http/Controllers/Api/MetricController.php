@@ -16,7 +16,6 @@ class MetricController extends Controller
      */
     public function index()
     {
-
         $metrics = metric::with('submetric')->get();
         return response()->json($metrics);
     }

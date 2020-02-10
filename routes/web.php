@@ -23,5 +23,6 @@ Route::get('/document', 'DocumentController@index')->name('document');
 Route::resource('/selectmetric', 'MetricController');
 Route::resource('/project','ProjectController');
 Route::resource('/showmetric','ModelController');
+Route::resource('/form','QuestionController');
 
 

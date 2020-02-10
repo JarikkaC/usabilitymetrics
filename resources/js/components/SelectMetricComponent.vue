@@ -42,8 +42,28 @@
                                 </template>
                             </template>
                         </v-card>
+
+                        <div class="text-center">
+                            <v-btn
+                                class="mt-5"
+                                color="#64AC8F"
+                                width="150px"
+                                @click="postMetric"
+                                :href="/showmetric/ + this.id"
+                            >
+                                Save
+                            </v-btn>
+
+                            <v-btn
+                                class="mt-5 ml-5"
+                                width="150px"
+                                :href="/project/ + this.id"
+                            >
+                                Back
+                            </v-btn>
+                        </div>
                     </v-col>
-                    <v-col>
+                    <!-- <v-col>
                         <v-card width="500px" outlined>
                             <h6 class="m-3">{{ selected }}</h6>
                         </v-card>
@@ -59,7 +79,7 @@
                         <v-btn class="mt-5 ml-5" :href="/project/ + this.id">
                             Back
                         </v-btn>
-                    </v-col>
+                    </v-col> -->
                 </v-row>
             </v-card>
         </v-container>
@@ -84,7 +104,7 @@ export default {
                 let res = response.data;
                 // this.metrics = response.data;
                 this.metrics = this.tranFormData(res);
-                console.log(this.metrics)
+                console.log(this.metrics);
             });
         },
         postMetric() {
@@ -104,7 +124,7 @@ export default {
                 submetric: element.submetric
             }));
             return result;
-        },
+        }
     }
 };
 </script>

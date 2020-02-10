@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\metricmodel;
-use App\metric;
-use App\submetric;
+use App\question;
 
-class ModelController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,8 @@ class ModelController extends Controller
      */
     public function index()
     {
-        $modelmetrics = metricmodel::with('metric')->with('submetric')->get();
-        return response()->json($modelmetrics);
+        $questions = question::all();
+        return response()->json($questions);
     }
 
     /**
@@ -39,12 +37,7 @@ class ModelController extends Controller
      */
     public function store(Request $request)
     {
-        $metricmodels = new Metricmodel();
-        $metricmodels ->submetric_id= $request->get('submetric_id');
-        $metricmodels ->metric_id= $request->get('metric_id');
-        $metricmodels ->project_id = $request->get('project_id');
-        $metricmodels ->save();
-        return response()->json($metricmodels );
+        //
     }
 
     /**
