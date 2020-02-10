@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\metric;
 use App\submetric;
+use App\project;
 
 class MetricController extends Controller
 {

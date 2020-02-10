@@ -2094,6 +2094,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FormComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["id"],
+  mounted: function mounted() {
+    this.getQuestion();
+  },
+  data: function data() {
+    return {
+      questions: [],
+      column: null,
+      row: null
+    };
+  },
+  methods: {
+    getQuestion: function getQuestion() {
+      var _this = this;
+
+      axios.get("/api/questions/").then(function (response) {
+        _this.question = response.data;
+        console.log(_this.questions);
+      });
+    } // getQuestion() {
+    //     axios.get("/api/questions/").then(response => {
+    //         let res = response.data;
+    //         this.questions = this.tranFormData(res);
+    //         console.log("res", this.res);
+    //     });
+    // },
+    // tranFormData(data) {
+    //     const result = data.map(element => ({
+    //         id: element.id,
+    //         query: element.query
+    //     }));
+    //     return result;
+    // }
+
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HomeComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/HomeComponent.vue?vue&type=script&lang=js& ***!
@@ -2538,9 +2637,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id"],
   mounted: function mounted() {
@@ -2602,9 +2698,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/metricmodel").then(function (response) {
-        var res = response.data; // console.log('res',res);
-
-        _this.metricmodels = _this.tranFormData(res); // console.log(this.metricmodels);
+        var res = response.data;
+        _this.metricmodels = _this.tranFormData(res);
       });
     },
     tranFormData: function tranFormData(data) {
@@ -38878,7 +38973,131 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-card", [_c("h2", [_vm._v(" THis is a Evaluation Form")])])
+  return _c(
+    "v-app",
+    [
+      _c(
+        "v-card",
+        { staticClass: "m-4" },
+        [
+          _c("h2", { staticClass: "p-3" }, [_vm._v("Evaluation Form")]),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ml-5" }, [
+            _vm._v(
+              "\n            คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด\n            5-มากที่สุด)\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-radio-group",
+            {
+              staticClass: "ml-5",
+              attrs: { column: "" },
+              model: {
+                value: _vm.column,
+                callback: function($$v) {
+                  _vm.column = $$v
+                },
+                expression: "column"
+              }
+            },
+            [
+              _c("v-radio", { attrs: { label: "1", value: "1" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "2", value: "2" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "3", value: "3" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "4", value: "4" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "5", value: "5" } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ml-5" }, [
+            _vm._v(
+              "\n            คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-radio-group",
+            {
+              staticClass: "ml-5",
+              attrs: { column: "" },
+              model: {
+                value: _vm.column,
+                callback: function($$v) {
+                  _vm.column = $$v
+                },
+                expression: "column"
+              }
+            },
+            [
+              _c("v-radio", { attrs: { label: "เข้าใจ", value: "1" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "เข้าใจบางส่วน", value: "2" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "ไม่เข้าใจ", value: "3" } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ml-5" }, [
+            _vm._v(
+              "\n            คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-radio-group",
+            {
+              staticClass: "ml-5",
+              attrs: { column: "" },
+              model: {
+                value: _vm.column,
+                callback: function($$v) {
+                  _vm.column = $$v
+                },
+                expression: "column"
+              }
+            },
+            [
+              _c("v-radio", { attrs: { label: "เข้าใจ", value: "1" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "เข้าใจบางส่วน", value: "2" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "ไม่เข้าใจ", value: "3" } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c("v-btn", { staticClass: "m-5", attrs: { color: "#64AC8F" } }, [
+            _vm._v("Create Form")
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { staticClass: "m-5", attrs: { href: /showmetric/ + this.id } },
+            [_vm._v("Back")]
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39413,15 +39632,20 @@ var render = function() {
             _c(
               "v-btn",
               {
+                staticClass: "m-5",
+                attrs: { width: "350", color: "#64AC8F", href: /form/ }
+              },
+              [_vm._v("Create metric model")]
+            ),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
                 staticClass: "mr-5",
                 attrs: { width: "350", href: /selectmetric/ + this.id }
               },
               [_vm._v("Back")]
-            ),
-            _vm._v(" "),
-            _c("v-btn", { staticClass: "ml-5", attrs: { width: "350" } }, [
-              _vm._v("Create metric model")
-            ])
+            )
           ],
           1
         )
@@ -92893,15 +93117,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FormComponent_vue_vue_type_template_id_b1dd1884___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormComponent.vue?vue&type=template&id=b1dd1884& */ "./resources/js/components/FormComponent.vue?vue&type=template&id=b1dd1884&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/FormComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _FormComponent_vue_vue_type_template_id_b1dd1884___WEBPACK_IMPORTED_MODULE_0__["render"],
   _FormComponent_vue_vue_type_template_id_b1dd1884___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -92915,6 +93141,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/FormComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FormComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/FormComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FormComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 

@@ -10,14 +10,11 @@
                 ></v-data-table>
             </v-card>
             <div class="text-center pt-2">
-                <v-btn
-                    class="mr-5"
-                    width="350"
-                    :href="/selectmetric/ + this.id"
-                    >Back</v-btn
-                >
-                <v-btn class="ml-5" width="350"
+                <v-btn class="m-5" width="350" color="#64AC8F" :href="/form/"
                     >Create metric model</v-btn
+                >
+                <v-btn class="mr-5" width="350" :href="/selectmetric/ + this.id"
+                    >Back</v-btn
                 >
             </div>
         </div>
@@ -29,7 +26,6 @@ export default {
     props: ["id"],
     mounted() {
         this.getModel();
-      
     },
     data() {
         return {
@@ -98,9 +94,7 @@ export default {
         getModel() {
             axios.get("/api/metricmodel").then(response => {
                 let res = response.data;
-                // console.log('res',res);
                 this.metricmodels = this.tranFormData(res);
-                // console.log(this.metricmodels);
             });
         },
         tranFormData(data) {
@@ -116,7 +110,6 @@ export default {
                 target: element.submetric.target
             }));
             return result;
-
         }
     }
 };
