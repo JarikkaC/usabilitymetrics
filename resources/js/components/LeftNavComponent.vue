@@ -1,6 +1,6 @@
 <template>
     <v-card width="250">
-        <v-navigation-drawer floating permanent>
+        <v-navigation-drawer floating permanent dark color="#212529">
             <v-list class="mt-3" dense>
                 <span class="text-center">
                   <p> You loged in as:  </p>

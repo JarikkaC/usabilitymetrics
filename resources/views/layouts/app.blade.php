@@ -26,7 +26,8 @@
         }
 
         a {
-            color: black;
+            text-decoration: none;
+            color: white;
         }
     </style>
 </head>
@@ -35,8 +36,8 @@
 <body>
     <div id="app">
 
-        <v-toolbar dense>
-            <v-toolbar-title>Usability Metrics</v-toolbar-title>
+        <v-toolbar dark color="#212529">
+            <v-toolbar-title><a class="navbar-brand js-scroll-trigger" href="#">Usability Metrics</a></v-toolbar-title>
 
             <v-spacer></v-spacer>
 
@@ -56,7 +57,7 @@
                 <a href="#">{{ Auth::user()->username }}</a>
             </span>
 
-            <v-btn class="ml-3" color="#E1DCD6">
+            <v-btn class="ml-3" color="#fed136">
                 <span>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); 
                     document.getElementById('logout-form').submit();">
@@ -66,7 +67,7 @@
             </v-btn>
 
             @else
-            <v-btn class="ml-3" color="#E1DCD6">
+            <v-btn class="ml-3" color="#fed136">
                 <span>
                     <a href="{{ route('login') }}">Login</a>
                 </span>

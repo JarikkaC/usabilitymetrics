@@ -39173,7 +39173,7 @@ var render = function() {
     [
       _c(
         "v-navigation-drawer",
-        { attrs: { floating: "", permanent: "" } },
+        { attrs: { floating: "", permanent: "", dark: "", color: "#212529" } },
         [
           _c(
             "v-list",
