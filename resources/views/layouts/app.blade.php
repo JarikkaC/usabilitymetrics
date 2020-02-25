@@ -1,110 +1,146 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Usability Metrics</title>
 
-    <title>{{ config('app.name', 'Usability Metrics') }}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/agency.min.css" rel="stylesheet">
+    <link href="css/agency.css" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <style>
-        #app {
-            font-family: 'Prompt', sans-serif;
-        }
-
-        a {
-            text-decoration: none;
-            color: white;
-        }
-    </style>
 </head>
 
 
-<body>
-    <div id="app">
 
-        <v-toolbar dark color="#212529">
-            <v-toolbar-title><a class="navbar-brand js-scroll-trigger" href="#">Usability Metrics</a></v-toolbar-title>
+<link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
 
-            <v-spacer></v-spacer>
+<body id="page-top">
 
-            <span class="ml-3 text-uppercase">
-                <a href="{{ url('/home') }}">Home</a>
-            </span>
-            <span class="ml-3 text-uppercase">
-                <a href="{{ url('/document')}}">Document</a>
-            </span>
-            <span class="ml-3 text-uppercase">
-                <a href="{{ url('/example') }}">About Us</a>
-            </span>
-
-            @if(Route::has('login'))
-            @auth
-            <span class="ml-3 text-uppercase">
-                <a href="#">{{ Auth::user()->username }}</a>
-            </span>
-
-            <v-btn class="ml-3" color="#fed136">
-                <span>
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); 
-                    document.getElementById('logout-form').submit();">
-                        {{ __('logout') }}
-                    </a>
-                </span>
-            </v-btn>
-
-            @else
-            <v-btn class="ml-3" color="#fed136">
-                <span>
-                    <a href="{{ route('login') }}">Login</a>
-                </span>
-            </v-btn>
-            @if (Route::has('register'))
-            <v-btn text class="ml-3" outlined color="#A8947D">
-                <span>
-                    <a href="{{ route('register') }}">Register </a>
-                </span>
-            </v-btn>
-            @endif
-            @endauth
-
-            @endif
-
-        </v-toolbar>
-
-        <v-row class="md-3" no-gutters>
-
-            @if (Route::has('login'))
-            @auth
-            <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
-            @endif
-            @endauth
-
-            <v-col class="md-9">
-                @yield('content')
-            </v-col>
-
-        </v-row>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Usability Metrics</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="/document">Document</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="/about">About Us</a>
+                    </li>
 
 
-    </div>
+                    @if (Route::has('login'))
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#">{{ Auth::user()->username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                document.getElementById('logout-form').submit();"> {{ __('logout') }}</a>
+                    </li>
+
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Login</a>
+                    </li>
+                    @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Register</a>
+                    </li>
+                    @endif
+                    @endauth
+
+                </ul>
+                @endif
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-section" id="services">
+        @yield('content')
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Your Website 2019</span>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li class="list-inline-item">
+                            <a href="#">Privacy Policy</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Contact form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/agency.min.js"></script>
 
 </body>
 
