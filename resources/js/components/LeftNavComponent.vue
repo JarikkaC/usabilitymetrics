@@ -1,22 +1,43 @@
 <template>
     <v-card width="250">
-        <v-navigation-drawer floating permanent dark color="#212529">
+        <v-navigation-drawer permanent>
             <v-list class="mt-3" dense>
-                <span class="text-center">
-                  <p> You loged in as:  </p>
-                    <h2>
-                        {{ username }}
-                    </h2>
-                </span>
+                <v-list-item>
+                    <v-list-item-avatar class="ml-2">
+                        <v-img
+                            src="https://randomuser.me/api/portraits/men/78.jpg"
+                        ></v-img>
+                    </v-list-item-avatar>
+
+                
+
+                    <v-list-item-content>
+                        <v-list-item-title class="m-3"
+                            >You logged in as:
+                            <h2>
+                                {{ username }}
+                            </h2>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
                 <v-divider></v-divider>
-
                 <v-list-item v-for="item in items" :key="item.title" link>
                     <v-list-item-content>
                         <v-list-item-title style="font-size: 15px">
                             <a :href="item.href">
                                 {{ item.title }}
                             </a>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list-item>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size: 15px">
+                            <a href="/logout"> Logout </a>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>

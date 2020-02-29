@@ -13,11 +13,6 @@
                         <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                     </div>
 
-
-
-
-
-
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf

@@ -2266,6 +2266,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["username"],
   data: function data() {
@@ -39173,23 +39194,47 @@ var render = function() {
     [
       _c(
         "v-navigation-drawer",
-        { attrs: { floating: "", permanent: "", dark: "", color: "#212529" } },
+        { attrs: { permanent: "" } },
         [
           _c(
             "v-list",
             { staticClass: "mt-3", attrs: { dense: "" } },
             [
-              _c("span", { staticClass: "text-center" }, [
-                _c("p", [_vm._v(" You loged in as:  ")]),
-                _vm._v(" "),
-                _c("h2", [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.username) +
-                      "\n                "
+              _c(
+                "v-list-item",
+                [
+                  _c(
+                    "v-list-item-avatar",
+                    { staticClass: "ml-2" },
+                    [
+                      _c("v-img", {
+                        attrs: {
+                          src: "https://randomuser.me/api/portraits/men/78.jpg"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [
+                      _c("v-list-item-title", { staticClass: "m-3" }, [
+                        _vm._v("You logged in as:\n                        "),
+                        _c("h2", [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.username) +
+                              "\n                        "
+                          )
+                        ])
+                      ])
+                    ],
+                    1
                   )
-                ])
-              ]),
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
@@ -39220,7 +39265,31 @@ var render = function() {
                   ],
                   1
                 )
-              })
+              }),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-list-item",
+                [
+                  _c(
+                    "v-list-item-content",
+                    [
+                      _c(
+                        "v-list-item-title",
+                        { staticStyle: { "font-size": "15px" } },
+                        [
+                          _c("a", { attrs: { href: "/logout" } }, [
+                            _vm._v(" Logout ")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             2
           )

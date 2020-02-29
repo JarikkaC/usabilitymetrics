@@ -24,5 +24,6 @@ Route::resource('/selectmetric', 'MetricController');
 Route::resource('/project','ProjectController');
 Route::resource('/showmetric','ModelController');
 Route::resource('/form','QuestionController');
+Route::get('/logout', 'Auth\LoginController@logout'); // logout
 
 
