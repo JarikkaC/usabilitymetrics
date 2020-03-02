@@ -92,7 +92,7 @@ export default {
 
     methods: {
         getModel() {
-            axios.get("/api/metricmodel").then(response => {
+            axios.get("/api/metricmodel/"+this.id).then(response => {
                 let res = response.data;
                 this.metricmodels = this.tranFormData(res);
             });

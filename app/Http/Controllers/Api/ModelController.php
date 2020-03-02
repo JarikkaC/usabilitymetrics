@@ -55,7 +55,8 @@ class ModelController extends Controller
      */
     public function show($id)
     {
-        //
+        $metricmodels = Metricmodel::where('project_id', '=', $id)->with('metric')->with('submetric')->get();
+        return response()->json($metricmodels);
     }
 
     /**
