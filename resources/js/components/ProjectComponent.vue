@@ -104,7 +104,6 @@ export default {
         getPicture() {
             axios.get("/api/pictures/").then(response => {
                 this.pictures = response.data;
-                console.log("aaa", this.pictures);
             });
         },
 

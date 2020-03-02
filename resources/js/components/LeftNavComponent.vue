@@ -25,7 +25,7 @@
                 <v-list-item v-for="item in items" :key="item.title" link>
                     <v-list-item-content>
                         <v-list-item-title style="font-size: 15px">
-                            <a :href="item.href">
+                            <a class="ml-3" :href="item.href">
                                 {{ item.title }}
                             </a>
                         </v-list-item-title>
@@ -37,7 +37,7 @@
                 <v-list-item>
                     <v-list-item-content>
                         <v-list-item-title style="font-size: 15px">
-                            <a href="/logout"> Logout </a>
+                            <a class="ml-3" href="/logout"> Logout </a>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -61,3 +61,12 @@ export default {
     }
 };
 </script>
+
+<style scope>
+a:hover{
+    text-decoration-line: none;
+    text-decoration-color: #fed136;
+    text-decoration: #fed136;
+}
+
+</style>

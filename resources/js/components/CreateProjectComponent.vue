@@ -83,11 +83,12 @@
 <!-- ---------------------------------------------------------------------------------------->
 
 <script>
+
+
 export default {
     props: ["usernow"],
     mounted() {
         this.getProject();
-        console.log(this.usernow);
     },
     data: () => ({
         dialog: false,
@@ -123,7 +124,6 @@ export default {
         }
     },
 
-
     watch: {
         dialog(val) {
             val || this.close();
@@ -138,32 +138,33 @@ export default {
         },
 
         addProject() {
-            axios.post("api/project", {
+            this.projects.push({
                 user_id: this.usernow.user_id,
-                project_name: this.editedItem.project_name,
-            });
+                project_name: this.editedItem.project_name
+            }) &&
+                axios.post("api/project", {
+                    user_id: this.usernow.user_id,
+                    project_name: this.editedItem.project_name
+                });
             this.close();
-        },
-
-        editItem(item) {
-            this.editedIndex = this.project.indexOf(item);
-            this.editedItem = Object.assign({}, item);
-            this.dialog = true;
         },
 
         deleteItem(item) {
             const index = this.project.indexOf(item);
             confirm("Are you sure you want to delete this item?") &&
                 this.project.splice(index, 1);
+            axios
+                .delete("api/project" + item.id)
+                .then(response => console.log(response.data));
         },
 
         close() {
             this.dialog = false;
             setTimeout(() => {
-                this.editedItem = Object.assign({}, this.defaultItem);
                 this.editedIndex = -1;
             }, 300);
         }
     }
 };
+
 </script>
