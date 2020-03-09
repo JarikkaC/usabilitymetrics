@@ -25,15 +25,16 @@
             <br /><br />
             <v-card
                 class="d-inline-block mx-4"
-                v-for="picture in pictureFil"
+                v-if="picture[0] in pictureFil"
                 :key="picture.picture_path"
+                @click="dialog = true"
             >
                 <v-row justify="space-between">
                     <v-container>
                         <v-col cols="auto">
                             <img
                                 :src="'/storage/' + picture.picture_path"
-                                height="400px"
+                                height="300px"
                             />
                         </v-col>
                     </v-container>
@@ -74,6 +75,24 @@
                     </v-card-text>
                 </v-card>
             </v-dialog>
+
+            <!-- -------------------------------------------------------------------- -->
+
+            <v-dialog v-model="dialog" max-width="500px">
+                <v-card
+                    v-for="picture in pictureFil"
+                    :key="picture.picture_path"
+                >
+                    <v-card-text>
+                        <v-container>
+                            <img
+                                :src="'/storage/' + picture.picture_path"
+                                height="800px"
+                            />
+                        </v-container>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </v-container>
     </v-app>
 </template>
@@ -86,6 +105,7 @@ export default {
         this.getPicture();
     },
     data: () => ({
+        dialog: false,
         today: new Date(),
         upload: false,
         project: [],
@@ -143,6 +163,10 @@ export default {
                 this.picture_path = file_name;
             };
             reader.readAsDataURL(file);
+        },
+
+        close() {
+            this.dialog = false;
         }
     },
 
@@ -151,6 +175,12 @@ export default {
             return this.pictures.filter(picture => {
                 return picture.project_id == this.id;
             });
+        }
+    },
+
+    watch: {
+        dialog(val) {
+            val || this.close();
         }
     }
 };

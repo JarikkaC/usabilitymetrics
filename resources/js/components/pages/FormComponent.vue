@@ -61,12 +61,12 @@ export default {
     }),
 
     methods: {
-        getQuestion() {
-            axios.get("/api/questions/").then(response => {
-                this.question = response.data;
-                console.log(this.questions);
-            });
-        }
+        // getQuestion() {
+        //     axios.get("/api/questions/").then(response => {
+        //         this.question = response.data;
+        //         console.log(this.questions);
+        //     });
+        // }
         // getQuestion() {
         //     axios.get("/api/questions/").then(response => {
         //         let res = response.data;
@@ -80,7 +80,7 @@ export default {
         //         query: element.query
         //     }));
         //     return result;
-        // }
-    }
+    //     }
+     }
 };
 </script>

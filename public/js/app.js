@@ -2281,15 +2281,13 @@ __webpack_require__.r(__webpack_exports__);
       row: null
     };
   },
-  methods: {
-    getQuestion: function getQuestion() {
-      var _this = this;
-
-      axios.get("/api/questions/").then(function (response) {
-        _this.question = response.data;
-        console.log(_this.questions);
-      });
-    } // getQuestion() {
+  methods: {// getQuestion() {
+    //     axios.get("/api/questions/").then(response => {
+    //         this.question = response.data;
+    //         console.log(this.questions);
+    //     });
+    // }
+    // getQuestion() {
     //     axios.get("/api/questions/").then(response => {
     //         let res = response.data;
     //         this.questions = this.tranFormData(res);
@@ -2302,8 +2300,7 @@ __webpack_require__.r(__webpack_exports__);
     //         query: element.query
     //     }));
     //     return result;
-    // }
-
+    //     }
   }
 });
 
@@ -2398,6 +2395,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -2406,6 +2422,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      dialog: false,
       today: new Date(),
       upload: false,
       project: [],
@@ -2464,6 +2481,9 @@ __webpack_require__.r(__webpack_exports__);
       };
 
       reader.readAsDataURL(file);
+    },
+    close: function close() {
+      this.dialog = false;
     }
   },
   computed: {
@@ -2473,6 +2493,11 @@ __webpack_require__.r(__webpack_exports__);
       return this.pictures.filter(function (picture) {
         return picture.project_id == _this4.id;
       });
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
     }
   }
 });
@@ -39233,7 +39258,7 @@ var render = function() {
   return _c(
     "v-parallax",
     {
-      staticStyle: { height: "660px" },
+      staticStyle: { height: "700px" },
       attrs: {
         dark: "",
         src:
@@ -39499,36 +39524,44 @@ var render = function() {
           _c("br"),
           _c("br"),
           _vm._v(" "),
-          _vm._l(_vm.pictureFil, function(picture) {
-            return _c(
-              "v-card",
-              { key: picture.picture_path, staticClass: "d-inline-block mx-4" },
-              [
-                _c(
-                  "v-row",
-                  { attrs: { justify: "space-between" } },
-                  [
-                    _c(
-                      "v-container",
-                      [
-                        _c("v-col", { attrs: { cols: "auto" } }, [
-                          _c("img", {
-                            attrs: {
-                              src: "/storage/" + picture.picture_path,
-                              height: "400px"
-                            }
-                          })
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          }),
+          _vm.picture[0] in _vm.pictureFil
+            ? _c(
+                "v-card",
+                {
+                  key: _vm.picture.picture_path,
+                  staticClass: "d-inline-block mx-4",
+                  on: {
+                    click: function($event) {
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-row",
+                    { attrs: { justify: "space-between" } },
+                    [
+                      _c(
+                        "v-container",
+                        [
+                          _c("v-col", { attrs: { cols: "auto" } }, [
+                            _c("img", {
+                              attrs: {
+                                src: "/storage/" + _vm.picture.picture_path,
+                                height: "300px"
+                              }
+                            })
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "v-dialog",
@@ -39607,9 +39640,47 @@ var render = function() {
               )
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "500px" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
+            },
+            _vm._l(_vm.pictureFil, function(picture) {
+              return _c(
+                "v-card",
+                { key: picture.picture_path },
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c("v-container", [
+                        _c("img", {
+                          attrs: {
+                            src: "/storage/" + picture.picture_path,
+                            height: "800px"
+                          }
+                        })
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
           )
         ],
-        2
+        1
       )
     ],
     1
@@ -39654,7 +39725,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("v-row", [
-                _c("p", { staticClass: "ml-10" }, [
+                _c("p", { staticClass: "text-thai ml-10" }, [
                   _vm._v(
                     "\n                    เลือก Metric ที่ต้องการเพื่อสร้าง Measurement Model\n                "
                   )

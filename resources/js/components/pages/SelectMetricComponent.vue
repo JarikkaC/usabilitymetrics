@@ -8,7 +8,7 @@
                     </h3>
                 </v-row>
                 <v-row>
-                    <p class="ml-10">
+                    <p class="text-thai ml-10">
                         เลือก Metric ที่ต้องการเพื่อสร้าง Measurement Model
                     </p>
                 </v-row>

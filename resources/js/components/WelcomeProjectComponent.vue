@@ -3,7 +3,7 @@
         <v-parallax
             dark
             src="https://cdn.pixabay.com/photo/2014/05/02/21/49/home-office-336373_1280.jpg"
-            style="height: 660px"
+            style="height: 700px"
         >
             <v-row>
                 <v-col class="text-center">
