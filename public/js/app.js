@@ -2428,7 +2428,8 @@ __webpack_require__.r(__webpack_exports__);
       project: [],
       pictures: [],
       picture_path: null,
-      image: null
+      image: null,
+      selectedpicture: null
     };
   },
   methods: {
@@ -2481,6 +2482,9 @@ __webpack_require__.r(__webpack_exports__);
       };
 
       reader.readAsDataURL(file);
+    },
+    zoom: function zoom(picture_path) {
+      this.selectedPicture = picture_path;
     },
     close: function close() {
       this.dialog = false;
@@ -39524,44 +39528,44 @@ var render = function() {
           _c("br"),
           _c("br"),
           _vm._v(" "),
-          _vm.picture[0] in _vm.pictureFil
-            ? _c(
-                "v-card",
-                {
-                  key: _vm.picture.picture_path,
-                  staticClass: "d-inline-block mx-4",
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = true
-                    }
+          _vm._l(_vm.pictureFil, function(picture) {
+            return _c(
+              "v-card",
+              {
+                key: picture.picture_path,
+                staticClass: "d-inline-block mx-4",
+                on: {
+                  click: function($event) {
+                    _vm.dialog = true
                   }
-                },
-                [
-                  _c(
-                    "v-row",
-                    { attrs: { justify: "space-between" } },
-                    [
-                      _c(
-                        "v-container",
-                        [
-                          _c("v-col", { attrs: { cols: "auto" } }, [
-                            _c("img", {
-                              attrs: {
-                                src: "/storage/" + _vm.picture.picture_path,
-                                height: "300px"
-                              }
-                            })
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
+                }
+              },
+              [
+                _c(
+                  "v-row",
+                  { attrs: { justify: "space-between" } },
+                  [
+                    _c(
+                      "v-container",
+                      [
+                        _c("v-col", { attrs: { cols: "auto" } }, [
+                          _c("img", {
+                            attrs: {
+                              src: "/storage/" + picture.picture_path,
+                              height: "300px"
+                            }
+                          })
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          }),
           _vm._v(" "),
           _c(
             "v-dialog",
@@ -39680,7 +39684,7 @@ var render = function() {
             1
           )
         ],
-        1
+        2
       )
     ],
     1

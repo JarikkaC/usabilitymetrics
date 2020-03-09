@@ -25,7 +25,7 @@
             <br /><br />
             <v-card
                 class="d-inline-block mx-4"
-                v-if="picture[0] in pictureFil"
+                v-for="picture in pictureFil"
                 :key="picture.picture_path"
                 @click="dialog = true"
             >
@@ -111,7 +111,8 @@ export default {
         project: [],
         pictures: [],
         picture_path: null,
-        image: null
+        image: null,
+        selectedpicture: null
     }),
 
     methods: {
@@ -163,6 +164,11 @@ export default {
                 this.picture_path = file_name;
             };
             reader.readAsDataURL(file);
+        },
+
+        zoom(picture_path) {
+            
+            this.selectedPicture = picture_path;
         },
 
         close() {
