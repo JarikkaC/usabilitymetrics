@@ -2413,7 +2413,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -2429,7 +2428,7 @@ __webpack_require__.r(__webpack_exports__);
       pictures: [],
       picture_path: null,
       image: null,
-      selectedpicture: null
+      selectedPicture: null
     };
   },
   methods: {
@@ -2484,6 +2483,7 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(file);
     },
     zoom: function zoom(picture_path) {
+      console.log("Zoom", picture_path);
       this.selectedPicture = picture_path;
     },
     close: function close() {
@@ -39533,7 +39533,7 @@ var render = function() {
               "v-card",
               {
                 key: picture.picture_path,
-                staticClass: "d-inline-block mx-4",
+                staticClass: "d-inline-block m-3",
                 on: {
                   click: function($event) {
                     _vm.dialog = true
@@ -39552,7 +39552,7 @@ var render = function() {
                           _c("img", {
                             attrs: {
                               src: "/storage/" + picture.picture_path,
-                              height: "300px"
+                              height: "250px"
                             }
                           })
                         ])
@@ -39658,29 +39658,30 @@ var render = function() {
                 expression: "dialog"
               }
             },
-            _vm._l(_vm.pictureFil, function(picture) {
-              return _c(
-                "v-card",
-                { key: picture.picture_path },
-                [
-                  _c(
-                    "v-card-text",
+            [
+              _vm.selectedPicture
+                ? _c(
+                    "v-card",
                     [
-                      _c("v-container", [
-                        _c("img", {
-                          attrs: {
-                            src: "/storage/" + picture.picture_path,
-                            height: "800px"
-                          }
-                        })
-                      ])
+                      _c(
+                        "v-card-text",
+                        [
+                          _c("v-container", [
+                            _c("img", {
+                              attrs: {
+                                src: "/storage/" + _vm.picture.picture_path,
+                                height: "800px"
+                              }
+                            })
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              )
-            }),
+                : _vm._e()
+            ],
             1
           )
         ],

@@ -24,7 +24,7 @@
 
             <br /><br />
             <v-card
-                class="d-inline-block mx-4"
+                class="d-inline-block m-3"
                 v-for="picture in pictureFil"
                 :key="picture.picture_path"
                 @click="dialog = true"
@@ -34,7 +34,7 @@
                         <v-col cols="auto">
                             <img
                                 :src="'/storage/' + picture.picture_path"
-                                height="300px"
+                                height="250px"
                             />
                         </v-col>
                     </v-container>
@@ -80,8 +80,7 @@
 
             <v-dialog v-model="dialog" max-width="500px">
                 <v-card
-                    v-for="picture in pictureFil"
-                    :key="picture.picture_path"
+                    v-if="selectedPicture"
                 >
                     <v-card-text>
                         <v-container>
@@ -112,7 +111,7 @@ export default {
         pictures: [],
         picture_path: null,
         image: null,
-        selectedpicture: null
+        selectedPicture: null
     }),
 
     methods: {
@@ -167,7 +166,7 @@ export default {
         },
 
         zoom(picture_path) {
-            
+            console.log("Zoom", picture_path);
             this.selectedPicture = picture_path;
         },
 
