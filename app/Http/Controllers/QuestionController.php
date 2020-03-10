@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\question;
+use App\project;
 
 class QuestionController extends Controller
 {
@@ -45,7 +47,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        $project = project::find($id);
+        return view('pages/form', compact('id'));
     }
 
     /**

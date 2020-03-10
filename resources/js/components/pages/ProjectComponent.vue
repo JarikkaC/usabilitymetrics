@@ -26,8 +26,8 @@
             <v-card
                 class="d-inline-block m-3"
                 v-for="picture in pictureFil"
-                :key="picture.picture_path"
-                @click="dialog = true"
+                :key="picture.id"
+                @click="dialog = true,zoom(picture)"
             >
                 <v-row justify="space-between">
                     <v-container>
@@ -40,6 +40,8 @@
                     </v-container>
                 </v-row>
             </v-card>
+
+            <!-- ----------------upload---------------------------------------------- -->
 
             <v-dialog v-model="upload" width="600px" height="400px">
                 <v-card>
@@ -77,21 +79,19 @@
             </v-dialog>
 
             <!-- -------------------------------------------------------------------- -->
-
-            <v-dialog v-model="dialog" max-width="500px">
-                <v-card
-                    v-if="selectedPicture"
-                >
+            <v-dialog v-model="dialog" max-width="800px">
+                <v-card>
                     <v-card-text>
                         <v-container>
                             <img
-                                :src="'/storage/' + picture.picture_path"
-                                height="800px"
+                                :src="'/storage/' + this.pictureZoom.picture_path"
+                                width="100%"
                             />
                         </v-container>
                     </v-card-text>
                 </v-card>
             </v-dialog>
+            <!-- -------------------------------------------------------------------- -->
         </v-container>
     </v-app>
 </template>
@@ -102,6 +102,7 @@ export default {
     mounted() {
         this.getProject();
         this.getPicture();
+        
     },
     data: () => ({
         dialog: false,
@@ -111,7 +112,7 @@ export default {
         pictures: [],
         picture_path: null,
         image: null,
-        selectedPicture: null
+        pictureZoom: {}
     }),
 
     methods: {
@@ -141,6 +142,7 @@ export default {
                     image: this.image
                 });
             this.upload = false;
+             
         },
 
         onImageChange(e) {
@@ -164,12 +166,9 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-
-        zoom(picture_path) {
-            console.log("Zoom", picture_path);
-            this.selectedPicture = picture_path;
+        zoom(val){
+            this.pictureZoom = val
         },
-
         close() {
             this.dialog = false;
         }
@@ -179,6 +178,7 @@ export default {
         pictureFil: function() {
             return this.pictures.filter(picture => {
                 return picture.project_id == this.id;
+               
             });
         }
     },

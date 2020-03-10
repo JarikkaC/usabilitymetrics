@@ -2269,38 +2269,130 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id"],
   mounted: function mounted() {
     this.getQuestion();
+    this.getPicture();
+    this.postPicture();
   },
   data: function data() {
     return {
+      dialog: false,
+      pictureZoom: {},
       questions: [],
       column: null,
-      row: null
+      row: null,
+      pictures: [],
+      picture_path: null
     };
   },
-  methods: {// getQuestion() {
-    //     axios.get("/api/questions/").then(response => {
-    //         this.question = response.data;
-    //         console.log(this.questions);
-    //     });
-    // }
-    // getQuestion() {
-    //     axios.get("/api/questions/").then(response => {
-    //         let res = response.data;
-    //         this.questions = this.tranFormData(res);
-    //         console.log("res", this.res);
-    //     });
-    // },
-    // tranFormData(data) {
-    //     const result = data.map(element => ({
-    //         id: element.id,
-    //         query: element.query
-    //     }));
-    //     return result;
-    //     }
+  methods: {
+    getPicture: function getPicture() {
+      var _this = this;
+
+      axios.get("/api/pictures/").then(function (response) {
+        _this.pictures = response.data;
+        console.log("Picture", _this.pictures);
+      });
+    },
+    getQuestion: function getQuestion() {
+      var _this2 = this;
+
+      axios.get("/api/questions/").then(function (response) {
+        _this2.questions = response.data;
+      });
+    },
+    postPicture: function postPicture() {
+      axios.post("/api/pictures/", {
+        picture_path: this.picture_path,
+        project_id: this.id
+      });
+    },
+    zoom: function zoom(val) {
+      this.pictureZoom = val;
+    },
+    close: function close() {
+      this.dialog = false;
+    }
+  },
+  computed: {
+    pictureFil: function pictureFil() {
+      var _this3 = this;
+
+      return this.pictures.filter(function (picture) {
+        return picture.project_id == _this3.id;
+      });
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
+    }
   }
 });
 
@@ -2428,7 +2520,7 @@ __webpack_require__.r(__webpack_exports__);
       pictures: [],
       picture_path: null,
       image: null,
-      selectedPicture: null
+      pictureZoom: {}
     };
   },
   methods: {
@@ -2482,9 +2574,8 @@ __webpack_require__.r(__webpack_exports__);
 
       reader.readAsDataURL(file);
     },
-    zoom: function zoom(picture_path) {
-      console.log("Zoom", picture_path);
-      this.selectedPicture = picture_path;
+    zoom: function zoom(val) {
+      this.pictureZoom = val;
     },
     close: function close() {
       this.dialog = false;
@@ -39335,6 +39426,120 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
+          _c(
+            "v-container",
+            [
+              _c("center", [
+                _c("img", {
+                  attrs: {
+                    src: "/storage/" + _vm.pictureFil.picture_path,
+                    height: "250px"
+                  }
+                })
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ml-5" }, [
+            _vm._v(
+              "\n            คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด\n            5-มากที่สุด)\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-radio-group",
+            {
+              staticClass: "ml-5",
+              attrs: { column: "" },
+              model: {
+                value: _vm.column,
+                callback: function($$v) {
+                  _vm.column = $$v
+                },
+                expression: "column"
+              }
+            },
+            [
+              _c("v-radio", { attrs: { label: "1", value: "1" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "2", value: "2" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "3", value: "3" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "4", value: "4" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "5", value: "5" } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ml-5" }, [
+            _vm._v(
+              "\n            คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-radio-group",
+            {
+              staticClass: "ml-5",
+              attrs: { column: "" },
+              model: {
+                value: _vm.column,
+                callback: function($$v) {
+                  _vm.column = $$v
+                },
+                expression: "column"
+              }
+            },
+            [
+              _c("v-radio", { attrs: { label: "เข้าใจ", value: "1" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "เข้าใจบางส่วน", value: "2" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "ไม่เข้าใจ", value: "3" } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ml-5" }, [
+            _vm._v(
+              "\n            คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-radio-group",
+            {
+              staticClass: "ml-5",
+              attrs: { column: "" },
+              model: {
+                value: _vm.column,
+                callback: function($$v) {
+                  _vm.column = $$v
+                },
+                expression: "column"
+              }
+            },
+            [
+              _c("v-radio", { attrs: { label: "เข้าใจ", value: "1" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "เข้าใจบางส่วน", value: "2" } }),
+              _vm._v(" "),
+              _c("v-radio", { attrs: { label: "ไม่เข้าใจ", value: "3" } })
+            ],
+            1
+          ),
+          _vm._v(" "),
           _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
           _vm._v(" "),
           _c("p", { staticClass: "ml-5" }, [
@@ -39445,6 +39650,43 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "800px" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-text",
+                [
+                  _c("v-container", [
+                    _c("img", {
+                      attrs: {
+                        src: "/storage/" + this.pictureZoom.picture_path,
+                        width: "100%"
+                      }
+                    })
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -39532,11 +39774,11 @@ var render = function() {
             return _c(
               "v-card",
               {
-                key: picture.picture_path,
+                key: picture.id,
                 staticClass: "d-inline-block m-3",
                 on: {
                   click: function($event) {
-                    _vm.dialog = true
+                    ;(_vm.dialog = true), _vm.zoom(picture)
                   }
                 }
               },
@@ -39649,7 +39891,7 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: { "max-width": "500px" },
+              attrs: { "max-width": "800px" },
               model: {
                 value: _vm.dialog,
                 callback: function($$v) {
@@ -39659,28 +39901,26 @@ var render = function() {
               }
             },
             [
-              _vm.selectedPicture
-                ? _c(
-                    "v-card",
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-text",
                     [
-                      _c(
-                        "v-card-text",
-                        [
-                          _c("v-container", [
-                            _c("img", {
-                              attrs: {
-                                src: "/storage/" + _vm.picture.picture_path,
-                                height: "800px"
-                              }
-                            })
-                          ])
-                        ],
-                        1
-                      )
+                      _c("v-container", [
+                        _c("img", {
+                          attrs: {
+                            src: "/storage/" + this.pictureZoom.picture_path,
+                            width: "100%"
+                          }
+                        })
+                      ])
                     ],
                     1
                   )
-                : _vm._e()
+                ],
+                1
+              )
             ],
             1
           )
