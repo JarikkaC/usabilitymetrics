@@ -2,6 +2,6 @@
 
 @section('content')
 <div id="app">
-   ggsdd;gdsldslgs;dkl
+   <report-component></report-component>
 </div>
 @endsection

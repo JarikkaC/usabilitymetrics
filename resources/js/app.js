@@ -20,6 +20,7 @@ Vue.component('report-component', require('./components/pages/ReportComponent.vu
 
 
 
+
 const app = new Vue({
     el: '#app',
     vuetify: new Vuetify()
