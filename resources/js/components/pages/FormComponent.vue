@@ -119,8 +119,6 @@ export default {
         this.getQuestion();
         this.getPicture();
         this.postPicture();
-        
-
     },
     data: () => ({
         dialog: false,
