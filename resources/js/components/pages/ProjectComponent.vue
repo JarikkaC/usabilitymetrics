@@ -8,18 +8,28 @@
                     </h3>
                 </v-col>
             </v-row>
+            <v-row>
+                <p class="mt-3 ml-5">
+                    Lorem ipsum dolor sit amet, semper quis, sapien id natoque
+                    elit. Nostra urna at, magna at neque sed sed ante imperdiet,
+                    dolor mauris cursus velit, velit non, sem nec. Volutpat sem
+                    ridiculus placerat leo, Ultrices nascetur nulla gravida ante
+                    arcu. Pharetra rhoncus morbi ipsum, nunc tempor debitis,
+                    ipsum pellentesque, vitae id quam ut mauris dui tempor,
+                    aptent non.
+                </p>
+            </v-row>
 
-            <v-btn @click="upload = true" color="#64AC8F">
+            <!-- <v-btn @click="upload = true" color="#64AC8F">
                 Upload Graphic Media
                 <v-icon class="ml-3" right dark>mdi-cloud-upload</v-icon>
-            </v-btn>
+            </v-btn> -->
 
-            <br /><br />
+            <br />
             <v-card
                 class="d-inline-block m-3"
                 v-for="picture in pictureFil"
                 :key="picture.id"
-                
             >
                 <v-row justify="space-between">
                     <v-container>
@@ -32,16 +42,16 @@
                         </v-col>
                     </v-container>
                 </v-row>
-
-                <v-card-actions>
+                
+                <!-- <v-card-actions>
                     <v-btn
                         class="ml-5"
                         color="#648BAC"
-                        :href="'/selectmetric/' + id" 
+                        :href="'/selectmetric/' + id"
                     >
                         Create Model
                     </v-btn>
-                </v-card-actions>
+                </v-card-actions> -->
             </v-card>
 
             <!-- ----------------upload---------------------------------------------- -->

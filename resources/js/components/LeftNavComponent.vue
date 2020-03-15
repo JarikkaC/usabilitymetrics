@@ -8,9 +8,7 @@
                             src="https://randomuser.me/api/portraits/men/78.jpg"
                         ></v-img>
                     </v-list-item-avatar>
-
-                
-
+                    
                     <v-list-item-content>
                         <v-list-item-title class="m-3"
                             >You logged in as:
@@ -55,8 +53,8 @@ export default {
                 { title: "Home", href: "/home" },
                 { title: "Your Project", href: "/project" },
                 {title: "Measurement Model", href: "/example"},
-                { title: "Evaluation Form", href: "" },
-                { title: "Report", href: "" },
+                { title: "Evaluation Form", href: "/evaluation" },
+                { title: "Report", href: "/report" },
                 
             ]
         };

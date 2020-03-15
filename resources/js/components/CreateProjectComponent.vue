@@ -17,7 +17,7 @@
                         <v-dialog v-model="dialog" max-width="500px">
                             <template v-slot:activator="{ on }">
                                 <v-btn
-                                    color="primary"
+                                    color="#F4D03F"
                                     dark
                                     class="mb-2"
                                     v-on="on"
@@ -42,6 +42,10 @@
                                                     "
                                                     label="Project name"
                                                 ></v-text-field>
+                                                <v-textarea
+                                                    autocomplete="description"
+                                                    label="Description"
+                                                ></v-textarea>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -57,7 +61,7 @@
                                         >Save</v-btn
                                     >
 
-                                    <v-btn color="#CD4D4D" text @click="close"
+                                    <v-btn color="grey" text @click="close"
                                         >Cancel</v-btn
                                     >
                                 </v-card-actions>
@@ -66,23 +70,24 @@
                     </v-toolbar>
                 </template>
                 <template v-slot:item.action="{ item }">
-                    <v-btn :href="/project/ + item.id">view</v-btn>
                     <v-btn
-                        class="ml-4"
+                        class="m-2"
                         outlined
-                        color="#337aff"
-                        @click="deleteItem(item)"
+                        color="teal"
+                        :href="/project/ + item.id"
                     >
-                        edit
+                        <v-icon small class="mr-2">
+                            mdi-view-grid-outline
+                        </v-icon>
+                        view
                     </v-btn>
 
-                    <v-btn
-                        class="ml-4"
-                        outlined
-                        color="#CD4D4D"
-                        @click="deleteItem(item)"
-                    >
-                        delete
+                    <v-btn class="m-2" small outlined fab color="indigo">
+                        <v-icon> mdi-pencil</v-icon>
+                    </v-btn>
+
+                    <v-btn class="m-2" small outlined fab color="red">
+                        <v-icon> mdi-delete </v-icon>
                     </v-btn>
                 </template>
             </v-data-table>

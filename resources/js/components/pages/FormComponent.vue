@@ -6,12 +6,11 @@
 
             <v-container>
                 <center>
-                    <img :src="'/storage/' + pictureFil.picture_path" height="250px" />
-                    <!-- <img
-                        src="https://cdn.pixabay.com/photo/2020/03/08/08/31/yellow-4911816_960_720.jpg"
-                        width="30%"
+                    <img
+                        :src="'/storage/' + pictureFil.picture_path"
+                        height="250px"
                         @click="(dialog = true), zoom(picture)"
-                    /> -->
+                    />
                 </center>
             </v-container>
 
@@ -19,7 +18,6 @@
 
             <h4 class="p-3">Question:</h4>
             <p class="ml-5">
-                <!-- {{ questions.query }} -->
                 คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด
                 5-มากที่สุด)
             </p>
@@ -34,7 +32,6 @@
 
             <h4 class="p-3">Question:</h4>
             <p class="ml-5">
-                <!-- {{ questions.query }} -->
                 คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
             </p>
             <v-radio-group class="ml-5" v-model="column" column>
@@ -45,7 +42,6 @@
 
             <h4 class="p-3">Question:</h4>
             <p class="ml-5">
-                <!-- {{ questions.query }} -->
                 คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
             </p>
             <v-radio-group class="ml-5" v-model="column" column>
@@ -55,7 +51,6 @@
             </v-radio-group>
             <h4 class="p-3">Question:</h4>
             <p class="ml-5">
-                <!-- {{ questions.query }} -->
                 คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด
                 5-มากที่สุด)
             </p>
@@ -70,7 +65,6 @@
 
             <h4 class="p-3">Question:</h4>
             <p class="ml-5">
-                <!-- {{ questions.query }} -->
                 คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
             </p>
             <v-radio-group class="ml-5" v-model="column" column>
@@ -81,7 +75,6 @@
 
             <h4 class="p-3">Question:</h4>
             <p class="ml-5">
-                <!-- {{ questions.query }} -->
                 คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
             </p>
             <v-radio-group class="ml-5" v-model="column" column>
@@ -95,7 +88,6 @@
             <v-btn class="m-5" :href="/showmetric/ + this.id">Back</v-btn>
         </v-card>
 
-        <!-- -------------------------------------------------------------------- -->
         <v-dialog v-model="dialog" max-width="800px">
             <v-card>
                 <v-card-text>
@@ -108,7 +100,6 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-        <!-- -------------------------------------------------------------------- -->
     </v-app>
 </template>
 
@@ -132,7 +123,7 @@ export default {
 
     methods: {
         getPicture() {
-            axios.get("/api/pictures/"+this.id).then(response => {
+            axios.get("/api/pictures/" + this.id).then(response => {
                 this.pictures = response.data;
                 console.log("Picture", this.pictures);
             });

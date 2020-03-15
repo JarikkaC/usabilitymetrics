@@ -26,5 +26,6 @@ Route::resource('/showmetric','ModelController');
 Route::resource('/form','QuestionController');
 Route::resource('/report', 'ReportController');
 Route::get('/logout', 'Auth\LoginController@logout'); // logout
+Route::resource('/evaluation','EvaluationController');
 
 

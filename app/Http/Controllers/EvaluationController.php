@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\report;
-use App\project;
 
-class ReportController extends Controller
+class EvaluationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +13,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return view('/report');
+        return view('/evaluation');
     }
 
     /**
@@ -47,7 +45,7 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        return view('/report');
+        //
     }
 
     /**

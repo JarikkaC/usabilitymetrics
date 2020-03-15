@@ -3,7 +3,7 @@
         <v-card class="m-4">
             <v-data-table
                 :headers="headers"
-                :items="models"
+                :items="reports"
                 sort-by="project_name"
                 class="elevation-1"
             >
@@ -109,27 +109,29 @@ export default {
         dialog: false,
         headers: [
             {
-                text: "Model ID",
+                text: "Report ID",
                 align: "start",
                 sortable: false,
                 value: "id"
             },
             { text: "Project Name", value: "project_name" },
+            { text: "Model ID", value: "model_id" },
             { text: "Date/Time", value: "create_at" },
             { text: "Actions", value: "actions", sortable: false }
         ],
-        models: [],
+        reports: [],
         editedIndex: -1,
         editedItem: {
             id: "",
             project_name: 0,
-            create_at: 0,
-            
+            model_id: 0,
+            create_at: 0
         },
         defaultItem: {
             id: "",
             project_name: 0,
-            create_at: 0,
+            model_id: 0,
+            create_at: 0
         }
     }),
 
@@ -151,40 +153,38 @@ export default {
 
     methods: {
         initialize() {
-            this.models = [
+            this.reports = [
                 {
                     id: "1",
                     project_name: "testproject",
-                    created_at: 0,
-                    
+                    model_id: 1,
+                    created_at: 0
                 },
                 {
                     id: "2",
                     project_name: "testproject2",
-                    created_at: 0,
-                    
-                    
+                    model_id: 1,
+                    created_at: 0
                 },
                 {
                     id: "3",
                     project_name: "testproject3",
-                    created_at: 0,
-                    
-                },
-               
+                    model_id: 2,
+                    created_at: 0
+                }
             ];
         },
 
         editItem(item) {
-            this.editedIndex = this.models.indexOf(item);
+            this.editedIndex = this.reports.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
 
         deleteItem(item) {
-            const index = this.models.indexOf(item);
+            const index = this.reports.indexOf(item);
             confirm("Are you sure you want to delete this item?") &&
-                this.models.splice(index, 1);
+                this.reports.splice(index, 1);
         },
 
         close() {
@@ -197,9 +197,9 @@ export default {
 
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.models[this.editedIndex], this.editedItem);
+                Object.assign(this.reports[this.editedIndex], this.editedItem);
             } else {
-                this.models.push(this.editedItem);
+                this.reports.push(this.editedItem);
             }
             this.close();
         }
