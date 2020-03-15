@@ -2044,12 +2044,15 @@ __webpack_require__.r(__webpack_exports__);
         sortable: false
       }],
       projects: [],
+      description: [],
       editedIndex: -1,
       editedItem: {
-        project_name: ""
+        project_name: "",
+        description: ""
       },
       defaultItem: {
-        project_name: ""
+        project_name: "",
+        description: ""
       }
     };
   },
@@ -2081,12 +2084,19 @@ __webpack_require__.r(__webpack_exports__);
     addProject: function addProject() {
       this.projects.push({
         user_id: this.usernow.user_id,
-        project_name: this.editedItem.project_name
+        project_name: this.editedItem.project_name,
+        description: this.editedItem.description
       }) && axios.post("api/project", {
         user_id: this.usernow.user_id,
-        project_name: this.editedItem.project_name
+        project_name: this.editedItem.project_name,
+        description: this.editedItem.description
       });
       this.close();
+    },
+    editItem: function editItem(item) {
+      this.editedIndex = this.project.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
     deleteItem: function deleteItem(item) {
       var index = this.project.indexOf(item);
@@ -2995,12 +3005,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -8102,7 +8106,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\na:hover{\r\n    -webkit-text-decoration-line: none;\r\n            text-decoration-line: none;\r\n    -webkit-text-decoration-color: #fed136;\r\n            text-decoration-color: #fed136;\r\n    -webkit-text-decoration: #fed136;\r\n            text-decoration: #fed136;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\na:hover {\r\n    -webkit-text-decoration-line: none;\r\n            text-decoration-line: none;\r\n    -webkit-text-decoration-color: #fed136;\r\n            text-decoration-color: #fed136;\r\n    -webkit-text-decoration: #fed136;\r\n            text-decoration: #fed136;\n}\r\n", ""]);
 
 // exports
 
@@ -39770,7 +39774,7 @@ var render = function() {
                                     _c(
                                       "v-btn",
                                       {
-                                        attrs: { color: "grey", text: "" },
+                                        attrs: { color: "#CD4D4D", text: "" },
                                         on: { click: _vm.close }
                                       },
                                       [_vm._v("Cancel")]
@@ -40092,32 +40096,26 @@ var render = function() {
                   "v-list-item",
                   { key: item.title, attrs: { link: "" } },
                   [
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c(
-                          "v-list-item-title",
-                          { staticStyle: { "font-size": "15px" } },
-                          [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "ml-3",
-                                attrs: { href: item.href }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(item.title) +
-                                    "\n                        "
-                                )
-                              ]
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
+                    _c("v-list-item-content", [
+                      _c(
+                        "a",
+                        { staticClass: "ml-3", attrs: { href: item.href } },
+                        [
+                          _c(
+                            "v-list-item-title",
+                            { staticStyle: { "font-size": "15px" } },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(item.title) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ])
                   ],
                   1
                 )
@@ -41446,7 +41444,9 @@ var render = function() {
           _c("v-row", [
             _c("p", { staticClass: "mt-3 ml-5" }, [
               _vm._v(
-                "\n                Lorem ipsum dolor sit amet, semper quis, sapien id natoque\n                elit. Nostra urna at, magna at neque sed sed ante imperdiet,\n                dolor mauris cursus velit, velit non, sem nec. Volutpat sem\n                ridiculus placerat leo, Ultrices nascetur nulla gravida ante\n                arcu. Pharetra rhoncus morbi ipsum, nunc tempor debitis,\n                ipsum pellentesque, vitae id quam ut mauris dui tempor,\n                aptent non.\n            "
+                "\n                " +
+                  _vm._s(this.project.description) +
+                  "\n            "
               )
             ])
           ]),

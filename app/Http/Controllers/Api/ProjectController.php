@@ -39,6 +39,7 @@ class ProjectController extends Controller
     {
         $projects = new Project();
         $projects->project_name = $request->get('project_name');
+        $projects->description = $request->get('description');
         $projects->user_id = $request->get('user_id');
         $projects->save();
         return response()->json($projects);

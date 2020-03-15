@@ -8,7 +8,7 @@
                             src="https://randomuser.me/api/portraits/men/78.jpg"
                         ></v-img>
                     </v-list-item-avatar>
-                    
+
                     <v-list-item-content>
                         <v-list-item-title class="m-3"
                             >You logged in as:
@@ -22,11 +22,11 @@
                 <v-divider></v-divider>
                 <v-list-item v-for="item in items" :key="item.title" link>
                     <v-list-item-content>
-                        <v-list-item-title style="font-size: 15px">
-                            <a class="ml-3" :href="item.href">
+                        <a class="ml-3" :href="item.href">
+                            <v-list-item-title style="font-size: 15px">
                                 {{ item.title }}
-                            </a>
-                        </v-list-item-title>
+                            </v-list-item-title>
+                        </a>
                     </v-list-item-content>
                 </v-list-item>
 
@@ -52,10 +52,9 @@ export default {
             items: [
                 { title: "Home", href: "/home" },
                 { title: "Your Project", href: "/project" },
-                {title: "Measurement Model", href: "/example"},
+                { title: "Measurement Model", href: "/example" },
                 { title: "Evaluation Form", href: "/evaluation" },
-                { title: "Report", href: "/report" },
-                
+                { title: "Report", href: "/report" }
             ]
         };
     }
@@ -63,10 +62,9 @@ export default {
 </script>
 
 <style scope>
-a:hover{
+a:hover {
     text-decoration-line: none;
     text-decoration-color: #fed136;
     text-decoration: #fed136;
 }
-
 </style>

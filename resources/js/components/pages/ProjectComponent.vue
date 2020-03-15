@@ -10,13 +10,7 @@
             </v-row>
             <v-row>
                 <p class="mt-3 ml-5">
-                    Lorem ipsum dolor sit amet, semper quis, sapien id natoque
-                    elit. Nostra urna at, magna at neque sed sed ante imperdiet,
-                    dolor mauris cursus velit, velit non, sem nec. Volutpat sem
-                    ridiculus placerat leo, Ultrices nascetur nulla gravida ante
-                    arcu. Pharetra rhoncus morbi ipsum, nunc tempor debitis,
-                    ipsum pellentesque, vitae id quam ut mauris dui tempor,
-                    aptent non.
+                    {{ this.project.description }}
                 </p>
             </v-row>
 
@@ -42,7 +36,7 @@
                         </v-col>
                     </v-container>
                 </v-row>
-                
+
                 <!-- <v-card-actions>
                     <v-btn
                         class="ml-5"

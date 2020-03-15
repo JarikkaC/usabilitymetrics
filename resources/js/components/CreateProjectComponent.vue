@@ -61,7 +61,7 @@
                                         >Save</v-btn
                                     >
 
-                                    <v-btn color="grey" text @click="close"
+                                    <v-btn color="#CD4D4D" text @click="close"
                                         >Cancel</v-btn
                                     >
                                 </v-card-actions>
@@ -116,12 +116,15 @@ export default {
             { text: "Actions", value: "action", sortable: false }
         ],
         projects: [],
+        description: [],
         editedIndex: -1,
         editedItem: {
-            project_name: ""
+            project_name: "",
+            description: ""
         },
         defaultItem: {
-            project_name: ""
+            project_name: "",
+            description: ""
         }
     }),
 
@@ -153,13 +156,21 @@ export default {
         addProject() {
             this.projects.push({
                 user_id: this.usernow.user_id,
-                project_name: this.editedItem.project_name
+                project_name: this.editedItem.project_name,
+                description: this.editedItem.description
             }) &&
                 axios.post("api/project", {
                     user_id: this.usernow.user_id,
-                    project_name: this.editedItem.project_name
+                    project_name: this.editedItem.project_name,
+                    description: this.editedItem.description
                 });
             this.close();
+        },
+
+        editItem(item) {
+            this.editedIndex = this.project.indexOf(item);
+            this.editedItem = Object.assign({}, item);
+            this.dialog = true;
         },
 
         deleteItem(item) {
