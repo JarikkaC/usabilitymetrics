@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class metricmodel extends Model
 {
     protected $fillable = [
-        'id', 'project_id', 'metric_id', 'submetric_id', 'project_id', 'created_at', 'updated_at'
+        'id', 'project_id', 'metric_id', 'submetric_id', 'project_id', 'picture_id', 'created_at', 'updated_at'
     ];
 
     public function metric()
@@ -20,9 +20,13 @@ class metricmodel extends Model
         return $this->belongsTo(submetric::class, 'submetric_id');
     }
 
-    public function project(){
-        return $this->belongsTo(project::class,'project_id');
+    public function project()
+    {
+        return $this->belongsTo(project::class, 'project_id');
     }
 
-
+    public function picture()
+    {
+        return $this->belongsTo(picture::class, 'picture_id');
+    }
 }

@@ -132,7 +132,7 @@ export default {
 
     methods: {
         getPicture() {
-            axios.get("/api/pictures/").then(response => {
+            axios.get("/api/pictures/"+this.id).then(response => {
                 this.pictures = response.data;
                 console.log("Picture", this.pictures);
             });

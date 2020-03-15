@@ -1,8 +1,8 @@
 <template>
     <v-app>
         <v-container class="mt-2 mx-2">
-            <v-card>
-                <v-row>
+            <v-card width="100%">
+                <v-row >
                     <h3 class="mt-10 ml-10">
                         <b>Select Metrics</b>
                     </h3>

@@ -17,6 +17,7 @@ Vue.component('selectmetric-component', require('./components/pages/SelectMetric
 Vue.component('showmetric-component', require('./components/pages/ShowMetricComponent.vue').default);
 Vue.component('form-component', require('./components/pages/FormComponent.vue').default);
 Vue.component('report-component', require('./components/pages/ReportComponent.vue').default);
+Vue.component('model-component', require('./components/ModelComponent.vue').default);
 
 
 

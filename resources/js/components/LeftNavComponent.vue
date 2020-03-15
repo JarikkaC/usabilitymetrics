@@ -54,8 +54,10 @@ export default {
             items: [
                 { title: "Home", href: "/home" },
                 { title: "Your Project", href: "/project" },
+                {title: "Measurement Model", href: "/example"},
                 { title: "Evaluation Form", href: "" },
-                { title: "Report", href: "" }
+                { title: "Report", href: "" },
+                
             ]
         };
     }

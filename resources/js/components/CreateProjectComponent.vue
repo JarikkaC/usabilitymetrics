@@ -12,6 +12,8 @@
                         <v-toolbar-title>My Project</v-toolbar-title>
                         <v-divider class="mx-4" inset vertical></v-divider>
 
+                        <v-spacer></v-spacer>
+
                         <v-dialog v-model="dialog" max-width="500px">
                             <template v-slot:activator="{ on }">
                                 <v-btn
@@ -65,6 +67,14 @@
                 </template>
                 <template v-slot:item.action="{ item }">
                     <v-btn :href="/project/ + item.id">view</v-btn>
+                    <v-btn
+                        class="ml-4"
+                        outlined
+                        color="#337aff"
+                        @click="deleteItem(item)"
+                    >
+                        edit
+                    </v-btn>
 
                     <v-btn
                         class="ml-4"
@@ -83,8 +93,6 @@
 <!-- ---------------------------------------------------------------------------------------->
 
 <script>
-
-
 export default {
     props: ["usernow"],
     mounted() {
@@ -166,5 +174,4 @@ export default {
         }
     }
 };
-
 </script>

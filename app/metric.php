@@ -20,4 +20,5 @@ class metric extends Model
     public function metricmodel(){
         return $this->belongsTo(metricmodel::class,'id');
     }
+
 }

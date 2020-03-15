@@ -49,6 +49,7 @@ class ModelController extends Controller
     {
         $project = project::find($id);
         return view('pages/showmetric', compact('id'));
+        
     }
 
     /**

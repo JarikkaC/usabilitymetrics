@@ -14,20 +14,12 @@
                 <v-icon class="ml-3" right dark>mdi-cloud-upload</v-icon>
             </v-btn>
 
-            <v-btn
-                class="ml-5"
-                color="#648BAC"
-                :href="/selectmetric/ + this.id"
-            >
-                Create Model
-            </v-btn>
-
             <br /><br />
             <v-card
                 class="d-inline-block m-3"
                 v-for="picture in pictureFil"
                 :key="picture.id"
-                @click="dialog = true,zoom(picture)"
+                
             >
                 <v-row justify="space-between">
                     <v-container>
@@ -35,10 +27,21 @@
                             <img
                                 :src="'/storage/' + picture.picture_path"
                                 height="250px"
+                                @click="(dialog = true), zoom(picture)"
                             />
                         </v-col>
                     </v-container>
                 </v-row>
+
+                <v-card-actions>
+                    <v-btn
+                        class="ml-5"
+                        color="#648BAC"
+                        :href="'/selectmetric/' + id" 
+                    >
+                        Create Model
+                    </v-btn>
+                </v-card-actions>
             </v-card>
 
             <!-- ----------------upload---------------------------------------------- -->
@@ -84,7 +87,9 @@
                     <v-card-text>
                         <v-container>
                             <img
-                                :src="'/storage/' + this.pictureZoom.picture_path"
+                                :src="
+                                    '/storage/' + this.pictureZoom.picture_path
+                                "
                                 width="100%"
                             />
                         </v-container>
@@ -102,7 +107,6 @@ export default {
     mounted() {
         this.getProject();
         this.getPicture();
-        
     },
     data: () => ({
         dialog: false,
@@ -142,7 +146,6 @@ export default {
                     image: this.image
                 });
             this.upload = false;
-             
         },
 
         onImageChange(e) {
@@ -166,8 +169,8 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-        zoom(val){
-            this.pictureZoom = val
+        zoom(val) {
+            this.pictureZoom = val;
         },
         close() {
             this.dialog = false;
@@ -178,7 +181,6 @@ export default {
         pictureFil: function() {
             return this.pictures.filter(picture => {
                 return picture.project_id == this.id;
-               
             });
         }
     },
