@@ -63,8 +63,8 @@ export default {
 
 <style scope>
 a:hover {
-    text-decoration-line: none;
-    text-decoration-color: #fed136;
-    text-decoration: #fed136;
+    text-decoration: none;
+    color: #fed136;
 }
+
 </style>

@@ -43,6 +43,9 @@
                                                     label="Project name"
                                                 ></v-text-field>
                                                 <v-textarea
+                                                    v-model="
+                                                        editedItem.description
+                                                    "
                                                     autocomplete="description"
                                                     label="Description"
                                                 ></v-textarea>
@@ -82,11 +85,25 @@
                         view
                     </v-btn>
 
-                    <v-btn class="m-2" small outlined fab color="indigo">
+                    <v-btn
+                        class="m-2"
+                        small
+                        outlined
+                        fab
+                        color="indigo"
+                        @click="editItem(item)"
+                    >
                         <v-icon> mdi-pencil</v-icon>
                     </v-btn>
 
-                    <v-btn class="m-2" small outlined fab color="red">
+                    <v-btn
+                        class="m-2"
+                        small
+                        outlined
+                        fab
+                        color="red"
+                        @click="deleteItem(item)"
+                    >
                         <v-icon> mdi-delete </v-icon>
                     </v-btn>
                 </template>
@@ -108,15 +125,21 @@ export default {
         headers: [
             {
                 text: "Project Name",
-                align: "left",
+                align: "center",
                 sortable: false,
                 value: "project_name"
             },
-            { text: "Date/Time", value: "created_at" },
-            { text: "Actions", value: "action", sortable: false }
+            { text: "Date/Time", value: "created_at", align: "center" },
+            {
+                text: "Actions",
+                value: "action",
+                align: "center",
+                sortable: false
+            }
         ],
         projects: [],
         description: [],
+        editedID: null,
         editedIndex: -1,
         editedItem: {
             project_name: "",
@@ -168,26 +191,47 @@ export default {
         },
 
         editItem(item) {
-            this.editedIndex = this.project.indexOf(item);
+            this.editedIndex = this.projects.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
 
         deleteItem(item) {
-            const index = this.project.indexOf(item);
-            confirm("Are you sure you want to delete this item?") &&
-                this.project.splice(index, 1);
-            axios
-                .delete("api/project" + item.id)
-                .then(response => console.log(response.data));
+            const index = this.projects.indexOf(item);
+            confirm("Are you sure you want to delete this project?") &&
+                axios
+                    .put("api/project/", {
+                        Delete: true
+                    })
+                    .then(response => {
+                        this.projects.splice(index, 1);
+                    });
         },
 
         close() {
             this.dialog = false;
             setTimeout(() => {
+                this.editedItem = Object.assign({}, this.defaultItem);
                 this.editedIndex = -1;
             }, 300);
+        },
+
+        save() {
+            if (this.editedIndex > -1) {
+                Object.assign(
+                    this.projects[this.editedIndex],
+                    this.editedItem
+                ) &&
+                    axios.put("/api/project/" + this.editedID, {
+                        project_name: this.editedItem.project_name,
+                        description: this.editedItem.description
+                    });
+            } else {
+                this.projects.push(this.editedItem);
+            }
+            this.close();
         }
     }
 };
+
 </script>

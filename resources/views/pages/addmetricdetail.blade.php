@@ -2,6 +2,6 @@
 
 @section('content')
 <div id="app">
-    <model-component></model-component>
+   <addsubmetric-component></addsubmetric-component>
 </div>
 @endsection
