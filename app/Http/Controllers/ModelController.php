@@ -15,7 +15,7 @@ class ModelController extends Controller
      */
     public function index()
     {
-        return view('/pages/showmetric');
+        return view('/model');
     }
 
     /**

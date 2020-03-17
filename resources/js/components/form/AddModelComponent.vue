@@ -210,16 +210,7 @@ export default {
         }
     }),
 
-    watch: {
-        dialog(val) {
-            val || this.close();
-        }
-    },
-
-    created() {
-        this.initialize();
-    },
-
+   
     methods: {
         editItem(item) {
             this.editedIndex = this.metrics.indexOf(item);

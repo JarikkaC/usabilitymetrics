@@ -2437,7 +2437,7 @@ __webpack_require__.r(__webpack_exports__);
         href: "/project"
       }, {
         title: "Measurement Model",
-        href: "/example"
+        href: "/model"
       }, {
         title: "Evaluation Form",
         href: "/evaluation"
@@ -3020,14 +3020,6 @@ __webpack_require__.r(__webpack_exports__);
         metric_name: 0
       }
     };
-  },
-  watch: {
-    dialog: function dialog(val) {
-      val || this.close();
-    }
-  },
-  created: function created() {
-    this.initialize();
   },
   methods: {
     editItem: function editItem(item) {
@@ -41335,7 +41327,7 @@ var render = function() {
       _c(
         "v-parallax",
         {
-          staticStyle: { height: "750px" },
+          staticStyle: { height: "700px" },
           attrs: {
             dark: "",
             src:
