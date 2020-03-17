@@ -6,6 +6,14 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
+                <p class="ml-5 mr-5">
+                    At vero eos et accusamus et iusto odio dignissimos ducimus
+                    qui blanditiis praesentium voluptatum deleniti atque
+                    corrupti quos dolores et quas molestias excepturi sint
+                    occaecati cupiditate non provident, similique sunt in culpa
+                    qui officia deserunt mollitia animi, id est laborum et
+                    dolorum fuga.
+                </p>
                 <v-container>
                     <v-row class="text-center">
                         <v-col>
@@ -13,7 +21,7 @@
                                 v-model="editedItem.submetric_name"
                                 label="Metric Name"
                                 persistent-hint
-                                outlined
+                                filled
                             >
                             </v-text-field>
                         </v-col>
@@ -34,29 +42,50 @@
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
+                            <!-- -------------------------------------------------------------- -->
                             <v-row class="text-center ml-5 mr-5">
                                 <v-col>
-                                    <v-text-field
+                                    <v-textarea
                                         v-model="editedItem.submetric_name"
                                         label="Purpose of the metrics"
                                         persistent-hint
                                         outlined
-                                    ></v-text-field>
+                                    ></v-textarea>
                                 </v-col>
                                 <v-col>
-                                    <v-text-field
+                                    <v-textarea
                                         v-model="editedItem.submetric_name"
                                         label="Method of application"
                                         persistent-hint
                                         outlined
-                                    ></v-text-field>
+                                    ></v-textarea>
                                 </v-col>
                             </v-row>
-                            <v-row class="text-center ml-5 mr-5 mt-3">
+                            <!-- -------------------------------------------------------------- -->
+                            <v-row class="text-center ml-5 mr-5">
+                                <v-col>
+                                    <v-textarea
+                                        v-model="editedItem.submetric_name"
+                                        label="Measurement, formula and data element computation"
+                                        persistent-hint
+                                        outlined
+                                    ></v-textarea>
+                                </v-col>
+                                <v-col>
+                                    <v-textarea
+                                        v-model="editedItem.submetric_name"
+                                        label="Input to measurement"
+                                        persistent-hint
+                                        outlined
+                                    ></v-textarea>
+                                </v-col>
+                            </v-row>
+                            <!-- -------------------------------------------------------------- -->
+                            <v-row class="text-center ml-5 mr-5">
                                 <v-col>
                                     <v-text-field
                                         v-model="editedItem.submetric_name"
-                                        label="Measurement, formula and data element computation"
+                                        label="Measure type"
                                         persistent-hint
                                         outlined
                                     ></v-text-field>
@@ -70,25 +99,8 @@
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row class="text-center ml-5 mr-5 mt-3">
-                                <v-col>
-                                    <v-text-field
-                                        v-model="editedItem.submetric_name"
-                                        label="Measure type"
-                                        persistent-hint
-                                        outlined
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="editedItem.submetric_name"
-                                        label="Input to measurement"
-                                        persistent-hint
-                                        outlined
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row class="text-center ml-5 mr-5 mt-3">
+                            <!-- -------------------------------------------------------------- -->
+                            <v-row class="text-center ml-5 mr-5">
                                 <v-col>
                                     <v-text-field
                                         v-model="editedItem.submetric_name"
@@ -106,36 +118,61 @@
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
-
+                            <!-- -------------------------------------------------------------- -->
                             <v-divider></v-divider>
+                            <p class="mr-5 mt-3 ml-5" style="color: #5f7daf;">
+                                หมายเหตุ: ในการสร้างคำถาม
+                                ต้องเป็นคำถามที่ไม่ใช่คำถามปลายเปิด
+                                เนื่องจากข้อจำกัดในการใช้งานเว็บแอพลิเคชั่น
+                                และในแต่ละ metric สามารถกำหนดคำถามได้หลายคำถาม
+                                โดยวิธีการเพิ่มคำถาม ทำได้โดยกดที่ปุ่ม +
+                                ด้านหลังข้อความ และสามารถลบคำถามที่เพิ่มไปได้
+                                โดยการกดที่ปุ่มรูปถังขยะ
+                            </p>
                             <v-row class="text-center ml-5 mr-5 mt-3">
-                                <v-col cols="7">
-                                    <v-container>
-                                        <v-textarea
-                                            v-model="editedItem.submetric_name"
-                                            label="Question"
-                                            persistent-hint
-                                            outlined
-                                        ></v-textarea>
-                                    </v-container>
+                                <v-col cols="8">
+                                    <v-textarea
+                                        v-model="editedItem.submetric_name"
+                                        label="Question"
+                                        persistent-hint
+                                        outlined
+                                    ></v-textarea>
                                 </v-col>
                                 <v-col cols="4">
-                                    <v-container id="dropdown-example-3">
-                                        <v-overflow-btn
-                                            class="my-2"
-                                            :items="dropdown_edit"
-                                            label="Type of question"
-                                            counter
-                                            item-value="text"
-                                        ></v-overflow-btn>
-                                    </v-container>
-                                </v-col>
-                                <v-col cols="1">
-                                    <v-btn small outlined fab color="indigo">
+                                    <v-select
+                                        :items="items"
+                                        label="Outlined style"
+                                        outlined
+                                    ></v-select>
+                                    <v-btn small outlined color="indigo">
                                         <v-icon> mdi-plus </v-icon>
                                     </v-btn>
-                                    <v-btn small outlined fab color="red">
+                                    <v-btn small outlined color="red">
                                         <v-icon> mdi-delete </v-icon>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                            <!-- -------------------------------------------------------------- -->
+
+                            <v-row class="text-center">
+                                <v-col cols="12">
+                                    <v-btn
+                                        color="teal"
+                                        dark
+                                        outlined
+                                        class="mb-2"
+                                    >
+                                        <v-icon> mdi-plus </v-icon>
+                                        Add Sub-Metric
+                                    </v-btn>
+                                    <v-btn
+                                        color="red"
+                                        dark
+                                        outlined
+                                        class="mb-2"
+                                    >
+                                        <v-icon> mdi-delete</v-icon>
+                                        Detete Sub-Metric
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -143,7 +180,7 @@
                     </div>
                 </v-container>
             </v-card-text>
-
+            <!-- -------------------------------------------------------------- -->
             <v-row justify="center" class="m-3">
                 <v-btn class="m-2" outlined color="teal">
                     Save
@@ -160,7 +197,7 @@
 export default {
     data: () => ({
         dialog: false,
-
+        items: ["Foo", "Bar", "Fizz", "Buzz"],
         metrics: [],
         editedIndex: -1,
         editedItem: {
@@ -173,12 +210,6 @@ export default {
         }
     }),
 
-    computed: {
-        formTitle() {
-            return this.editedIndex === -1 ? "New Item" : "Edit Item";
-        }
-    },
-
     watch: {
         dialog(val) {
             val || this.close();
@@ -190,23 +221,6 @@ export default {
     },
 
     methods: {
-        initialize() {
-            this.metrics = [
-                {
-                    id: "1",
-                    metric_name: "testmetrics"
-                },
-                {
-                    id: "2",
-                    metric_name: "testmetrics2"
-                },
-                {
-                    id: "3",
-                    metric_name: "testmetrics3"
-                }
-            ];
-        },
-
         editItem(item) {
             this.editedIndex = this.metrics.indexOf(item);
             this.editedItem = Object.assign({}, item);
