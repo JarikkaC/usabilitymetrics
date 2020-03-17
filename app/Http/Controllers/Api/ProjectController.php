@@ -79,31 +79,12 @@ class ProjectController extends Controller
     {
        
 
-        if($request->get('Delete')) {
-            $projects = Project::find($id);
-            $projects->update();
-            return response()->json($projects);
-        } else {
             $projects = Project::find($id);
             $projects->project_name = $request->get('project_name');
             $projects->description = $request->get('description');
             $projects->update();
             return response()->json($projects);
-        }
 
-
-        // if ($request->get('Delete')) {
-        //     $product = Product::find($id);
-        //     $product->available = $request->get('availableVal');
-        //     $product->update();
-        //     return response()->json($product);
-        // } else {
-        //     $product = Product::find($id);
-        //     $product->name = $request->get('name');
-        //     $product->price = $request->get('price');
-        //     $product->update();
-        //     return response()->json($product);
-        // }
     }
 
     /**
@@ -114,6 +95,8 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $projects = Project::find($id);
+        $projects->delete();
+        return response()->json($projects);
     }
 }

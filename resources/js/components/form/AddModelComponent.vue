@@ -1,104 +1,148 @@
 <template>
     <v-app>
         <v-card class="m-4">
-            <v-data-table
-                :headers="headers"
-                :items="metrics"
-                sort-by="project_name"
-                class="elevation-1"
-            >
-                <template v-slot:top>
-                    <v-toolbar flat color="white">
-                        <v-toolbar-title>Create Your Model</v-toolbar-title>
-                        <v-divider class="mx-4" inset vertical></v-divider>
-                        <v-spacer></v-spacer>
-                        <v-dialog v-model="dialog" max-width="500px">
-                            <template v-slot:activator="{ on }">
-                                <v-btn
-                                    color="#F4D03F"
-                                    dark
-                                    class="mb-2"
-                                    v-on="on"
-                                    >Add Metrics
-                                </v-btn>
-                            </template>
+            <v-card-title>
+                Create Your Model
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-card-text>
+                <v-container>
+                    <v-row class="text-center">
+                        <v-col>
+                            <v-text-field
+                                v-model="editedItem.submetric_name"
+                                label="Metric Name"
+                                persistent-hint
+                                outlined
+                            >
+                            </v-text-field>
+                        </v-col>
+                    </v-row>
 
-                            <v-card>
-                                <v-card-title>
-                                    <span class="headline">{{
-                                        formTitle
-                                    }}</span>
-                                </v-card-title>
+                    <div>
+                        <v-card>
+                            <v-card-title class="ml-3"
+                                >เพิ่มรายละเอียดของ Sub-metric</v-card-title
+                            >
+                            <v-row class="text-center ml-5 mr-5 mt-3">
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Sub-Metric Name"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row class="text-center ml-5 mr-5">
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Purpose of the metrics"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Method of application"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row class="text-center ml-5 mr-5 mt-3">
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Measurement, formula and data element computation"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Metric scale type"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row class="text-center ml-5 mr-5 mt-3">
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Measure type"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Input to measurement"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row class="text-center ml-5 mr-5 mt-3">
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="ISO/IEC 12207 SLCP Reference"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.submetric_name"
+                                        label="Target audience"
+                                        persistent-hint
+                                        outlined
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
 
-                                <v-card-text>
+                            <v-divider></v-divider>
+                            <v-row class="text-center ml-5 mr-5 mt-3">
+                                <v-col cols="7">
                                     <v-container>
-                                        <v-row>
-                                            <v-col>
-                                                <v-text-field
-                                                    v-model="
-                                                        editedItem.project_name
-                                                    "
-                                                    label="Metric Name"
-                                                ></v-text-field>
-                                            </v-col>
-                                        </v-row>
+                                        <v-textarea
+                                            v-model="editedItem.submetric_name"
+                                            label="Question"
+                                            persistent-hint
+                                            outlined
+                                        ></v-textarea>
                                     </v-container>
-                                </v-card-text>
-
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-
-                                    <v-btn color="blue darken-1" text 
-                                        >Save</v-btn
-                                    >
-
-                                    <v-btn color="#CD4D4D" text @click="close"
-                                        >Cancel</v-btn
-                                    >
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-toolbar>
-                </template>
-                <template v-slot:item.actions="{ item }">
-                    <v-btn
-                        class="m-2"
-                        outlined
-                        color="teal"
-                        href="/addmetricdetail/"
-                    >
-                        <v-icon small class="mr-2">
-                            mdi-view-grid-outline
-                        </v-icon>
-                        view
-                    </v-btn>
-
-                    <v-btn
-                        class="m-2"
-                        small
-                        outlined
-                        fab
-                        color="indigo"
-                        @click="editItem(item)"
-                    >
-                        <v-icon> mdi-pencil</v-icon>
-                    </v-btn>
-
-                    <v-btn
-                        class="m-2"
-                        small
-                        outlined
-                        fab
-                        color="red"
-                        @click="deleteItem(item)"
-                    >
-                        <v-icon> mdi-delete </v-icon>
-                    </v-btn>
-                </template>
-                <template v-slot:no-data>
-                    <v-btn color="primary" @click="initialize">Reset</v-btn>
-                </template>
-            </v-data-table>
+                                </v-col>
+                                <v-col cols="4">
+                                    <v-container id="dropdown-example-3">
+                                        <v-overflow-btn
+                                            class="my-2"
+                                            :items="dropdown_edit"
+                                            label="Type of question"
+                                            counter
+                                            item-value="text"
+                                        ></v-overflow-btn>
+                                    </v-container>
+                                </v-col>
+                                <v-col cols="1">
+                                    <v-btn small outlined fab color="indigo">
+                                        <v-icon> mdi-plus </v-icon>
+                                    </v-btn>
+                                    <v-btn small outlined fab color="red">
+                                        <v-icon> mdi-delete </v-icon>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+                    </div>
+                </v-container>
+            </v-card-text>
 
             <v-row justify="center" class="m-3">
                 <v-btn class="m-2" outlined color="teal">
@@ -116,21 +160,7 @@
 export default {
     data: () => ({
         dialog: false,
-        headers: [
-            {
-                text: "Metric ID",
-                align: "center",
-                sortable: false,
-                value: "id"
-            },
-            { text: "Metric Name", value: "metric_name", align: "center" },
-            {
-                text: "Actions",
-                value: "actions",
-                sortable: false,
-                align: "center"
-            }
-        ],
+
         metrics: [],
         editedIndex: -1,
         editedItem: {

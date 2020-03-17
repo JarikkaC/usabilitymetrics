@@ -197,15 +197,12 @@ export default {
         },
 
         deleteItem(item) {
+            console.log(item);
             const index = this.projects.indexOf(item);
             confirm("Are you sure you want to delete this project?") &&
-                axios
-                    .put("api/project/", {
-                        Delete: true
-                    })
-                    .then(response => {
-                        this.projects.splice(index, 1);
-                    });
+                axios.delete("api/project/" + item.id).then(response => {
+                    this.projects.splice(index, 1);
+                });
         },
 
         close() {
@@ -233,5 +230,4 @@ export default {
         }
     }
 };
-
 </script>

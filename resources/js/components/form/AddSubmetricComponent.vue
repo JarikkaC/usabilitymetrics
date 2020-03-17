@@ -152,7 +152,6 @@
                         </v-icon>
                         view
                     </v-btn>
-
                     <v-btn
                         class="m-2"
                         small
