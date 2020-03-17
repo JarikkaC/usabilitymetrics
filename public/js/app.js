@@ -2102,21 +2102,30 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addProject: function addProject() {
-      this.projects.push({
-        user_id: this.usernow.user_id,
-        project_name: this.editedItem.project_name,
-        description: this.editedItem.description
-      }) && axios.post("api/project", {
-        user_id: this.usernow.user_id,
-        project_name: this.editedItem.project_name,
-        description: this.editedItem.description
-      });
+      if (this.editedIndex > -1) {
+        Object.assign(this.projects[this.editedIndex], this.editedItem) && axios.put("/api/project/" + this.editedID, {
+          project_name: this.editedItem.project_name,
+          description: this.editedItem.description
+        });
+      } else {
+        this.projects.push({
+          user_id: this.usernow.user_id,
+          project_name: this.editedItem.project_name,
+          description: this.editedItem.description
+        }) && axios.post("api/project", {
+          user_id: this.usernow.user_id,
+          project_name: this.editedItem.project_name,
+          description: this.editedItem.description
+        });
+      }
+
       this.close();
     },
     editItem: function editItem(item) {
       this.editedIndex = this.projects.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.editedID = item.id;
     },
     deleteItem: function deleteItem(item) {
       var _this3 = this;
@@ -2143,7 +2152,8 @@ __webpack_require__.r(__webpack_exports__);
           description: this.editedItem.description
         });
       } else {
-        this.projects.push(this.editedItem);
+        // this.projects.push(this.editedItem);
+        console.log("else");
       }
 
       this.close();
