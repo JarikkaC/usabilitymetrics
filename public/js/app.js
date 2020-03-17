@@ -2206,11 +2206,86 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      dialog: false,
+      upload: false,
       panel: [],
-      items: 5
+      items: 5,
+      dropdown_edit: [{
+        text: "5"
+      }, {
+        text: "4"
+      }, {
+        text: "3"
+      }, {
+        text: "2"
+      }, {
+        text: "1"
+      }]
     };
   },
   methods: {
@@ -3145,6 +3220,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3433,6 +3510,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -40343,84 +40421,233 @@ var render = function() {
   return _c(
     "v-app",
     [
-      _c("v-card", { staticClass: "m-4" }, [
-        _c(
-          "div",
-          [
-            _c("v-toolbar-title", { staticClass: "m-4" }, [
-              _vm._v("Evaluation")
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "text-center d-flex pb-4 m-4" },
-              [
-                _c("v-spacer"),
-                _vm._v(" "),
-                _c("v-btn", { on: { click: _vm.all } }, [_vm._v("all")]),
-                _vm._v(" "),
-                _c("v-btn", { staticClass: "ml-4", on: { click: _vm.none } }, [
-                  _vm._v("none")
-                ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-expansion-panels",
-              {
-                attrs: { multiple: "" },
-                model: {
-                  value: _vm.panel,
-                  callback: function($$v) {
-                    _vm.panel = $$v
-                  },
-                  expression: "panel"
-                }
-              },
-              _vm._l(_vm.items, function(item, i) {
-                return _c(
-                  "v-expansion-panel",
-                  { key: i },
-                  [
-                    _c("v-expansion-panel-header", [
-                      _vm._v("Project " + _vm._s(item))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-expansion-panel-content",
-                      [
-                        _c("v-img", {
-                          attrs: {
-                            src:
-                              "https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_1280.jpg",
-                            "max-width": "300px"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "m-3" },
-                          [
-                            _c("v-btn", [_vm._v("Evaluation")]),
-                            _vm._v(" "),
-                            _c("v-btn", [_vm._v("See Report")])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              1
-            )
-          ],
-          1
-        )
-      ])
+      _c(
+        "v-card",
+        { staticClass: "m-4" },
+        [
+          _c(
+            "div",
+            [
+              _c(
+                "v-row",
+                { staticClass: "mr-3 ml-3" },
+                [
+                  _c("v-toolbar-title", { staticClass: "m-4" }, [
+                    _vm._v("Evaluation ")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "m-4",
+                      attrs: { color: "#F4D03F", dark: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.upload = true
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Prepare Evaluation\n                "
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-center d-flex pb-4 m-4" },
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { outlined: "", color: "gray" },
+                      on: { click: _vm.all }
+                    },
+                    [_vm._v("all")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "ml-4",
+                      attrs: { outlined: "", color: "gray" },
+                      on: { click: _vm.none }
+                    },
+                    [_vm._v("none")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-expansion-panels",
+                {
+                  attrs: { multiple: "" },
+                  model: {
+                    value: _vm.panel,
+                    callback: function($$v) {
+                      _vm.panel = $$v
+                    },
+                    expression: "panel"
+                  }
+                },
+                _vm._l(_vm.items, function(item, i) {
+                  return _c(
+                    "v-expansion-panel",
+                    { key: i },
+                    [
+                      _c("v-expansion-panel-header", [
+                        _vm._v("Project " + _vm._s(item))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-expansion-panel-content",
+                        [
+                          _c("v-img", {
+                            attrs: {
+                              src:
+                                "https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_1280.jpg",
+                              "max-width": "300px"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "m-3" },
+                            [
+                              _c("v-btn", [_vm._v("Evaluation")]),
+                              _vm._v(" "),
+                              _c("v-btn", [_vm._v("See Report")])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "600px" },
+              model: {
+                value: _vm.upload,
+                callback: function($$v) {
+                  _vm.upload = $$v
+                },
+                expression: "upload"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c("v-row", [
+                        _c("h3", { staticClass: "mt-3 mx-3" }, [
+                          _vm._v("Upload Your Graphic Media")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-container",
+                            { attrs: { id: "dropdown-example-3" } },
+                            [
+                              _c("v-overflow-btn", {
+                                staticClass: "my-2",
+                                attrs: {
+                                  items: _vm.dropdown_edit,
+                                  label: "Select Your Project",
+                                  counter: "",
+                                  "item-value": "text"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-row", { staticClass: "mx-3 mb-3 mt-3" }, [
+                        _c("input", {
+                          attrs: { id: "uploadImage", type: "file" },
+                          on: { change: _vm.onImageChange }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("center", [
+                        _vm.image
+                          ? _c("img", {
+                              staticClass: "img-responsive",
+                              attrs: { src: _vm.image, height: "120" }
+                            })
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        { staticClass: "mx-5 mb-3 mt-3" },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "mr-4",
+                              attrs: { color: "#6495D9" },
+                              on: { click: _vm.addPicture }
+                            },
+                            [_vm._v("Upload")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.upload = false
+                                }
+                              }
+                            },
+                            [_vm._v("Cancel")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )

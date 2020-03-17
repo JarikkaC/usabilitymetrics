@@ -117,8 +117,10 @@
                                                         label="Level"
                                                         counter
                                                         item-value="text"
-                                                    ></v-overflow-btn> </v-container
-                                            ></v-col>
+                                                    >
+                                                    </v-overflow-btn>
+                                                </v-container>
+                                            </v-col>
                                         </v-row>
                                     </v-container>
                                 </v-card-text>

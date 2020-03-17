@@ -48,7 +48,7 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
 
-                                    <v-btn color="blue darken-1" text
+                                    <v-btn color="blue darken-1" text 
                                         >Save</v-btn
                                     >
 

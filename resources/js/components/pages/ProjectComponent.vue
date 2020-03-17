@@ -89,6 +89,7 @@
             <v-dialog v-model="dialog" max-width="800px">
                 <v-card>
                     <v-card-text>
+                        
                         <v-container>
                             <img
                                 :src="
