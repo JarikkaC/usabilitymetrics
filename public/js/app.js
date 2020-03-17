@@ -2268,6 +2268,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2683,63 +2702,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       dialog: false,
       headers: [{
-        text: "Report ID",
-        align: "start",
+        text: "Metric ID",
+        align: "center",
         sortable: false,
         value: "id"
       }, {
-        text: "Project Name",
-        value: "project_name"
-      }, {
-        text: "Model ID",
-        value: "model_id"
-      }, {
-        text: "Date/Time",
-        value: "create_at"
+        text: "Metric Name",
+        value: "metric_name",
+        align: "center"
       }, {
         text: "Actions",
         value: "actions",
-        sortable: false
+        sortable: false,
+        align: "center"
       }],
-      reports: [],
+      metrics: [],
       editedIndex: -1,
       editedItem: {
         id: "",
-        project_name: 0,
-        model_id: 0,
-        create_at: 0
+        metric_name: ""
       },
       defaultItem: {
         id: "",
-        project_name: 0,
-        model_id: 0,
-        create_at: 0
+        metric_name: 0
       }
     };
   },
@@ -2758,31 +2748,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     initialize: function initialize() {
-      this.reports = [{
+      this.metrics = [{
         id: "1",
-        project_name: "testproject",
-        model_id: 1,
-        created_at: 0
+        metric_name: "testmetrics"
       }, {
         id: "2",
-        project_name: "testproject2",
-        model_id: 1,
-        created_at: 0
+        metric_name: "testmetrics2"
       }, {
         id: "3",
-        project_name: "testproject3",
-        model_id: 2,
-        created_at: 0
+        metric_name: "testmetrics3"
       }];
     },
     editItem: function editItem(item) {
-      this.editedIndex = this.reports.indexOf(item);
+      this.editedIndex = this.metrics.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem: function deleteItem(item) {
-      var index = this.reports.indexOf(item);
-      confirm("Are you sure you want to delete this item?") && this.reports.splice(index, 1);
+      var index = this.metrics.indexOf(item);
+      confirm("Are you sure you want to delete this Model?") && this.metrics.splice(index, 1);
     },
     close: function close() {
       var _this = this;
@@ -2795,9 +2779,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     save: function save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.reports[this.editedIndex], this.editedItem);
+        Object.assign(this.metrics[this.editedIndex], this.editedItem);
       } else {
-        this.reports.push(this.editedItem);
+        this.metrics.push(this.editedItem);
       }
 
       this.close();
@@ -40525,9 +40509,17 @@ var render = function() {
                             "div",
                             { staticClass: "m-3" },
                             [
-                              _c("v-btn", [_vm._v("Evaluation")]),
+                              _c(
+                                "v-btn",
+                                { attrs: { color: "teal", dark: "" } },
+                                [_vm._v("Evaluation")]
+                              ),
                               _vm._v(" "),
-                              _c("v-btn", [_vm._v("See Report")])
+                              _c(
+                                "v-btn",
+                                { attrs: { color: "indigo", dark: "" } },
+                                [_vm._v("See Report")]
+                              )
                             ],
                             1
                           )
@@ -40643,6 +40635,22 @@ var render = function() {
                 1
               )
             ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "800px" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
+            },
+            [_c("v-card", [_c("v-card-text", [_c("v-container")], 1)], 1)],
             1
           )
         ],
@@ -41037,7 +41045,7 @@ var render = function() {
             staticClass: "elevation-1",
             attrs: {
               headers: _vm.headers,
-              items: _vm.reports,
+              items: _vm.metrics,
               "sort-by": "project_name"
             },
             scopedSlots: _vm._u([
@@ -41049,7 +41057,7 @@ var render = function() {
                       "v-toolbar",
                       { attrs: { flat: "", color: "white" } },
                       [
-                        _c("v-toolbar-title", [_vm._v("Measurement Model")]),
+                        _c("v-toolbar-title", [_vm._v("Usability Report")]),
                         _vm._v(" "),
                         _c("v-divider", {
                           staticClass: "mx-4",
@@ -41062,27 +41070,6 @@ var render = function() {
                           "v-dialog",
                           {
                             attrs: { "max-width": "500px" },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "activator",
-                                fn: function(ref) {
-                                  var on = ref.on
-                                  return [
-                                    _c(
-                                      "v-btn",
-                                      _vm._g(
-                                        {
-                                          staticClass: "mb-2",
-                                          attrs: { color: "primary", dark: "" }
-                                        },
-                                        on
-                                      ),
-                                      [_vm._v("Add Model")]
-                                    )
-                                  ]
-                                }
-                              }
-                            ]),
                             model: {
                               value: _vm.dialog,
                               callback: function($$v) {
@@ -41092,7 +41079,6 @@ var render = function() {
                             }
                           },
                           [
-                            _vm._v(" "),
                             _c(
                               "v-card",
                               [
@@ -41113,148 +41099,24 @@ var render = function() {
                                           [
                                             _c(
                                               "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "4"
-                                                }
-                                              },
                                               [
                                                 _c("v-text-field", {
                                                   attrs: {
-                                                    label: "Dessert name"
-                                                  },
-                                                  model: {
-                                                    value: _vm.editedItem.name,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "name",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "editedItem.name"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "4"
-                                                }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  attrs: { label: "Calories" },
-                                                  model: {
-                                                    value:
-                                                      _vm.editedItem.calories,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "calories",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "\n                                                    editedItem.calories\n                                                "
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "4"
-                                                }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  attrs: { label: "Fat (g)" },
-                                                  model: {
-                                                    value: _vm.editedItem.fat,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "fat",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression: "editedItem.fat"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "4"
-                                                }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  attrs: { label: "Carbs (g)" },
-                                                  model: {
-                                                    value: _vm.editedItem.carbs,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "carbs",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "editedItem.carbs"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "4"
-                                                }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  attrs: {
-                                                    label: "Protein (g)"
+                                                    label: "Metric Name"
                                                   },
                                                   model: {
                                                     value:
-                                                      _vm.editedItem.protein,
+                                                      _vm.editedItem
+                                                        .project_name,
                                                     callback: function($$v) {
                                                       _vm.$set(
                                                         _vm.editedItem,
-                                                        "protein",
+                                                        "project_name",
                                                         $$v
                                                       )
                                                     },
                                                     expression:
-                                                      "editedItem.protein"
+                                                      "\n                                                    editedItem.project_name\n                                                "
                                                   }
                                                 })
                                               ],
@@ -41281,22 +41143,18 @@ var render = function() {
                                         attrs: {
                                           color: "blue darken-1",
                                           text: ""
-                                        },
-                                        on: { click: _vm.close }
+                                        }
                                       },
-                                      [_vm._v("Cancel")]
+                                      [_vm._v("Save")]
                                     ),
                                     _vm._v(" "),
                                     _c(
                                       "v-btn",
                                       {
-                                        attrs: {
-                                          color: "blue darken-1",
-                                          text: ""
-                                        },
-                                        on: { click: _vm.save }
+                                        attrs: { color: "#CD4D4D", text: "" },
+                                        on: { click: _vm.close }
                                       },
-                                      [_vm._v("Save")]
+                                      [_vm._v("Cancel")]
                                     )
                                   ],
                                   1
@@ -41320,38 +41178,48 @@ var render = function() {
                   var item = ref.item
                   return [
                     _c(
-                      "v-icon",
+                      "v-btn",
                       {
-                        staticClass: "mr-2",
-                        attrs: { small: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.editItem(item)
-                          }
+                        staticClass: "m-2",
+                        attrs: {
+                          outlined: "",
+                          color: "teal",
+                          href: "/addmetricdetail/"
                         }
                       },
                       [
-                        _vm._v(
-                          "\n                    mdi-pencil\n                "
-                        )
-                      ]
+                        _c(
+                          "v-icon",
+                          { staticClass: "mr-2", attrs: { small: "" } },
+                          [
+                            _vm._v(
+                              "\n                        mdi-view-grid-outline\n                    "
+                            )
+                          ]
+                        ),
+                        _vm._v("\n                    view\n                ")
+                      ],
+                      1
                     ),
                     _vm._v(" "),
                     _c(
-                      "v-icon",
+                      "v-btn",
                       {
-                        attrs: { small: "" },
+                        staticClass: "m-2",
+                        attrs: {
+                          small: "",
+                          outlined: "",
+                          fab: "",
+                          color: "red"
+                        },
                         on: {
                           click: function($event) {
                             return _vm.deleteItem(item)
                           }
                         }
                       },
-                      [
-                        _vm._v(
-                          "\n                    mdi-delete\n                "
-                        )
-                      ]
+                      [_c("v-icon", [_vm._v(" mdi-delete")])],
+                      1
                     )
                   ]
                 }

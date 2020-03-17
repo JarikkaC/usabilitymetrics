@@ -3,25 +3,16 @@
         <v-card class="m-4">
             <v-data-table
                 :headers="headers"
-                :items="reports"
+                :items="metrics"
                 sort-by="project_name"
                 class="elevation-1"
             >
                 <template v-slot:top>
                     <v-toolbar flat color="white">
-                        <v-toolbar-title>Measurement Model</v-toolbar-title>
+                        <v-toolbar-title>Usability Report</v-toolbar-title>
                         <v-divider class="mx-4" inset vertical></v-divider>
                         <v-spacer></v-spacer>
                         <v-dialog v-model="dialog" max-width="500px">
-                            <template v-slot:activator="{ on }">
-                                <v-btn
-                                    color="primary"
-                                    dark
-                                    class="mb-2"
-                                    v-on="on"
-                                    >Add Model</v-btn
-                                >
-                            </template>
                             <v-card>
                                 <v-card-title>
                                     <span class="headline">{{
@@ -32,36 +23,12 @@
                                 <v-card-text>
                                     <v-container>
                                         <v-row>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field
-                                                    v-model="editedItem.name"
-                                                    label="Dessert name"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
+                                            <v-col>
                                                 <v-text-field
                                                     v-model="
-                                                        editedItem.calories
+                                                        editedItem.project_name
                                                     "
-                                                    label="Calories"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field
-                                                    v-model="editedItem.fat"
-                                                    label="Fat (g)"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field
-                                                    v-model="editedItem.carbs"
-                                                    label="Carbs (g)"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field
-                                                    v-model="editedItem.protein"
-                                                    label="Protein (g)"
+                                                    label="Metric Name"
                                                 ></v-text-field>
                                             </v-col>
                                         </v-row>
@@ -70,17 +37,13 @@
 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="close"
-                                        >Cancel</v-btn
-                                    >
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="save"
+
+                                    <v-btn color="blue darken-1" text
                                         >Save</v-btn
+                                    >
+
+                                    <v-btn color="#CD4D4D" text @click="close"
+                                        >Cancel</v-btn
                                     >
                                 </v-card-actions>
                             </v-card>
@@ -88,12 +51,28 @@
                     </v-toolbar>
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-icon small class="mr-2" @click="editItem(item)">
-                        mdi-pencil
-                    </v-icon>
-                    <v-icon small @click="deleteItem(item)">
-                        mdi-delete
-                    </v-icon>
+                    <v-btn
+                        class="m-2"
+                        outlined
+                        color="teal"
+                        href="/addmetricdetail/"
+                    >
+                        <v-icon small class="mr-2">
+                            mdi-view-grid-outline
+                        </v-icon>
+                        view
+                    </v-btn>
+
+                    <v-btn
+                        class="m-2"
+                        small
+                        outlined
+                        fab
+                        color="red"
+                        @click="deleteItem(item)"
+                    >
+                        <v-icon> mdi-delete</v-icon>
+                    </v-btn>
                 </template>
                 <template v-slot:no-data>
                     <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -109,29 +88,28 @@ export default {
         dialog: false,
         headers: [
             {
-                text: "Report ID",
-                align: "start",
+                text: "Metric ID",
+                align: "center",
                 sortable: false,
                 value: "id"
             },
-            { text: "Project Name", value: "project_name" },
-            { text: "Model ID", value: "model_id" },
-            { text: "Date/Time", value: "create_at" },
-            { text: "Actions", value: "actions", sortable: false }
+            { text: "Metric Name", value: "metric_name", align: "center" },
+            {
+                text: "Actions",
+                value: "actions",
+                sortable: false,
+                align: "center"
+            }
         ],
-        reports: [],
+        metrics: [],
         editedIndex: -1,
         editedItem: {
             id: "",
-            project_name: 0,
-            model_id: 0,
-            create_at: 0
+            metric_name: ""
         },
         defaultItem: {
             id: "",
-            project_name: 0,
-            model_id: 0,
-            create_at: 0
+            metric_name: 0
         }
     }),
 
@@ -153,38 +131,32 @@ export default {
 
     methods: {
         initialize() {
-            this.reports = [
+            this.metrics = [
                 {
                     id: "1",
-                    project_name: "testproject",
-                    model_id: 1,
-                    created_at: 0
+                    metric_name: "testmetrics"
                 },
                 {
                     id: "2",
-                    project_name: "testproject2",
-                    model_id: 1,
-                    created_at: 0
+                    metric_name: "testmetrics2"
                 },
                 {
                     id: "3",
-                    project_name: "testproject3",
-                    model_id: 2,
-                    created_at: 0
+                    metric_name: "testmetrics3"
                 }
             ];
         },
 
         editItem(item) {
-            this.editedIndex = this.reports.indexOf(item);
+            this.editedIndex = this.metrics.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
 
         deleteItem(item) {
-            const index = this.reports.indexOf(item);
-            confirm("Are you sure you want to delete this item?") &&
-                this.reports.splice(index, 1);
+            const index = this.metrics.indexOf(item);
+            confirm("Are you sure you want to delete this Model?") &&
+                this.metrics.splice(index, 1);
         },
 
         close() {
@@ -197,9 +169,9 @@ export default {
 
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.reports[this.editedIndex], this.editedItem);
+                Object.assign(this.metrics[this.editedIndex], this.editedItem);
             } else {
-                this.reports.push(this.editedItem);
+                this.metrics.push(this.editedItem);
             }
             this.close();
         }

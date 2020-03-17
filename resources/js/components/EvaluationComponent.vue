@@ -37,15 +37,15 @@
                             ></v-img>
 
                             <div class="m-3">
-                                <v-btn>Evaluation</v-btn>
-                                <v-btn>See Report</v-btn>
+                                <v-btn color="teal" dark>Evaluation</v-btn>
+                                <v-btn color="indigo" dark>See Report</v-btn>
                             </div>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </div>
 
-            <v-dialog v-model="upload" width="600px" >
+            <v-dialog v-model="upload" width="600px">
                 <v-card>
                     <v-card-text>
                         <v-row>
@@ -91,6 +91,25 @@
                     </v-card-text>
                 </v-card>
             </v-dialog>
+
+            <!-- --------------------------------------------------------- -->
+
+            <v-dialog v-model="dialog" max-width="800px">
+                <v-card>
+                    <v-card-text>
+                        <v-container>
+                            <!-- <img
+                                :src="
+                                    '/storage/' + this.pictureZoom.picture_path
+                                "
+                                width="100%"
+                            /> -->
+                        </v-container>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+
+            <!-- --------------------------------------------------------- -->
         </v-card>
     </v-app>
 </template>
