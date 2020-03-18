@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/example', 'ExampleController@index')->name('example');
 Route::get('/document', 'DocumentController@index')->name('document');
+Route::get('metric/addmetric', 'MetricController@create');
 Route::get('/logout', 'Auth\LoginController@logout'); // logout
 Route::resource('/evaluation','EvaluationController');
 // Route::resource('/selectmetric', 'MetricController');
@@ -27,7 +28,7 @@ Route::resource('/project','ProjectController');
 Route::resource('/metric','MetricController');
 Route::resource('/form','QuestionController');
 Route::resource('/report', 'ReportController');
-Route::resource('/addmodel','AddModelController');
+// Route::resource('/addmetric','AddModelController');
 Route::resource('/addmetricdetail', 'AddSubmetricController');
 
 

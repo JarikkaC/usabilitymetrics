@@ -13,7 +13,7 @@ class AddModelController extends Controller
      */
     public function index()
     {
-        return view('/pages/addmodel');
+        return view('/pages/addmetric');
     }
 
     /**

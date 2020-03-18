@@ -22,7 +22,7 @@ Vue.component('form-component', require('./components/pages/FormComponent.vue').
 Vue.component('project-component', require('./components/pages/ProjectComponent.vue').default);
 Vue.component('reportpage-component', require('./components/pages/ReportPagesComponent.vue').default);
 
-Vue.component('addmodel-component', require('./components/form/AddModelComponent.vue').default);
+Vue.component('addmetric-component', require('./components/form/AddMetricComponent.vue').default);
 Vue.component('addsubmetric-component', require('./components/form/AddSubmetricComponent.vue').default);
 
 

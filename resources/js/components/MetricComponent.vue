@@ -17,7 +17,7 @@
                             color="#F4D03F"
                             dark
                             class="mb-2"
-                            href="/addmodel/"
+                            href="/metric/addmetric/"
                         >
                             Add Metrics
                         </v-btn>
@@ -53,7 +53,6 @@
                         <v-icon> mdi-delete </v-icon>
                     </v-btn>
                 </template>
-                
             </v-data-table>
         </v-card>
     </v-app>
@@ -63,7 +62,6 @@
 export default {
     mounted() {
         this.getMetric();
-      
     },
     data: () => ({
         dialog: false,
@@ -74,7 +72,6 @@ export default {
                 sortable: false,
                 value: "metric_name"
             },
-            // { text: "Model Name", value: "project_name", align: "center" },
             { text: "Date/Time", value: "create_at", align: "center" },
             {
                 text: "Actions",
@@ -111,7 +108,6 @@ export default {
     },
 
     methods: {
-
         getMetric() {
             axios.get("/api/metrics").then(response => {
                 let res = response.data;
@@ -129,7 +125,7 @@ export default {
             }));
             return result;
         },
-
+        
         editItem(item) {
             this.editedIndex = this.metrics.indexOf(item);
             this.editedItem = Object.assign({}, item);
@@ -139,7 +135,7 @@ export default {
         deleteItem(item) {
             const index = this.metrics.indexOf(item);
             confirm("Are you sure you want to delete this Model?") &&
-                this.models.splice(index, 1);
+                this.metrics.splice(index, 1);
         },
 
         close() {

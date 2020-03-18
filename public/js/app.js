@@ -2035,10 +2035,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -2520,7 +2516,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getMetric();
@@ -2533,8 +2528,7 @@ __webpack_require__.r(__webpack_exports__);
         align: "center",
         sortable: false,
         value: "metric_name"
-      }, // { text: "Model Name", value: "project_name", align: "center" },
-      {
+      }, {
         text: "Date/Time",
         value: "create_at",
         align: "center"
@@ -2597,7 +2591,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     deleteItem: function deleteItem(item) {
       var index = this.metrics.indexOf(item);
-      confirm("Are you sure you want to delete this Model?") && this.models.splice(index, 1);
+      confirm("Are you sure you want to delete this Model?") && this.metrics.splice(index, 1);
     },
     close: function close() {
       var _this2 = this;
@@ -2804,10 +2798,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddModelComponent.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/AddModelComponent.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddMetricComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/AddMetricComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3008,51 +3002,165 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      dialog: false,
-      items: ["Foo", "Bar", "Fizz", "Buzz"],
-      metrics: [],
-      editedIndex: -1,
-      editedItem: {
-        id: "",
-        metric_name: ""
-      },
-      defaultItem: {
-        id: "",
-        metric_name: 0
-      }
+      metric_name: "",
+      metricnameRules: [function (v) {
+        return !!v || "Metric name is required";
+      }],
+      submetric_name: "",
+      submetricnameRules: [function (v) {
+        return !!v || "Sub-metric name is required";
+      }],
+      purpose: "",
+      purposeRules: [function (v) {
+        return !!v || "Purpose is required";
+      }],
+      method: "",
+      measurement: "",
+      scale: "",
+      type: "",
+      input: "",
+      iso: "",
+      target: "",
+      question: "",
+      select: null,
+      items: [1, 2, 3, 4, 5],
+      questions: [{
+        question: null
+      }],
+      submetrics: [{
+        metric_name: null,
+        submatric_name: null,
+        purpose: null,
+        method: null,
+        measurement: null,
+        scale: null,
+        type: null,
+        iso: null,
+        target: null,
+        question: null,
+        select: null
+      }] // editedIndex: -1,
+      // editedItem: {
+      //     id: "",
+      //     metric_name: ""
+      // },
+      // defaultItem: {
+      //     id: "",
+      //     metric_name: 0
+      // }
+
     };
   },
   methods: {
-    editItem: function editItem(item) {
-      this.editedIndex = this.metrics.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+    submit: function submit() {
+      axios.post("/api/metrics", {
+        metric_name: this.metric_name,
+        submetric_name: this.submetric_name,
+        purpose: this.purpose,
+        method: this.method,
+        measurement: this.measurement,
+        scale: this.scale,
+        type: this.type,
+        input: this.input,
+        iso: this.iso,
+        target: this.target,
+        question: this.question
+      });
     },
-    deleteItem: function deleteItem(item) {
-      var index = this.metrics.indexOf(item);
-      confirm("Are you sure you want to delete this Model?") && this.metrics.splice(index, 1);
+    addSubmetric: function addSubmetric() {
+      this.submetrics.push({
+        metric_name: null,
+        submatric_name: null,
+        purpose: null,
+        method: null,
+        measurement: null,
+        scale: null,
+        type: null,
+        iso: null,
+        target: null,
+        question: null,
+        select: null
+      });
     },
-    close: function close() {
-      var _this = this;
+    addQuestion: function addQuestion() {
+      this.questions.push({
+        question: null
+      });
+    },
+    deleteQuestion: function deleteQuestion(item) {
+      console.log(item);
+      var index = this.questions.indexOf(item);
+      confirm("Are you sure you want to delete this question?") && this.questions.splice(index, 1);
+    },
+    deleteSubmetric: function deleteSubmetric(item) {
+      var index = this.submetrics.indexOf(item);
+      confirm("Are you sure you want to delete this submetric?") && this.submetrics.splice(index, 1);
+    },
+    clear: function clear() {
+      this.$v.$reset();
+      this.metric_name = "";
+      this.submetric_name = "";
+      this.purpose = "";
+      this.method = "";
+      this.measurement = "";
+      this.input = "";
+      this.iso = "";
+      this.type = "";
+      this.scale = "";
+      this.target = "";
+      this.question = "";
+      this.select = null;
+      this.checkbox = false;
+    },
+    validate: function validate() {
+      this.$refs.form.validate();
+    },
+    reset: function reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation: function resetValidation() {
+      this.$refs.form.resetValidation();
+    } // editItem(item) {
+    //     this.editedIndex = this.metrics.indexOf(item);
+    //     this.editedItem = Object.assign({}, item);
+    // },
+    // deleteItem(item) {
+    //     const index = this.metrics.indexOf(item);
+    //     confirm("Are you sure you want to delete this Model?") &&
+    //         this.metrics.splice(index, 1);
+    // },
+    // close() {
+    //     setTimeout(() => {
+    //         this.editedItem = Object.assign({}, this.defaultItem);
+    //         this.editedIndex = -1;
+    //     }, 300);
+    // },
+    // save() {
+    //     if (this.editedIndex > -1) {
+    //         Object.assign(this.metrics[this.editedIndex], this.editedItem);
+    //     } else {
+    //         this.metrics.push(this.editedItem);
+    //     }
+    //     this.close();
+    // }
 
-      this.dialog = false;
-      setTimeout(function () {
-        _this.editedItem = Object.assign({}, _this.defaultItem);
-        _this.editedIndex = -1;
-      }, 300);
-    },
-    save: function save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.metrics[this.editedIndex], this.editedItem);
-      } else {
-        this.metrics.push(this.editedItem);
-      }
-
-      this.close();
-    }
   }
 });
 
@@ -40275,7 +40383,7 @@ var render = function() {
                                                       )
                                                     },
                                                     expression:
-                                                      "\n                                                    editedItem.project_name\n                                                "
+                                                      " editedItem.project_name"
                                                   }
                                                 }),
                                                 _vm._v(" "),
@@ -40296,7 +40404,7 @@ var render = function() {
                                                       )
                                                     },
                                                     expression:
-                                                      "\n                                                    editedItem.description\n                                                "
+                                                      " editedItem.description "
                                                   }
                                                 })
                                               ],
@@ -40960,7 +41068,7 @@ var render = function() {
                             attrs: {
                               color: "#F4D03F",
                               dark: "",
-                              href: "/addmodel/"
+                              href: "/metric/addmetric/"
                             }
                           },
                           [
@@ -41382,10 +41490,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddModelComponent.vue?vue&type=template&id=dd4a3596&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/AddModelComponent.vue?vue&type=template&id=dd4a3596& ***!
-  \*************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddMetricComponent.vue?vue&type=template&id=38891d9c&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/AddMetricComponent.vue?vue&type=template&id=38891d9c& ***!
+  \**************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -41405,7 +41513,7 @@ var render = function() {
         { staticClass: "m-4" },
         [
           _c("v-card-title", [
-            _vm._v("\n            Create Your Model\n        ")
+            _vm._v("\n            Create Your Metrics\n        ")
           ]),
           _vm._v(" "),
           _c("v-divider"),
@@ -41433,14 +41541,15 @@ var render = function() {
                             attrs: {
                               label: "Metric Name",
                               "persistent-hint": "",
-                              filled: ""
+                              filled: "",
+                              required: ""
                             },
                             model: {
-                              value: _vm.editedItem.submetric_name,
+                              value: _vm.metric_name,
                               callback: function($$v) {
-                                _vm.$set(_vm.editedItem, "submetric_name", $$v)
+                                _vm.metric_name = $$v
                               },
-                              expression: "editedItem.submetric_name"
+                              expression: "metric_name"
                             }
                           })
                         ],
@@ -41452,9 +41561,10 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    [
-                      _c(
+                    _vm._l(_vm.submetrics, function(s) {
+                      return _c(
                         "v-card",
+                        { key: s, staticClass: "mt-5" },
                         [
                           _c("v-card-title", { staticClass: "ml-3" }, [
                             _vm._v("เพิ่มรายละเอียดของ Sub-metric")
@@ -41471,18 +41581,15 @@ var render = function() {
                                     attrs: {
                                       label: "Sub-Metric Name",
                                       "persistent-hint": "",
-                                      outlined: ""
+                                      outlined: "",
+                                      required: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.submetric_name,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "submetric_name", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.submetric_name"
                                     }
                                   })
                                 ],
@@ -41506,15 +41613,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.purpose,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "purpose", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.purpose"
                                     }
                                   })
                                 ],
@@ -41531,15 +41634,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.method,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "method", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.method"
                                     }
                                   })
                                 ],
@@ -41564,15 +41663,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.measurement,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "measurement", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.measurement"
                                     }
                                   })
                                 ],
@@ -41589,15 +41684,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.input,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "input", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.input"
                                     }
                                   })
                                 ],
@@ -41621,15 +41712,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.type,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "type", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.type"
                                     }
                                   })
                                 ],
@@ -41646,15 +41733,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.scale,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "scale", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.scale"
                                     }
                                   })
                                 ],
@@ -41678,15 +41761,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.iso,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "iso", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.iso"
                                     }
                                   })
                                 ],
@@ -41703,15 +41782,11 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: _vm.editedItem.submetric_name,
+                                      value: s.target,
                                       callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                                        _vm.$set(s, "target", $$v)
                                       },
-                                      expression: "editedItem.submetric_name"
+                                      expression: "s.target"
                                     }
                                   })
                                 ],
@@ -41736,79 +41811,108 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center ml-5 mr-5 mt-3" },
-                            [
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "8" } },
-                                [
-                                  _c("v-textarea", {
-                                    attrs: {
-                                      label: "Question",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value: _vm.editedItem.submetric_name,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "submetric_name",
-                                          $$v
-                                        )
+                          _vm._l(_vm.questions, function(q) {
+                            return _c(
+                              "v-row",
+                              {
+                                key: q,
+                                staticClass: "text-center ml-5 mr-5 mt-3"
+                              },
+                              [
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "8" } },
+                                  [
+                                    _c("v-textarea", {
+                                      attrs: {
+                                        label: "Question",
+                                        "persistent-hint": "",
+                                        outlined: ""
                                       },
-                                      expression: "editedItem.submetric_name"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "4" } },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      items: _vm.items,
-                                      label: "Outlined style",
-                                      outlined: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        small: "",
-                                        outlined: "",
-                                        color: "indigo"
+                                      model: {
+                                        value: q.question,
+                                        callback: function($$v) {
+                                          _vm.$set(q, "question", $$v)
+                                        },
+                                        expression: "q.question"
                                       }
-                                    },
-                                    [_c("v-icon", [_vm._v(" mdi-plus ")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "4" } },
+                                  [
+                                    _c("v-select", {
                                       attrs: {
-                                        small: "",
-                                        outlined: "",
-                                        color: "red"
+                                        items: _vm.items,
+                                        label: "Outlined style",
+                                        outlined: ""
                                       }
-                                    },
-                                    [_c("v-icon", [_vm._v(" mdi-delete ")])],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          small: "",
+                                          outlined: "",
+                                          color: "indigo"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          { on: { click: _vm.addQuestion } },
+                                          [
+                                            _vm._v(
+                                              "\n                                        mdi-plus\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          small: "",
+                                          outlined: "",
+                                          color: "red"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteQuestion(
+                                                  _vm.item
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        mdi-delete\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          }),
                           _vm._v(" "),
                           _c(
                             "v-row",
@@ -41826,10 +41930,11 @@ var render = function() {
                                         color: "teal",
                                         dark: "",
                                         outlined: ""
-                                      }
+                                      },
+                                      on: { click: _vm.addSubmetric }
                                     },
                                     [
-                                      _c("v-icon", [_vm._v(" mdi-plus ")]),
+                                      _c("v-icon", [_vm._v(" mdi-plus")]),
                                       _vm._v(
                                         "\n                                    Add Sub-Metric\n                                "
                                       )
@@ -41845,7 +41950,8 @@ var render = function() {
                                         color: "red",
                                         dark: "",
                                         outlined: ""
-                                      }
+                                      },
+                                      on: { click: _vm.deleteSubmetric }
                                     },
                                     [
                                       _c("v-icon", [_vm._v(" mdi-delete")]),
@@ -41862,9 +41968,9 @@ var render = function() {
                             1
                           )
                         ],
-                        1
+                        2
                       )
-                    ],
+                    }),
                     1
                   )
                 ],
@@ -41876,19 +41982,36 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-row",
-            { staticClass: "m-3", attrs: { justify: "center" } },
+            { staticClass: "m-3" },
             [
+              _c("v-spacer"),
+              _vm._v(" "),
               _c(
                 "v-btn",
-                { staticClass: "m-2", attrs: { outlined: "", color: "teal" } },
-                [_vm._v("\n                Save\n            ")]
+                {
+                  staticClass: "m-2",
+                  attrs: { large: "", dark: "", color: "teal" },
+                  on: { click: _vm.submit }
+                },
+                [
+                  _c("v-icon", { staticClass: "mr-3", attrs: { large: "" } }, [
+                    _vm._v("mdi-application-import")
+                  ]),
+                  _vm._v("\n                Submit\n            ")
+                ],
+                1
               ),
               _vm._v(" "),
               _c(
                 "v-btn",
                 {
                   staticClass: "m-2",
-                  attrs: { outlined: "", color: "grey", href: "/example/" }
+                  attrs: {
+                    large: "",
+                    outlined: "",
+                    color: "grey",
+                    href: "/example/"
+                  }
                 },
                 [_vm._v("\n                Back\n            ")]
               )
@@ -96562,7 +96685,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('showmetric-component', __w
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('form-component', __webpack_require__(/*! ./components/pages/FormComponent.vue */ "./resources/js/components/pages/FormComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('project-component', __webpack_require__(/*! ./components/pages/ProjectComponent.vue */ "./resources/js/components/pages/ProjectComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('reportpage-component', __webpack_require__(/*! ./components/pages/ReportPagesComponent.vue */ "./resources/js/components/pages/ReportPagesComponent.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('addmodel-component', __webpack_require__(/*! ./components/form/AddModelComponent.vue */ "./resources/js/components/form/AddModelComponent.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('addmetric-component', __webpack_require__(/*! ./components/form/AddMetricComponent.vue */ "./resources/js/components/form/AddMetricComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('addsubmetric-component', __webpack_require__(/*! ./components/form/AddSubmetricComponent.vue */ "./resources/js/components/form/AddSubmetricComponent.vue")["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
@@ -97104,17 +97227,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/form/AddModelComponent.vue":
-/*!************************************************************!*\
-  !*** ./resources/js/components/form/AddModelComponent.vue ***!
-  \************************************************************/
+/***/ "./resources/js/components/form/AddMetricComponent.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/form/AddMetricComponent.vue ***!
+  \*************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AddModelComponent_vue_vue_type_template_id_dd4a3596___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddModelComponent.vue?vue&type=template&id=dd4a3596& */ "./resources/js/components/form/AddModelComponent.vue?vue&type=template&id=dd4a3596&");
-/* harmony import */ var _AddModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddModelComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/form/AddModelComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AddMetricComponent_vue_vue_type_template_id_38891d9c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddMetricComponent.vue?vue&type=template&id=38891d9c& */ "./resources/js/components/form/AddMetricComponent.vue?vue&type=template&id=38891d9c&");
+/* harmony import */ var _AddMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddMetricComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/form/AddMetricComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -97124,9 +97247,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AddModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AddModelComponent_vue_vue_type_template_id_dd4a3596___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AddModelComponent_vue_vue_type_template_id_dd4a3596___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AddMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddMetricComponent_vue_vue_type_template_id_38891d9c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddMetricComponent_vue_vue_type_template_id_38891d9c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -97136,38 +97259,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/form/AddModelComponent.vue"
+component.options.__file = "resources/js/components/form/AddMetricComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/form/AddModelComponent.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/form/AddModelComponent.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/form/AddMetricComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/form/AddMetricComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddModelComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddModelComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddMetricComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddMetricComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddMetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/form/AddModelComponent.vue?vue&type=template&id=dd4a3596&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/form/AddModelComponent.vue?vue&type=template&id=dd4a3596& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/components/form/AddMetricComponent.vue?vue&type=template&id=38891d9c&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/form/AddMetricComponent.vue?vue&type=template&id=38891d9c& ***!
+  \********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddModelComponent_vue_vue_type_template_id_dd4a3596___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddModelComponent.vue?vue&type=template&id=dd4a3596& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddModelComponent.vue?vue&type=template&id=dd4a3596&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddModelComponent_vue_vue_type_template_id_dd4a3596___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddMetricComponent_vue_vue_type_template_id_38891d9c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddMetricComponent.vue?vue&type=template&id=38891d9c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/AddMetricComponent.vue?vue&type=template&id=38891d9c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddMetricComponent_vue_vue_type_template_id_38891d9c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddModelComponent_vue_vue_type_template_id_dd4a3596___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddMetricComponent_vue_vue_type_template_id_38891d9c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

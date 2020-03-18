@@ -25,7 +25,7 @@ class MetricController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages/addmetric');
     }
 
     /**
@@ -48,7 +48,8 @@ class MetricController extends Controller
     public function show($id)
     {
         // $project = project::find($id);
-        // return view('selectmetric', compact('id'));
+        // return view('addmodel', compact('id'));
+        // return view('pages/addmodel');
     }
 
     /**
