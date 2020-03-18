@@ -2545,6 +2545,7 @@ __webpack_require__.r(__webpack_exports__);
         align: "center"
       }],
       metrics: [],
+      submetrics: [],
       editedIndex: -1,
       editedItem: {
         id: "",

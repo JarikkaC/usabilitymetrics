@@ -84,6 +84,7 @@ export default {
             }
         ],
         metrics: [],
+        submetrics: [],
         editedIndex: -1,
         editedItem: {
             id: "",
