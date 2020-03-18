@@ -2436,8 +2436,8 @@ __webpack_require__.r(__webpack_exports__);
         title: "Your Project",
         href: "/project"
       }, {
-        title: "Measurement Model",
-        href: "/model"
+        title: "Metrics",
+        href: "/metric"
       }, {
         title: "Evaluation Form",
         href: "/evaluation"
@@ -2451,10 +2451,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModelComponent.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModelComponent.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MetricComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MetricComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2521,17 +2521,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.getMetric();
+  },
   data: function data() {
     return {
       dialog: false,
       headers: [{
-        text: "Model ID",
+        text: "Metric Name",
         align: "center",
         sortable: false,
-        value: "id"
+        value: "metric_name"
       }, // { text: "Model Name", value: "project_name", align: "center" },
       {
         text: "Date/Time",
@@ -2543,16 +2544,16 @@ __webpack_require__.r(__webpack_exports__);
         sortable: false,
         align: "center"
       }],
-      models: [],
+      metrics: [],
       editedIndex: -1,
       editedItem: {
         id: "",
-        project_name: 0,
+        metric_name: 0,
         create_at: 0
       },
       defaultItem: {
         id: "",
-        project_name: 0,
+        metric_name: 0,
         create_at: 0
       }
     };
@@ -2567,48 +2568,50 @@ __webpack_require__.r(__webpack_exports__);
       val || this.close();
     }
   },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.models = [{
-        id: "1",
-        // project_name: "testproject",
-        created_at: 0
-      }, {
-        id: "2",
-        // project_name: "testproject2",
-        created_at: 0
-      }, {
-        id: "3",
-        // project_name: "testproject3",
-        created_at: 0
-      }];
+    getMetric: function getMetric() {
+      var _this = this;
+
+      axios.get("/api/metrics").then(function (response) {
+        var res = response.data; // this.metrics = response.data;
+
+        _this.metrics = _this.tranFormData(res);
+        console.log(_this.metrics);
+      });
+    },
+    tranFormData: function tranFormData(data) {
+      var result = data.map(function (element) {
+        return {
+          id: element.id,
+          metric_name: element.metric_name,
+          submetric: element.submetric
+        };
+      });
+      return result;
     },
     editItem: function editItem(item) {
-      this.editedIndex = this.models.indexOf(item);
+      this.editedIndex = this.metrics.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem: function deleteItem(item) {
-      var index = this.models.indexOf(item);
+      var index = this.metrics.indexOf(item);
       confirm("Are you sure you want to delete this Model?") && this.models.splice(index, 1);
     },
     close: function close() {
-      var _this = this;
+      var _this2 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this.editedItem = Object.assign({}, _this.defaultItem);
-        _this.editedIndex = -1;
+        _this2.editedItem = Object.assign({}, _this2.defaultItem);
+        _this2.editedIndex = -1;
       }, 300);
     },
     save: function save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.models[this.editedIndex], this.editedItem);
+        Object.assign(this.metrics[this.editedIndex], this.editedItem);
       } else {
-        this.models.push(this.editedItem);
+        this.metrics.push(this.editedItem);
       }
 
       this.close();
@@ -40900,10 +40903,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModelComponent.vue?vue&type=template&id=41d720ff&":
-/*!*****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModelComponent.vue?vue&type=template&id=41d720ff& ***!
-  \*****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MetricComponent.vue?vue&type=template&id=d0d749dc&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MetricComponent.vue?vue&type=template&id=d0d749dc& ***!
+  \******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40922,12 +40925,14 @@ var render = function() {
         "v-card",
         { staticClass: "m-4" },
         [
+          _c("v-card-title", [_c("h2", [_vm._v("Metrics")])]),
+          _vm._v(" "),
           _c("v-data-table", {
             staticClass: "elevation-1",
             attrs: {
               headers: _vm.headers,
-              items: _vm.models,
-              "sort-by": "project_name"
+              items: _vm.metrics,
+              "sort-by": "metric_name"
             },
             scopedSlots: _vm._u([
               {
@@ -40938,7 +40943,7 @@ var render = function() {
                       "v-toolbar",
                       { attrs: { flat: "", color: "white" } },
                       [
-                        _c("v-toolbar-title", [_vm._v("Measurement Model")]),
+                        _c("v-toolbar-title", [_vm._v("Default Metrics")]),
                         _vm._v(" "),
                         _c("v-divider", {
                           staticClass: "mx-4",
@@ -40949,18 +40954,19 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "v-btn",
-                          _vm._g(
-                            {
-                              staticClass: "mb-2",
-                              attrs: {
-                                color: "#F4D03F",
-                                dark: "",
-                                href: /addmodel/
-                              }
-                            },
-                            _vm.on
-                          ),
-                          [_vm._v("Add Model")]
+                          {
+                            staticClass: "mb-2",
+                            attrs: {
+                              color: "#F4D03F",
+                              dark: "",
+                              href: "/addmodel/"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Add Metrics\n                    "
+                            )
+                          ]
                         )
                       ],
                       1
@@ -41036,22 +41042,6 @@ var render = function() {
                     )
                   ]
                 }
-              },
-              {
-                key: "no-data",
-                fn: function() {
-                  return [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { color: "primary" },
-                        on: { click: _vm.initialize }
-                      },
-                      [_vm._v("Reset")]
-                    )
-                  ]
-                },
-                proxy: true
               }
             ])
           })
@@ -96564,7 +96554,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('home-component', __webpack
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('welcomeproject-component', __webpack_require__(/*! ./components/WelcomeProjectComponent.vue */ "./resources/js/components/WelcomeProjectComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('create-component', __webpack_require__(/*! ./components/CreateProjectComponent.vue */ "./resources/js/components/CreateProjectComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('evaluation-component', __webpack_require__(/*! ./components/EvaluationComponent.vue */ "./resources/js/components/EvaluationComponent.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('model-component', __webpack_require__(/*! ./components/ModelComponent.vue */ "./resources/js/components/ModelComponent.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('metric-component', __webpack_require__(/*! ./components/MetricComponent.vue */ "./resources/js/components/MetricComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('report-component', __webpack_require__(/*! ./components/ReportComponent.vue */ "./resources/js/components/ReportComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('selectmetric-component', __webpack_require__(/*! ./components/pages/SelectMetricComponent.vue */ "./resources/js/components/pages/SelectMetricComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('showmetric-component', __webpack_require__(/*! ./components/pages/ShowMetricComponent.vue */ "./resources/js/components/pages/ShowMetricComponent.vue")["default"]);
@@ -96922,17 +96912,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ModelComponent.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/components/ModelComponent.vue ***!
-  \****************************************************/
+/***/ "./resources/js/components/MetricComponent.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/MetricComponent.vue ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ModelComponent_vue_vue_type_template_id_41d720ff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModelComponent.vue?vue&type=template&id=41d720ff& */ "./resources/js/components/ModelComponent.vue?vue&type=template&id=41d720ff&");
-/* harmony import */ var _ModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModelComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ModelComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _MetricComponent_vue_vue_type_template_id_d0d749dc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MetricComponent.vue?vue&type=template&id=d0d749dc& */ "./resources/js/components/MetricComponent.vue?vue&type=template&id=d0d749dc&");
+/* harmony import */ var _MetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MetricComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/MetricComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -96942,9 +96932,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ModelComponent_vue_vue_type_template_id_41d720ff___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ModelComponent_vue_vue_type_template_id_41d720ff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _MetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MetricComponent_vue_vue_type_template_id_d0d749dc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MetricComponent_vue_vue_type_template_id_d0d749dc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -96954,38 +96944,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/ModelComponent.vue"
+component.options.__file = "resources/js/components/MetricComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/ModelComponent.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/ModelComponent.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************/
+/***/ "./resources/js/components/MetricComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/MetricComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModelComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModelComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModelComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./MetricComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MetricComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MetricComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ModelComponent.vue?vue&type=template&id=41d720ff&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/ModelComponent.vue?vue&type=template&id=41d720ff& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/MetricComponent.vue?vue&type=template&id=d0d749dc&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/MetricComponent.vue?vue&type=template&id=d0d749dc& ***!
+  \************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModelComponent_vue_vue_type_template_id_41d720ff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModelComponent.vue?vue&type=template&id=41d720ff& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModelComponent.vue?vue&type=template&id=41d720ff&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModelComponent_vue_vue_type_template_id_41d720ff___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetricComponent_vue_vue_type_template_id_d0d749dc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./MetricComponent.vue?vue&type=template&id=d0d749dc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MetricComponent.vue?vue&type=template&id=d0d749dc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetricComponent_vue_vue_type_template_id_d0d749dc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModelComponent_vue_vue_type_template_id_41d720ff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetricComponent_vue_vue_type_template_id_d0d749dc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

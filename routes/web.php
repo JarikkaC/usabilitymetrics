@@ -22,9 +22,9 @@ Route::get('/example', 'ExampleController@index')->name('example');
 Route::get('/document', 'DocumentController@index')->name('document');
 Route::get('/logout', 'Auth\LoginController@logout'); // logout
 Route::resource('/evaluation','EvaluationController');
-Route::resource('/selectmetric', 'MetricController');
+// Route::resource('/selectmetric', 'MetricController');
 Route::resource('/project','ProjectController');
-Route::resource('/model','ModelController');
+Route::resource('/metric','MetricController');
 Route::resource('/form','QuestionController');
 Route::resource('/report', 'ReportController');
 Route::resource('/addmodel','AddModelController');

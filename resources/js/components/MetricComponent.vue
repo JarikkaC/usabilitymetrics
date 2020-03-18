@@ -1,26 +1,26 @@
 <template>
     <v-app>
         <v-card class="m-4">
+            <v-card-title><h2>Metrics</h2></v-card-title>
             <v-data-table
                 :headers="headers"
-                :items="models"
-                sort-by="project_name"
+                :items="metrics"
+                sort-by="metric_name"
                 class="elevation-1"
             >
                 <template v-slot:top>
                     <v-toolbar flat color="white">
-                        <v-toolbar-title>Measurement Model</v-toolbar-title>
+                        <v-toolbar-title>Default Metrics</v-toolbar-title>
                         <v-divider class="mx-4" inset vertical></v-divider>
                         <v-spacer></v-spacer>
                         <v-btn
                             color="#F4D03F"
                             dark
                             class="mb-2"
-                            v-on="on"
-                            :href="/addmodel/"
-                            >Add Model</v-btn
+                            href="/addmodel/"
                         >
-
+                            Add Metrics
+                        </v-btn>
                     </v-toolbar>
                 </template>
                 <template v-slot:item.actions="{ item }">
@@ -53,9 +53,7 @@
                         <v-icon> mdi-delete </v-icon>
                     </v-btn>
                 </template>
-                <template v-slot:no-data>
-                    <v-btn color="primary" @click="initialize">Reset</v-btn>
-                </template>
+                
             </v-data-table>
         </v-card>
     </v-app>
@@ -63,14 +61,18 @@
 
 <script>
 export default {
+    mounted() {
+        this.getMetric();
+      
+    },
     data: () => ({
         dialog: false,
         headers: [
             {
-                text: "Model ID",
+                text: "Metric Name",
                 align: "center",
                 sortable: false,
-                value: "id"
+                value: "metric_name"
             },
             // { text: "Model Name", value: "project_name", align: "center" },
             { text: "Date/Time", value: "create_at", align: "center" },
@@ -81,16 +83,16 @@ export default {
                 align: "center"
             }
         ],
-        models: [],
+        metrics: [],
         editedIndex: -1,
         editedItem: {
             id: "",
-            project_name: 0,
+            metric_name: 0,
             create_at: 0
         },
         defaultItem: {
             id: "",
-            project_name: 0,
+            metric_name: 0,
             create_at: 0
         }
     }),
@@ -107,39 +109,34 @@ export default {
         }
     },
 
-    created() {
-        this.initialize();
-    },
-
     methods: {
-        initialize() {
-            this.models = [
-                {
-                    id: "1",
-                    // project_name: "testproject",
-                    created_at: 0
-                },
-                {
-                    id: "2",
-                    // project_name: "testproject2",
-                    created_at: 0
-                },
-                {
-                    id: "3",
-                    // project_name: "testproject3",
-                    created_at: 0
-                }
-            ];
+
+        getMetric() {
+            axios.get("/api/metrics").then(response => {
+                let res = response.data;
+                // this.metrics = response.data;
+                this.metrics = this.tranFormData(res);
+                console.log(this.metrics);
+            });
+        },
+
+        tranFormData(data) {
+            const result = data.map(element => ({
+                id: element.id,
+                metric_name: element.metric_name,
+                submetric: element.submetric
+            }));
+            return result;
         },
 
         editItem(item) {
-            this.editedIndex = this.models.indexOf(item);
+            this.editedIndex = this.metrics.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
 
         deleteItem(item) {
-            const index = this.models.indexOf(item);
+            const index = this.metrics.indexOf(item);
             confirm("Are you sure you want to delete this Model?") &&
                 this.models.splice(index, 1);
         },
@@ -154,9 +151,9 @@ export default {
 
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.models[this.editedIndex], this.editedItem);
+                Object.assign(this.metrics[this.editedIndex], this.editedItem);
             } else {
-                this.models.push(this.editedItem);
+                this.metrics.push(this.editedItem);
             }
             this.close();
         }

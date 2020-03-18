@@ -13,7 +13,7 @@ Vue.component('home-component', require('./components/HomeComponent.vue').defaul
 Vue.component('welcomeproject-component', require('./components/WelcomeProjectComponent.vue').default);
 Vue.component('create-component', require('./components/CreateProjectComponent.vue').default);
 Vue.component('evaluation-component', require('./components/EvaluationComponent.vue').default);
-Vue.component('model-component', require('./components/ModelComponent.vue').default);
+Vue.component('metric-component', require('./components/MetricComponent.vue').default);
 Vue.component('report-component', require('./components/ReportComponent.vue').default);
 
 Vue.component('selectmetric-component', require('./components/pages/SelectMetricComponent.vue').default);

@@ -39,12 +39,19 @@ class MetricController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $metrics = new Metric();
-        // $metrics->submetric_name = $request->get('submetric_name');
-        // $metrics->id = $request->get('id');
-        // $metrics->save();
-        // return response()->json($metrics);
+        $metrics = new Metric();
+        $metrics->id = $request->get('id');
+        $metrics->submetric_name = $request->get('submetric_name');
+        $metrics->purpose = $request->get('purpose');
+        $metrics->method = $request->get('method');
+        $metrics->measurement = $request->get('measurement');
+        $metrics->scale = $request->get('scale');
+        $metrics->type = $request->get('type');
+        $metrics->input = $request->get('input');
+        $metrics->target = $request->get('target');
+        $metrics->iso = $request->get('iso');
+        $metrics->save();
+        return response()->json($metrics);
     }
 
     /**
@@ -55,8 +62,8 @@ class MetricController extends Controller
      */
     public function show($id)
     {
-        $projects = Project::find($id);
-        return response()->json($projects);
+        // $projects = Project::find($id);
+        // return response()->json($projects);
     }
 
     /**
@@ -79,7 +86,18 @@ class MetricController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $metrics = Metric::find($id);
+        $metrics->submetric_name = $request->get('submetric_name');
+        $metrics->purpose = $request->get('purpose');
+        $metrics->method = $request->get('method');
+        $metrics->measurement = $request->get('measurement');
+        $metrics->scale = $request->get('scale');
+        $metrics->type = $request->get('type');
+        $metrics->input = $request->get('input');
+        $metrics->target = $request->get('target');
+        $metrics->iso = $request->get('iso');
+        $metrics->update();
+        return response()->json($metrics);
     }
 
     /**
@@ -90,6 +108,8 @@ class MetricController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $metrics = Metric::find($id);
+        $metrics->delete();
+        return response()->json($metrics);
     }
 }

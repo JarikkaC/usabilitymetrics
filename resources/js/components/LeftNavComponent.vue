@@ -52,7 +52,7 @@ export default {
             items: [
                 { title: "Home", href: "/home" },
                 { title: "Your Project", href: "/project" },
-                { title: "Measurement Model", href: "/model" },
+                { title: "Metrics", href: "/metric" },
                 { title: "Evaluation Form", href: "/evaluation" },
                 { title: "Report", href: "/report" }
             ]

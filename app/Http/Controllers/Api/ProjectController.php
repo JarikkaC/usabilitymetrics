@@ -77,14 +77,11 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
-
             $projects = Project::find($id);
             $projects->project_name = $request->get('project_name');
             $projects->description = $request->get('description');
             $projects->update();
             return response()->json($projects);
-
     }
 
     /**

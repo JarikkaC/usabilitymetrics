@@ -15,7 +15,7 @@ class MetricController extends Controller
      */
     public function index()
     {
-        return view('selectmetric');
+        return view('/metric');
     }
 
     /**
@@ -47,8 +47,8 @@ class MetricController extends Controller
      */
     public function show($id)
     {
-        $project = project::find($id);
-        return view('selectmetric', compact('id'));
+        // $project = project::find($id);
+        // return view('selectmetric', compact('id'));
     }
 
     /**
