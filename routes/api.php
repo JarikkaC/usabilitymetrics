@@ -26,3 +26,4 @@ Route::resource('questions', 'Api\QuestionController');
 Route::resource('reports', 'Api\ReportController');
 
 
+

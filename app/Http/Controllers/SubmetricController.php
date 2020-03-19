@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\question;
-use App\submetric;
 
-class QuestionController extends Controller
+class SubmetricController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +13,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = question::all();
-        return response()->json($questions);
+        //
     }
 
     /**
@@ -38,12 +34,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $questions = new Question();
-        $submetrics = Submetric::orderBy('created_at', 'desc')->first();
-        $questions->submetric_id = $submetrics->id;
-        $questions->question = $request->get('question');
-        $questions->max_select = $request->get('max_select');
-        $questions->save();
+        //
     }
 
     /**

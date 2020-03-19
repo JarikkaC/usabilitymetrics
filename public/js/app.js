@@ -3016,6 +3016,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3023,39 +3086,27 @@ __webpack_require__.r(__webpack_exports__);
       metricnameRules: [function (v) {
         return !!v || "Metric name is required";
       }],
-      submetric_name: "",
       submetricnameRules: [function (v) {
         return !!v || "Sub-metric name is required";
       }],
-      purpose: "",
       purposeRules: [function (v) {
         return !!v || "Purpose is required";
       }],
-      method: "",
-      measurement: "",
-      scale: "",
-      type: "",
-      input: "",
-      iso: "",
-      target: "",
-      question: "",
-      select: null,
       items: [1, 2, 3, 4, 5],
-      questions: [{
-        question: null
-      }],
       submetrics: [{
-        metric_name: null,
-        submatric_name: null,
+        submetric_name: null,
         purpose: null,
         method: null,
         measurement: null,
         scale: null,
         type: null,
+        input: null,
         iso: null,
         target: null,
-        question: null,
-        select: null
+        questions: [{
+          question: null,
+          max_select: null
+        }]
       }] // editedIndex: -1,
       // editedItem: {
       //     id: "",
@@ -3071,63 +3122,63 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     submit: function submit() {
       axios.post("/api/metrics", {
-        metric_name: this.metric_name,
-        submetric_name: this.submetric_name,
-        purpose: this.purpose,
-        method: this.method,
-        measurement: this.measurement,
-        scale: this.scale,
-        type: this.type,
-        input: this.input,
-        iso: this.iso,
-        target: this.target,
-        question: this.question
+        metric_name: this.metric_name
       });
+
+      for (var index = 0; index < this.submetrics.length; index++) {
+        var element = this.submetrics[index];
+        axios.post("/api/submetrics", {
+          submetric_name: element.submetric_name,
+          purpose: element.purpose,
+          method: element.method,
+          measurement: element.measurement,
+          scale: element.scale,
+          type: element.type,
+          input: element.input,
+          iso: element.iso,
+          target: element.target
+        });
+
+        for (var i = 0; i < this.submetrics[index].questions.length; i++) {
+          var e = this.submetrics[index].questions[i];
+          axios.post("/api/questions", {
+            question: e.question,
+            max_select: e.max_select
+          });
+        }
+      }
     },
     addSubmetric: function addSubmetric() {
       this.submetrics.push({
-        metric_name: null,
-        submatric_name: null,
+        submetric_name: null,
         purpose: null,
         method: null,
         measurement: null,
         scale: null,
         type: null,
+        input: null,
         iso: null,
         target: null,
-        question: null,
-        select: null
+        questions: [{
+          question: null,
+          max_select: null
+        }]
       });
     },
-    addQuestion: function addQuestion() {
-      this.questions.push({
+    addQuestion: function addQuestion(indexSubmetrics) {
+      console.log(indexSubmetrics);
+      this.submetrics[indexSubmetrics].questions.push({
         question: null
       });
     },
-    deleteQuestion: function deleteQuestion(item) {
+    deleteQuestion: function deleteQuestion(item, indexSubmetrics) {
       console.log(item);
-      var index = this.questions.indexOf(item);
-      confirm("Are you sure you want to delete this question?") && this.questions.splice(index, 1);
+      var index = this.submetrics[indexSubmetrics].questions.indexOf(item);
+      confirm("Are you sure you want to delete this question?") && this.submetrics[indexSubmetrics].questions.splice(index, 1);
     },
     deleteSubmetric: function deleteSubmetric(item) {
       var index = this.submetrics.indexOf(item);
       confirm("Are you sure you want to delete this submetric?") && this.submetrics.splice(index, 1);
-    },
-    clear: function clear() {
-      this.$v.$reset();
-      this.metric_name = "";
-      this.submetric_name = "";
-      this.purpose = "";
-      this.method = "";
-      this.measurement = "";
-      this.input = "";
-      this.iso = "";
-      this.type = "";
-      this.scale = "";
-      this.target = "";
-      this.question = "";
-      this.select = null;
-      this.checkbox = false;
     },
     validate: function validate() {
       this.$refs.form.validate();
@@ -41561,10 +41612,10 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    _vm._l(_vm.submetrics, function(s) {
+                    _vm._l(_vm.submetrics, function(s, indexSubmetrics) {
                       return _c(
                         "v-card",
-                        { key: s, staticClass: "mt-5" },
+                        { key: indexSubmetrics, staticClass: "mt-5" },
                         [
                           _c("v-card-title", { staticClass: "ml-3" }, [
                             _vm._v("เพิ่มรายละเอียดของ Sub-metric")
@@ -41585,11 +41636,18 @@ var render = function() {
                                       required: ""
                                     },
                                     model: {
-                                      value: s.submetric_name,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics]
+                                          .submetric_name,
                                       callback: function($$v) {
-                                        _vm.$set(s, "submetric_name", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "submetric_name",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.submetric_name"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics]\n                                            .submetric_name\n                                    "
                                     }
                                   })
                                 ],
@@ -41613,11 +41671,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.purpose,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].purpose,
                                       callback: function($$v) {
-                                        _vm.$set(s, "purpose", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "purpose",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.purpose"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].purpose\n                                    "
                                     }
                                   })
                                 ],
@@ -41634,11 +41698,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.method,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].method,
                                       callback: function($$v) {
-                                        _vm.$set(s, "method", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "method",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.method"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].method\n                                    "
                                     }
                                   })
                                 ],
@@ -41663,11 +41733,18 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.measurement,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics]
+                                          .measurement,
                                       callback: function($$v) {
-                                        _vm.$set(s, "measurement", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "measurement",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.measurement"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics]\n                                            .measurement\n                                    "
                                     }
                                   })
                                 ],
@@ -41684,11 +41761,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.input,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].input,
                                       callback: function($$v) {
-                                        _vm.$set(s, "input", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "input",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.input"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].input\n                                    "
                                     }
                                   })
                                 ],
@@ -41712,11 +41795,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.type,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].type,
                                       callback: function($$v) {
-                                        _vm.$set(s, "type", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "type",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.type"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].type\n                                    "
                                     }
                                   })
                                 ],
@@ -41733,11 +41822,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.scale,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].scale,
                                       callback: function($$v) {
-                                        _vm.$set(s, "scale", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "scale",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.scale"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].scale\n                                    "
                                     }
                                   })
                                 ],
@@ -41761,11 +41856,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.iso,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].iso,
                                       callback: function($$v) {
-                                        _vm.$set(s, "iso", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "iso",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.iso"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].iso\n                                    "
                                     }
                                   })
                                 ],
@@ -41782,11 +41883,17 @@ var render = function() {
                                       outlined: ""
                                     },
                                     model: {
-                                      value: s.target,
+                                      value:
+                                        _vm.submetrics[indexSubmetrics].target,
                                       callback: function($$v) {
-                                        _vm.$set(s, "target", $$v)
+                                        _vm.$set(
+                                          _vm.submetrics[indexSubmetrics],
+                                          "target",
+                                          $$v
+                                        )
                                       },
-                                      expression: "s.target"
+                                      expression:
+                                        "\n                                        submetrics[indexSubmetrics].target\n                                    "
                                     }
                                   })
                                 ],
@@ -41811,108 +41918,157 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm._l(_vm.questions, function(q) {
-                            return _c(
-                              "v-row",
-                              {
-                                key: q,
-                                staticClass: "text-center ml-5 mr-5 mt-3"
-                              },
-                              [
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "8" } },
-                                  [
-                                    _c("v-textarea", {
-                                      attrs: {
-                                        label: "Question",
-                                        "persistent-hint": "",
-                                        outlined: ""
-                                      },
-                                      model: {
-                                        value: q.question,
-                                        callback: function($$v) {
-                                          _vm.$set(q, "question", $$v)
+                          _vm._l(
+                            _vm.submetrics[indexSubmetrics].questions,
+                            function(q, indexQuestions) {
+                              return _c(
+                                "v-row",
+                                {
+                                  key: indexQuestions,
+                                  staticClass: "text-center ml-5 mr-5 mt-3"
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "8" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Question",
+                                          "persistent-hint": "",
+                                          outlined: ""
                                         },
-                                        expression: "q.question"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "4" } },
-                                  [
-                                    _c("v-select", {
-                                      attrs: {
-                                        items: _vm.items,
-                                        label: "Outlined style",
-                                        outlined: ""
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-btn",
-                                      {
-                                        attrs: {
-                                          small: "",
-                                          outlined: "",
-                                          color: "indigo"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          { on: { click: _vm.addQuestion } },
-                                          [
-                                            _vm._v(
-                                              "\n                                        mdi-plus\n                                    "
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .questions[indexQuestions]
+                                              .question,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics]
+                                                .questions[indexQuestions],
+                                              "question",
+                                              $$v
                                             )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-btn",
-                                      {
-                                        attrs: {
-                                          small: "",
-                                          outlined: "",
-                                          color: "red"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          {
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.deleteQuestion(
-                                                  _vm.item
-                                                )
-                                              }
-                                            }
                                           },
-                                          [
-                                            _vm._v(
-                                              "\n                                        mdi-delete\n                                    "
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics]\n                                            .questions[indexQuestions]\n                                            .question\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "2" } },
+                                    [
+                                      _c("v-select", {
+                                        attrs: {
+                                          items: _vm.items,
+                                          label: "Level",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .questions[indexQuestions]
+                                              .max_select,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics]
+                                                .questions[indexQuestions],
+                                              "max_select",
+                                              $$v
                                             )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          }),
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics]\n                                            .questions[indexQuestions]\n                                            .max_select\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "2" } },
+                                    [
+                                      indexQuestions ===
+                                      _vm.submetrics[indexSubmetrics].questions
+                                        .length -
+                                        1
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                small: "",
+                                                outlined: "",
+                                                color: "indigo"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.addQuestion(
+                                                        indexSubmetrics
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                        mdi-plus\n                                    "
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            small: "",
+                                            outlined: "",
+                                            color: "red"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.deleteQuestion(
+                                                    _vm.item,
+                                                    indexSubmetrics
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                        mdi-delete\n                                    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-row",
@@ -41922,45 +42078,49 @@ var render = function() {
                                 "v-col",
                                 { attrs: { cols: "12" } },
                                 [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "mb-2",
-                                      attrs: {
-                                        color: "teal",
-                                        dark: "",
-                                        outlined: ""
-                                      },
-                                      on: { click: _vm.addSubmetric }
-                                    },
-                                    [
-                                      _c("v-icon", [_vm._v(" mdi-plus")]),
-                                      _vm._v(
-                                        "\n                                    Add Sub-Metric\n                                "
+                                  indexSubmetrics === _vm.submetrics.length - 1
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mb-2",
+                                          attrs: {
+                                            color: "teal",
+                                            dark: "",
+                                            outlined: ""
+                                          },
+                                          on: { click: _vm.addSubmetric }
+                                        },
+                                        [
+                                          _c("v-icon", [_vm._v(" mdi-plus")]),
+                                          _vm._v(
+                                            "\n                                    Add Sub-Metric\n                                "
+                                          )
+                                        ],
+                                        1
                                       )
-                                    ],
-                                    1
-                                  ),
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "mb-2",
-                                      attrs: {
-                                        color: "red",
-                                        dark: "",
-                                        outlined: ""
-                                      },
-                                      on: { click: _vm.deleteSubmetric }
-                                    },
-                                    [
-                                      _c("v-icon", [_vm._v(" mdi-delete")]),
-                                      _vm._v(
-                                        "\n                                    Detete Sub-Metric\n                                "
+                                  _vm.submetrics.length > 1
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mb-2",
+                                          attrs: {
+                                            color: "red",
+                                            dark: "",
+                                            outlined: ""
+                                          },
+                                          on: { click: _vm.deleteSubmetric }
+                                        },
+                                        [
+                                          _c("v-icon", [_vm._v(" mdi-delete")]),
+                                          _vm._v(
+                                            "\n                                    Detete Sub-Metric\n                                "
+                                          )
+                                        ],
+                                        1
                                       )
-                                    ],
-                                    1
-                                  )
+                                    : _vm._e()
                                 ],
                                 1
                               )
@@ -41990,7 +42150,12 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "m-2",
-                  attrs: { large: "", dark: "", color: "teal" },
+                  attrs: {
+                    large: "",
+                    dark: "",
+                    color: "teal",
+                    href: "/metric/"
+                  },
                   on: { click: _vm.submit }
                 },
                 [
@@ -42010,7 +42175,7 @@ var render = function() {
                     large: "",
                     outlined: "",
                     color: "grey",
-                    href: "/example/"
+                    href: "/metric/"
                   }
                 },
                 [_vm._v("\n                Back\n            ")]

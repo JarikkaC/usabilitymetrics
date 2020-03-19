@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\submetric;
+use App\metric;
 
-class AddSubmetricController extends Controller
+class SubmetricController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +16,8 @@ class AddSubmetricController extends Controller
      */
     public function index()
     {
-        return view('/pages/addmetricdetail');
+        $submetrics = submetric::all();
+        return response()->json($submetrics);
     }
 
     /**
@@ -34,7 +38,20 @@ class AddSubmetricController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $submetrics = new Submetric();
+        $submetrics->submetric_name = $request->get('submetric_name');
+        $submetrics->purpose = $request->get('purpose');
+        $submetrics->method = $request->get('method');
+        $submetrics->measurement = $request->get('measurement');
+        $submetrics->scale = $request->get('scale');
+        $submetrics->type = $request->get('type');
+        $submetrics->input = $request->get('input');
+        $submetrics->target = $request->get('target');
+        $submetrics->iso = $request->get('iso');
+        $metrics = Metric::orderBy('created_at', 'desc')->first();
+        $submetrics->metric_id = $metrics->id;
+        $submetrics->save();
+
     }
 
     /**

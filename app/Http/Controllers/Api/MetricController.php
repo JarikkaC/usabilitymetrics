@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\metric;
-use App\submetric;
-use App\project;
-use App\question;
 
 class MetricController extends Controller
 {
@@ -42,25 +39,6 @@ class MetricController extends Controller
         $metrics = new Metric();
         $metrics->metric_name = $request->get('metric_name');
         $metrics->save();
-
-        $submetrics = new Submetric();
-        $submetrics->submetric_name = $request->get('submetric_name');
-        $submetrics->purpose = $request->get('purpose');
-        $submetrics->method = $request->get('method');
-        $submetrics->measurement = $request->get('measurement');
-        $submetrics->scale = $request->get('scale');
-        $submetrics->type = $request->get('type');
-        $submetrics->input = $request->get('input');
-        $submetrics->target = $request->get('target');
-        $submetrics->iso = $request->get('iso');
-        $submetrics->metric_id = $metrics->id;
-        $submetrics->save();
-
-        $questions = new Question();
-        $questions->submetric_id = $submetrics->id;
-        $questions->question = $request->get('question');
-        $questions->save();
-
         return response()->json($metrics);
     }
 
@@ -96,18 +74,18 @@ class MetricController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $metrics = Metric::find($id);
-        $metrics->submetric_name = $request->get('submetric_name');
-        $metrics->purpose = $request->get('purpose');
-        $metrics->method = $request->get('method');
-        $metrics->measurement = $request->get('measurement');
-        $metrics->scale = $request->get('scale');
-        $metrics->type = $request->get('type');
-        $metrics->input = $request->get('input');
-        $metrics->target = $request->get('target');
-        $metrics->iso = $request->get('iso');
-        $metrics->update();
-        return response()->json($metrics);
+        // $metrics = Metric::find($id);
+        // $metrics->submetric_name = $request->get('submetric_name');
+        // $metrics->purpose = $request->get('purpose');
+        // $metrics->method = $request->get('method');
+        // $metrics->measurement = $request->get('measurement');
+        // $metrics->scale = $request->get('scale');
+        // $metrics->type = $request->get('type');
+        // $metrics->input = $request->get('input');
+        // $metrics->target = $request->get('target');
+        // $metrics->iso = $request->get('iso');
+        // $metrics->update();
+        // return response()->json($metrics);
     }
 
     /**
