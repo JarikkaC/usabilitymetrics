@@ -2,6 +2,6 @@
 
 @section('content')
 <div id="app">
-   <evaluation-component></evaluation-component>
+   <evaluation-component :usernow="{{ Auth::user() }}"></evaluation-component>
 </div>
 @endsection

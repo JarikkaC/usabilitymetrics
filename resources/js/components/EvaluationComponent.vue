@@ -9,7 +9,7 @@
                         color="#F4D03F"
                         dark
                         class="m-4"
-                        @click="upload = true"
+                        href="/evaluation/upload"
                     >
                         Prepare Evaluation
                     </v-btn>
@@ -27,9 +27,9 @@
 
                 <v-expansion-panels v-model="panel" multiple>
                     <v-expansion-panel v-for="(item, i) in items" :key="i">
-                        <v-expansion-panel-header
-                            >Project {{ item }}</v-expansion-panel-header
-                        >
+                        <v-expansion-panel-header>
+                            Project {{ item }}
+                        </v-expansion-panel-header>
                         <v-expansion-panel-content>
                             <v-img
                                 src="https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_1280.jpg"
@@ -52,16 +52,12 @@
                             <h3 class="mt-3 mx-3">Upload Your Graphic Media</h3>
                         </v-row>
                         <v-row>
-                            <v-container id="dropdown-example-3">
-                                <v-overflow-btn
-                                    class="my-2"
-                                    :items="dropdown_edit"
-                                    label="Select Your Project"
-                                    counter
-                                    item-value="text"
-                                >
-                                </v-overflow-btn>
-                            </v-container>
+                            <v-select
+                                :items="items"
+                                label="Outlined style"
+                                dense
+                                outlined
+                            ></v-select>
                         </v-row>
 
                         <v-row class="mx-3 mb-3 mt-3">
@@ -92,30 +88,15 @@
                 </v-card>
             </v-dialog>
 
-            <!-- --------------------------------------------------------- -->
-
-            <v-dialog v-model="dialog" max-width="800px">
-                <v-card>
-                    <v-card-text>
-                        <v-container>
-                            <!-- <img
-                                :src="
-                                    '/storage/' + this.pictureZoom.picture_path
-                                "
-                                width="100%"
-                            /> -->
-                        </v-container>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>
-
-            <!-- --------------------------------------------------------- -->
         </v-card>
     </v-app>
 </template>
 
 <script>
 export default {
+    mounted(){
+        console.log('x')
+    },
     data() {
         return {
             dialog: false,

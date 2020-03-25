@@ -23,7 +23,7 @@ class EvaluationController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages/upload');
     }
 
     /**

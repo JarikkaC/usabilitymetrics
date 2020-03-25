@@ -24,6 +24,7 @@ Vue.component('reportpage-component', require('./components/pages/ReportPagesCom
 
 Vue.component('addmetric-component', require('./components/form/AddMetricComponent.vue').default);
 Vue.component('addsubmetric-component', require('./components/form/AddSubmetricComponent.vue').default);
+Vue.component('upload-component', require('./components/form/UploadComponent.vue').default);
 
 
 

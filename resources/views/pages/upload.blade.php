@@ -2,6 +2,6 @@
 
 @section('content')
 <div id="app">
-    <metric-component :usernow="{{ Auth::user() }}"></metric-component>
+    <upload-component :usernow="{{ Auth::user() }}"></upload-component>
 </div>
 @endsection
