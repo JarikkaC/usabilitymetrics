@@ -14,11 +14,6 @@
                 </p>
             </v-row>
 
-            <!-- <v-btn @click="upload = true" color="#64AC8F">
-                Upload Graphic Media
-                <v-icon class="ml-3" right dark>mdi-cloud-upload</v-icon>
-            </v-btn> -->
-
             <br />
             <v-card
                 class="d-inline-block m-3"
@@ -36,57 +31,10 @@
                         </v-col>
                     </v-container>
                 </v-row>
-
-                <!-- <v-card-actions>
-                    <v-btn
-                        class="ml-5"
-                        color="#648BAC"
-                        :href="'/selectmetric/' + id"
-                    >
-                        Create Model
-                    </v-btn>
-                </v-card-actions> -->
             </v-card>
 
-            <!-- ----------------upload---------------------------------------------- -->
-
-            <v-dialog v-model="upload" width="600px" height="400px">
-                <v-card>
-                    <v-card-text>
-                        <v-row>
-                            <h3 class="mt-3 mx-3">Upload Your Graphic Media</h3>
-                        </v-row>
-
-                        <v-row class="mx-3 mb-3 mt-3">
-                            <input
-                                id="uploadImage"
-                                type="file"
-                                @change="onImageChange"
-                            />
-                        </v-row>
-                        <center>
-                            <img
-                                :src="image"
-                                v-if="image"
-                                class="img-responsive"
-                                height="120"
-                            />
-                        </center>
-                        <v-row class="mx-5 mb-3 mt-3">
-                            <v-btn
-                                class="mr-4"
-                                color="#6495D9"
-                                @click="addPicture"
-                                >Upload</v-btn
-                            >
-                            <v-btn @click="upload = false">Cancel</v-btn>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>
-
             <!-- -------------------------------------------------------------------- -->
-            <v-dialog v-model="dialog" max-width="800px">
+            <v-dialog v-model="dialog" max-width="1500px">
                 <v-card>
                     <v-card-text>
                         
@@ -197,3 +145,5 @@ export default {
     }
 };
 </script>
+
+

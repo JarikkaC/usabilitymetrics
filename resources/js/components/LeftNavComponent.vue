@@ -23,7 +23,8 @@
                 <v-list-item v-for="item in items" :key="item.title" link>
                     <v-list-item-content>
                         <a class="ml-3" :href="item.href">
-                            <v-list-item-title style="font-size: 15px">
+                            <v-list-item-title class="mb-2" style="font-size: 16px">
+                                <v-icon class="mr-2">{{ item.icon }}</v-icon>
                                 {{ item.title }}
                             </v-list-item-title>
                         </a>
@@ -34,9 +35,12 @@
 
                 <v-list-item>
                     <v-list-item-content>
-                        <v-list-item-title style="font-size: 15px">
-                            <a class="ml-3" href="/logout"> Logout </a>
-                        </v-list-item-title>
+                        <a class="ml-3" href="/logout">
+                            <v-list-item-title style="font-size: 15px">
+                                <v-icon>mdi-logout</v-icon>
+                                Logout
+                            </v-list-item-title></a
+                        >
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -50,11 +54,19 @@ export default {
     data() {
         return {
             items: [
-                { title: "Home", href: "/home" },
-                { title: "Your Project", href: "/project" },
-                { title: "Metrics", href: "/metric" },
-                { title: "Evaluation Form", href: "/evaluation" },
-                { title: "Report", href: "/report" }
+                { title: "Home", icon: "mdi-home", href: "/home" },
+                {
+                    title: "Your Project",
+                    icon: "mdi-archive-outline",
+                    href: "/project"
+                },
+                { title: "Metrics", icon: "mdi-check", href: "/metric" },
+                { title: "Evaluation", icon: "mdi-draw", href: "/evaluation" },
+                {
+                    title: "Report",
+                    icon: "mdi-google-analytics",
+                    href: "/report"
+                }
             ]
         };
     }
@@ -66,5 +78,4 @@ a:hover {
     text-decoration: none;
     color: #fed136;
 }
-
 </style>

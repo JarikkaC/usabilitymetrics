@@ -2258,39 +2258,21 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["usernow", "id"],
   mounted: function mounted() {
-    console.log('x');
+    this.getProject();
+    this.getPicture();
   },
   data: function data() {
     return {
-      dialog: false,
       upload: false,
       panel: [],
-      items: 5,
-      dropdown_edit: [{
-        text: "5"
-      }, {
-        text: "4"
-      }, {
-        text: "3"
-      }, {
-        text: "2"
-      }, {
-        text: "1"
-      }]
+      today: new Date(),
+      projects: [],
+      pictures: [],
+      picture_path: null,
+      image: null
     };
   },
   methods: {
@@ -2304,6 +2286,66 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     // Reset the panel
     none: function none() {
       this.panel = [];
+    },
+    getProject: function getProject() {
+      var _this = this;
+
+      axios.get("/api/project/").then(function (response) {
+        _this.projects = response.data;
+      });
+    },
+    getPicture: function getPicture() {
+      var _this2 = this;
+
+      axios.get("/api/pictures/").then(function (response) {
+        _this2.pictures = response.data;
+        console.log("Picture", _this2.pictures);
+      });
+    },
+    getMetric: function getMetric() {
+      var _this3 = this;
+
+      axios.get("/api/metrics").then(function (response) {
+        var res = response.data; // this.metrics = response.data;
+
+        _this3.metrics = _this3.tranFormData(res);
+      });
+    },
+    onImageChange: function onImageChange(e) {
+      var _this4 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      this.noUpload = false;
+
+      reader.onloadend = function (e) {
+        _this4.image = reader.result;
+
+        var date = _this4.today.getFullYear() + "-" + (_this4.today.getMonth() + 1) + "-" + _this4.today.getDate();
+
+        var time = _this4.today.getHours() + "-" + _this4.today.getMinutes();
+
+        var x = Math.floor(Math.random() * 100);
+        var dateTime = date + "_" + time;
+        var file_name = "image_" + dateTime + "_" + x + ".png";
+        _this4.picture_path = file_name;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    pictureEachProject: function pictureEachProject(project_id) {
+      return this.pictures.filter(function (picture) {
+        return picture.project_id == project_id;
+      });
+    }
+  },
+  computed: {
+    projectFil: function projectFil() {
+      var _this5 = this;
+
+      return this.projects.filter(function (project) {
+        return project.user_id == _this5.usernow.user_id;
+      });
     }
   }
 });
@@ -2402,24 +2444,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["username"],
   data: function data() {
     return {
       items: [{
         title: "Home",
+        icon: "mdi-home",
         href: "/home"
       }, {
         title: "Your Project",
+        icon: "mdi-archive-outline",
         href: "/project"
       }, {
         title: "Metrics",
+        icon: "mdi-check",
         href: "/metric"
       }, {
-        title: "Evaluation Form",
+        title: "Evaluation",
+        icon: "mdi-draw",
         href: "/evaluation"
       }, {
         title: "Report",
+        icon: "mdi-google-analytics",
         href: "/report"
       }]
     };
@@ -3565,11 +3616,86 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
     this.getProject();
     this.getPicture();
+    this.getMetric();
+    this.postMetric();
   },
   data: function data() {
     return {
@@ -3581,7 +3707,9 @@ __webpack_require__.r(__webpack_exports__);
       image: null,
       getProjectID: null,
       pictureZoom: {},
-      item: []
+      item: [],
+      metrics: [],
+      selected: []
     };
   },
   methods: {
@@ -3638,21 +3766,51 @@ __webpack_require__.r(__webpack_exports__);
     },
     zoom: function zoom(val) {
       this.pictureZoom = val;
+    },
+    getMetric: function getMetric() {
+      var _this4 = this;
+
+      axios.get("/api/metrics").then(function (response) {
+        var res = response.data; // this.metrics = response.data;
+
+        _this4.metrics = _this4.tranFormData(res);
+        console.log(_this4.metrics);
+      });
+    },
+    postMetric: function postMetric() {
+      for (var index = 0; index < this.selected.length; index++) {
+        var element = this.selected[index];
+        axios.post("/api/metricmodel", {
+          project_id: this.id,
+          submetric_id: element.id,
+          metric_id: element.metric_id
+        });
+      }
+    },
+    tranFormData: function tranFormData(data) {
+      var result = data.map(function (element) {
+        return {
+          id: element.id,
+          metric_name: element.metric_name,
+          submetric: element.submetric
+        };
+      });
+      return result;
     }
   },
   computed: {
     pictureFil: function pictureFil() {
-      var _this4 = this;
+      var _this5 = this;
 
       return this.pictures.filter(function (picture) {
-        return picture.project_id == _this4.id;
+        return picture.project_id == _this5.id;
       });
     },
     projectFil: function projectFil() {
-      var _this5 = this;
+      var _this6 = this;
 
       return this.projects.filter(function (project) {
-        return project.user_id == _this5.usernow.user_id;
+        return project.user_id == _this6.usernow.user_id;
       });
     }
   }
@@ -3848,58 +4006,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -8950,7 +9056,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\na:hover {\r\n    text-decoration: none;\r\n    color: #fed136;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\na:hover {\r\n    text-decoration: none;\r\n    color: #fed136;\n}\r\n", ""]);
 
 // exports
 
@@ -40759,236 +40865,193 @@ var render = function() {
   return _c(
     "v-app",
     [
-      _c(
-        "v-card",
-        { staticClass: "m-4" },
-        [
-          _c(
-            "div",
-            [
-              _c(
-                "v-row",
-                { staticClass: "mr-3 ml-3" },
-                [
-                  _c("v-toolbar-title", { staticClass: "m-4" }, [
-                    _vm._v("Evaluation ")
-                  ]),
-                  _vm._v(" "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "m-4",
-                      attrs: {
-                        color: "#F4D03F",
-                        dark: "",
-                        href: "/evaluation/upload"
-                      }
-                    },
-                    [
+      _c("v-card", { staticClass: "m-4" }, [
+        _c(
+          "div",
+          [
+            _c(
+              "v-row",
+              { staticClass: "mr-3 ml-3" },
+              [
+                _c("v-toolbar-title", { staticClass: "m-4" }, [
+                  _vm._v("Evaluation ")
+                ]),
+                _vm._v(" "),
+                _c("v-spacer"),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticClass: "m-4",
+                    attrs: {
+                      color: "#F4D03F",
+                      dark: "",
+                      href: "/evaluation/upload"
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Prepare Evaluation\n                "
+                    )
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("v-divider"),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "text-center d-flex pb-4 m-4" },
+              [
+                _c("h5", { staticClass: "ml-5" }, [_vm._v("Your Project")]),
+                _vm._v(" "),
+                _c("v-spacer"),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    attrs: { outlined: "", small: "", color: "grey" },
+                    on: { click: _vm.all }
+                  },
+                  [_vm._v("all")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticClass: "ml-4",
+                    attrs: { small: "", outlined: "", color: "grey" },
+                    on: { click: _vm.none }
+                  },
+                  [_vm._v("\n                    none\n                ")]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-expansion-panels",
+              {
+                attrs: { multiple: "" },
+                model: {
+                  value: _vm.panel,
+                  callback: function($$v) {
+                    _vm.panel = $$v
+                  },
+                  expression: "panel"
+                }
+              },
+              _vm._l(_vm.projectFil, function(project) {
+                return _c(
+                  "v-expansion-panel",
+                  { key: project.id },
+                  [
+                    _c("v-expansion-panel-header", [
                       _vm._v(
-                        "\n                    Prepare Evaluation\n                "
+                        "\n                        " +
+                          _vm._s(project.project_name) +
+                          "\n                    "
                       )
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "text-center d-flex pb-4 m-4" },
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { outlined: "", color: "gray" },
-                      on: { click: _vm.all }
-                    },
-                    [_vm._v("all")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "ml-4",
-                      attrs: { outlined: "", color: "gray" },
-                      on: { click: _vm.none }
-                    },
-                    [_vm._v("none")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-expansion-panels",
-                {
-                  attrs: { multiple: "" },
-                  model: {
-                    value: _vm.panel,
-                    callback: function($$v) {
-                      _vm.panel = $$v
-                    },
-                    expression: "panel"
-                  }
-                },
-                _vm._l(_vm.items, function(item, i) {
-                  return _c(
-                    "v-expansion-panel",
-                    { key: i },
-                    [
-                      _c("v-expansion-panel-header", [
-                        _vm._v(
-                          "\n                        Project " +
-                            _vm._s(item) +
-                            "\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-expansion-panel-content",
-                        [
-                          _c("v-img", {
-                            attrs: {
-                              src:
-                                "https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_1280.jpg",
-                              "max-width": "300px"
-                            }
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-expansion-panel-content",
+                      [
+                        _c(
+                          "v-row",
+                          { attrs: { justify: "space-between center" } },
+                          _vm._l(_vm.pictureEachProject(project.id), function(
+                            picture
+                          ) {
+                            return _c(
+                              "v-card",
+                              {
+                                key: picture.id,
+                                staticClass: "d-inline-block m-3"
+                              },
+                              [
+                                _c(
+                                  "v-container",
+                                  { staticClass: "center" },
+                                  [
+                                    _c(
+                                      "v-col",
+                                      { attrs: { cols: "auto" } },
+                                      [
+                                        _c("center", [
+                                          _c("img", {
+                                            attrs: {
+                                              src:
+                                                "/storage/" +
+                                                picture.picture_path,
+                                              height: "200px"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "mt-5" },
+                                            [
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    color: "teal",
+                                                    dark: ""
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                    Evaluation\n                                                "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    color: "indigo",
+                                                    dark: ""
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                    See Report\n                                                "
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
                           }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "m-3" },
-                            [
-                              _c(
-                                "v-btn",
-                                { attrs: { color: "teal", dark: "" } },
-                                [_vm._v("Evaluation")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                { attrs: { color: "indigo", dark: "" } },
-                                [_vm._v("See Report")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-dialog",
-            {
-              attrs: { width: "600px" },
-              model: {
-                value: _vm.upload,
-                callback: function($$v) {
-                  _vm.upload = $$v
-                },
-                expression: "upload"
-              }
-            },
-            [
-              _c(
-                "v-card",
-                [
-                  _c(
-                    "v-card-text",
-                    [
-                      _c("v-row", [
-                        _c("h3", { staticClass: "mt-3 mx-3" }, [
-                          _vm._v("Upload Your Graphic Media")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-select", {
-                            attrs: {
-                              items: _vm.items,
-                              label: "Outlined style",
-                              dense: "",
-                              outlined: ""
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-row", { staticClass: "mx-3 mb-3 mt-3" }, [
-                        _c("input", {
-                          attrs: { id: "uploadImage", type: "file" },
-                          on: { change: _vm.onImageChange }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("center", [
-                        _vm.image
-                          ? _c("img", {
-                              staticClass: "img-responsive",
-                              attrs: { src: _vm.image, height: "120" }
-                            })
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-row",
-                        { staticClass: "mx-5 mb-3 mt-3" },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "mr-4",
-                              attrs: { color: "#6495D9" },
-                              on: { click: _vm.addPicture }
-                            },
-                            [_vm._v("Upload")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              on: {
-                                click: function($event) {
-                                  _vm.upload = false
-                                }
-                              }
-                            },
-                            [_vm._v("Cancel")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              }),
+              1
+            )
+          ],
+          1
+        )
+      ])
     ],
     1
   )
@@ -41123,14 +41186,21 @@ var render = function() {
                         [
                           _c(
                             "v-list-item-title",
-                            { staticStyle: { "font-size": "15px" } },
+                            {
+                              staticClass: "mb-2",
+                              staticStyle: { "font-size": "16px" }
+                            },
                             [
+                              _c("v-icon", { staticClass: "mr-2" }, [
+                                _vm._v(_vm._s(item.icon))
+                              ]),
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(item.title) +
                                   "\n                        "
                               )
-                            ]
+                            ],
+                            1
                           )
                         ],
                         1
@@ -41146,23 +41216,26 @@ var render = function() {
               _c(
                 "v-list-item",
                 [
-                  _c(
-                    "v-list-item-content",
-                    [
-                      _c(
-                        "v-list-item-title",
-                        { staticStyle: { "font-size": "15px" } },
-                        [
-                          _c(
-                            "a",
-                            { staticClass: "ml-3", attrs: { href: "/logout" } },
-                            [_vm._v(" Logout ")]
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
+                  _c("v-list-item-content", [
+                    _c(
+                      "a",
+                      { staticClass: "ml-3", attrs: { href: "/logout" } },
+                      [
+                        _c(
+                          "v-list-item-title",
+                          { staticStyle: { "font-size": "15px" } },
+                          [
+                            _c("v-icon", [_vm._v("mdi-logout")]),
+                            _vm._v(
+                              "\n                            Logout\n                        "
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               )
@@ -42929,14 +43002,15 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-row", [
+              _c("v-row", { staticClass: "mr-5 ml-5" }, [
                 _c("h5", { staticClass: "mt-3 mx-3" }, [
                   _vm._v("Upload Your Graphic Media")
                 ])
               ]),
               _vm._v(" "),
-              _c("v-row", { staticClass: "mx-3 mb-3 mt-3" }, [
+              _c("v-row", { staticClass: "mr-5 ml-5" }, [
                 _c("input", {
+                  staticClass: "ml-5 mt-5 mr-5",
                   attrs: { id: "uploadImage", type: "file" },
                   on: { change: _vm.onImageChange }
                 })
@@ -42953,32 +43027,157 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "mx-5 mb-3 mt-3" },
+                { staticClass: "mr-5 ml-5 mt-5" },
                 [
                   _c(
                     "v-btn",
                     {
-                      staticClass: "mr-4",
-                      attrs: { color: "#6495D9" },
+                      staticClass: "ml-5 mr-3",
+                      attrs: { dark: "", color: "indigo" },
                       on: {
                         click: function($event) {
                           return _vm.addPicture(_vm.projectFil.project_id)
                         }
                       }
                     },
-                    [_vm._v("Upload")]
+                    [_vm._v("\n                    Upload\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
                     "v-btn",
                     {
+                      attrs: { outlined: "", color: "grey" },
                       on: {
                         click: function($event) {
                           _vm.upload = false
                         }
                       }
                     },
-                    [_vm._v("Cancel")]
+                    [_vm._v("\n                    Cancel\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c("v-row", { staticClass: "mr-5 ml-5" }, [
+                _c("h5", { staticClass: "mt-3 mx-3" }, [
+                  _vm._v("Select Metric")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("v-row", { staticClass: "mr-5 ml-5" }, [
+                _c("p", { staticClass: "mt-3 mx-3" }, [
+                  _vm._v(
+                    "\n                    เลือก Metric ที่ต้องการเพื่อสร้าง Measurement Model\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-card",
+                        {
+                          staticClass: "mx-auto",
+                          attrs: { width: "500px", outlined: "" }
+                        },
+                        [
+                          _vm._l(_vm.metrics, function(metric) {
+                            return [
+                              _c("v-checkbox", {
+                                key: metric.metric_name,
+                                staticClass: "ml-5",
+                                attrs: {
+                                  label: metric.metric_name,
+                                  value: metric.metric_name
+                                }
+                              }),
+                              _vm._v(" "),
+                              _vm._l(metric.submetric, function(item) {
+                                return metric.submetric
+                                  ? [
+                                      item.submetric_name
+                                        ? _c("v-checkbox", {
+                                            key: item.submetric_name,
+                                            staticClass: "ml-10",
+                                            attrs: {
+                                              "return-object": "",
+                                              label: item.submetric_name,
+                                              value: item
+                                            },
+                                            model: {
+                                              value: _vm.selected,
+                                              callback: function($$v) {
+                                                _vm.selected = $$v
+                                              },
+                                              expression: "selected"
+                                            }
+                                          })
+                                        : _vm._e()
+                                    ]
+                                  : _vm._e()
+                              })
+                            ]
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "text-center mt-5" },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "ml-5 mr-3",
+                              attrs: {
+                                dark: "",
+                                large: "",
+                                color: "teal",
+                                href: "/evaluation/"
+                              },
+                              on: { click: _vm.postMetric }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Save\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "ml-5 mr-3",
+                              attrs: {
+                                outlined: "",
+                                large: "",
+                                color: "grey",
+                                href: "/evaluation/"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Back\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -43393,86 +43592,7 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: { width: "600px", height: "400px" },
-              model: {
-                value: _vm.upload,
-                callback: function($$v) {
-                  _vm.upload = $$v
-                },
-                expression: "upload"
-              }
-            },
-            [
-              _c(
-                "v-card",
-                [
-                  _c(
-                    "v-card-text",
-                    [
-                      _c("v-row", [
-                        _c("h3", { staticClass: "mt-3 mx-3" }, [
-                          _vm._v("Upload Your Graphic Media")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("v-row", { staticClass: "mx-3 mb-3 mt-3" }, [
-                        _c("input", {
-                          attrs: { id: "uploadImage", type: "file" },
-                          on: { change: _vm.onImageChange }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("center", [
-                        _vm.image
-                          ? _c("img", {
-                              staticClass: "img-responsive",
-                              attrs: { src: _vm.image, height: "120" }
-                            })
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-row",
-                        { staticClass: "mx-5 mb-3 mt-3" },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "mr-4",
-                              attrs: { color: "#6495D9" },
-                              on: { click: _vm.addPicture }
-                            },
-                            [_vm._v("Upload")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              on: {
-                                click: function($event) {
-                                  _vm.upload = false
-                                }
-                              }
-                            },
-                            [_vm._v("Cancel")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-dialog",
-            {
-              attrs: { "max-width": "800px" },
+              attrs: { "max-width": "1500px" },
               model: {
                 value: _vm.dialog,
                 callback: function($$v) {

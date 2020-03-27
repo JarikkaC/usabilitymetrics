@@ -23,6 +23,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
+        
         a {
             color: black;
         }
@@ -30,6 +31,7 @@
         #app {
             font-family: 'Prompt', sans-serif;
         }
+
     </style>
 </head>
 

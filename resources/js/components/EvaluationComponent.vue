@@ -17,99 +17,85 @@
                 <v-divider></v-divider>
 
                 <div class="text-center d-flex pb-4 m-4">
+                    <h5 class="ml-5">Your Project</h5>
                     <v-spacer></v-spacer>
-                    <v-btn outlined color="gray" @click="all">all</v-btn>
-                    <!-- <div>{{ panel }}</div> -->
-                    <v-btn class="ml-4" outlined color="gray" @click="none"
-                        >none</v-btn
+                    <v-btn outlined small color="grey" @click="all">all</v-btn>
+
+                    <v-btn
+                        class="ml-4"
+                        small
+                        outlined
+                        color="grey"
+                        @click="none"
                     >
+                        none
+                    </v-btn>
                 </div>
-
                 <v-expansion-panels v-model="panel" multiple>
-                    <v-expansion-panel v-for="(item, i) in items" :key="i">
+                    <v-expansion-panel
+                        v-for="project in projectFil"
+                        :key="project.id"
+                    >
                         <v-expansion-panel-header>
-                            Project {{ item }}
+                            {{ project.project_name }}
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            <v-img
-                                src="https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_1280.jpg"
-                                max-width="300px"
-                            ></v-img>
 
-                            <div class="m-3">
-                                <v-btn color="teal" dark>Evaluation</v-btn>
-                                <v-btn color="indigo" dark>See Report</v-btn>
-                            </div>
+                        <v-expansion-panel-content>
+                            <v-row justify="space-between center">
+                                <v-card
+                                    class="d-inline-block m-3"
+                                    v-for="picture in pictureEachProject(
+                                        project.id
+                                    )"
+                                    :key="picture.id"
+                                >
+                                    <v-container class="center">
+                                        <v-col cols="auto">
+                                            <center>
+                                                <img
+                                                    :src="
+                                                        '/storage/' +
+                                                            picture.picture_path
+                                                    "
+                                                    height="200px"
+                                                />
+                                                <div class="mt-5">
+                                                    <v-btn color="teal" dark>
+                                                        Evaluation
+                                                    </v-btn>
+                                                    <v-btn color="indigo" dark>
+                                                        See Report
+                                                    </v-btn>
+                                                </div>
+                                            </center>
+                                        </v-col>
+                                    </v-container>
+                                </v-card>
+                            </v-row>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </div>
-
-            <v-dialog v-model="upload" width="600px">
-                <v-card>
-                    <v-card-text>
-                        <v-row>
-                            <h3 class="mt-3 mx-3">Upload Your Graphic Media</h3>
-                        </v-row>
-                        <v-row>
-                            <v-select
-                                :items="items"
-                                label="Outlined style"
-                                dense
-                                outlined
-                            ></v-select>
-                        </v-row>
-
-                        <v-row class="mx-3 mb-3 mt-3">
-                            <input
-                                id="uploadImage"
-                                type="file"
-                                @change="onImageChange"
-                            />
-                        </v-row>
-                        <center>
-                            <img
-                                :src="image"
-                                v-if="image"
-                                class="img-responsive"
-                                height="120"
-                            />
-                        </center>
-                        <v-row class="mx-5 mb-3 mt-3">
-                            <v-btn
-                                class="mr-4"
-                                color="#6495D9"
-                                @click="addPicture"
-                                >Upload</v-btn
-                            >
-                            <v-btn @click="upload = false">Cancel</v-btn>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>
-
         </v-card>
     </v-app>
 </template>
 
 <script>
 export default {
-    mounted(){
-        console.log('x')
+    props: ["usernow", "id"],
+    mounted() {
+        this.getProject();
+        this.getPicture();
     },
     data() {
         return {
-            dialog: false,
             upload: false,
             panel: [],
-            items: 5,
-            dropdown_edit: [
-                { text: "5" },
-                { text: "4" },
-                { text: "3" },
-                { text: "2" },
-                { text: "1" }
-            ]
+            today: new Date(),
+            projects: [],
+            pictures: [],
+            picture_path: null,
+            image: null
         };
     },
     methods: {
@@ -121,6 +107,63 @@ export default {
         // Reset the panel
         none() {
             this.panel = [];
+        },
+
+        getProject() {
+            axios.get("/api/project/").then(response => {
+                this.projects = response.data;
+            });
+        },
+
+        getPicture() {
+            axios.get("/api/pictures/").then(response => {
+                this.pictures = response.data;
+                console.log("Picture", this.pictures);
+            });
+        },
+
+        getMetric() {
+            axios.get("/api/metrics").then(response => {
+                let res = response.data;
+                // this.metrics = response.data;
+                this.metrics = this.tranFormData(res);
+            });
+        },
+
+        onImageChange(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            this.noUpload = false;
+            reader.onloadend = e => {
+                this.image = reader.result;
+                var date =
+                    this.today.getFullYear() +
+                    "-" +
+                    (this.today.getMonth() + 1) +
+                    "-" +
+                    this.today.getDate();
+                var time =
+                    this.today.getHours() + "-" + this.today.getMinutes();
+                var x = Math.floor(Math.random() * 100);
+                var dateTime = date + "_" + time;
+                const file_name = "image_" + dateTime + "_" + x + ".png";
+                this.picture_path = file_name;
+            };
+            reader.readAsDataURL(file);
+        },
+
+        pictureEachProject(project_id) {
+            return this.pictures.filter(picture => {
+                return picture.project_id == project_id;
+            });
+        }
+    },
+
+    computed: {
+        projectFil: function() {
+            return this.projects.filter(project => {
+                return project.user_id == this.usernow.user_id;
+            });
         }
     }
 };
