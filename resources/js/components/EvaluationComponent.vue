@@ -41,7 +41,7 @@
                         </v-expansion-panel-header>
 
                         <v-expansion-panel-content>
-                            <v-row justify="space-between center">
+                            <v-row justify="space-between">
                                 <v-card
                                     class="d-inline-block m-3"
                                     v-for="picture in pictureEachProject(
@@ -55,7 +55,7 @@
                                                 <img
                                                     :src="
                                                         '/storage/' +
-                                                            picture.picture_path
+                                                            picture[0].picture_path
                                                     "
                                                     height="200px"
                                                 />
@@ -118,7 +118,6 @@ export default {
         getPicture() {
             axios.get("/api/pictures/").then(response => {
                 this.pictures = response.data;
-                console.log("Picture", this.pictures);
             });
         },
 
@@ -130,32 +129,18 @@ export default {
             });
         },
 
-        onImageChange(e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
-            this.noUpload = false;
-            reader.onloadend = e => {
-                this.image = reader.result;
-                var date =
-                    this.today.getFullYear() +
-                    "-" +
-                    (this.today.getMonth() + 1) +
-                    "-" +
-                    this.today.getDate();
-                var time =
-                    this.today.getHours() + "-" + this.today.getMinutes();
-                var x = Math.floor(Math.random() * 100);
-                var dateTime = date + "_" + time;
-                const file_name = "image_" + dateTime + "_" + x + ".png";
-                this.picture_path = file_name;
-            };
-            reader.readAsDataURL(file);
+        groupBy(xs, key) {
+            return xs.reduce(function(rv, x) {
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+                return rv;
+            }, {});
         },
 
         pictureEachProject(project_id) {
-            return this.pictures.filter(picture => {
+            let pic =  this.pictures.filter(picture => {
                 return picture.project_id == project_id;
             });
+            return this.groupBy(pic,'picture_path')
         }
     },
 

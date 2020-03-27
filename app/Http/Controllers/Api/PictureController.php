@@ -52,6 +52,9 @@ class PictureController extends Controller
         }
 
         $pictures->picture_path = $file_name;
+
+        $pictures ->submetric_id= $request->get('submetric_id');
+        $pictures ->metric_id= $request->get('metric_id');
         $pictures->save();
         return response()->json($pictures);
     }

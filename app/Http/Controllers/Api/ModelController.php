@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\metricmodel;
 use App\metric;
 use App\submetric;
-
 class ModelController extends Controller
 {
     /**
@@ -40,9 +39,23 @@ class ModelController extends Controller
     public function store(Request $request)
     {
         $metricmodels = new Metricmodel();
+        $metricmodels ->project_id = $request->get('project_id');
         $metricmodels ->submetric_id= $request->get('submetric_id');
         $metricmodels ->metric_id= $request->get('metric_id');
-        $metricmodels ->project_id = $request->get('project_id');
+        $metricmodels->picture_path = $request->get('picture_path');
+
+        $file_data = $request->get('image');
+        $file_name = $request->get('picture_path');
+
+        @list($type, $file_data) = explode(';', $file_data);
+        @list(, $file_data) = explode(',', $file_data);
+        if ($file_data != "") { // storing image in storage/app/public Folder
+            \Storage::disk('public')->put($file_name, base64_decode($file_data));
+        }
+
+        $metricmodels->picture_path = $file_name;
+
+
         $metricmodels ->save();
         return response()->json($metricmodels );
     }

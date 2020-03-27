@@ -48,8 +48,10 @@ class SubmetricController extends Controller
         $submetrics->input = $request->get('input');
         $submetrics->target = $request->get('target');
         $submetrics->iso = $request->get('iso');
+
         $metrics = Metric::orderBy('created_at', 'desc')->first();
         $submetrics->metric_id = $metrics->id;
+        
         $submetrics->save();
 
     }

@@ -2299,7 +2299,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       axios.get("/api/pictures/").then(function (response) {
         _this2.pictures = response.data;
-        console.log("Picture", _this2.pictures);
       });
     },
     getMetric: function getMetric() {
@@ -2311,40 +2310,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         _this3.metrics = _this3.tranFormData(res);
       });
     },
-    onImageChange: function onImageChange(e) {
-      var _this4 = this;
-
-      var file = e.target.files[0];
-      var reader = new FileReader();
-      this.noUpload = false;
-
-      reader.onloadend = function (e) {
-        _this4.image = reader.result;
-
-        var date = _this4.today.getFullYear() + "-" + (_this4.today.getMonth() + 1) + "-" + _this4.today.getDate();
-
-        var time = _this4.today.getHours() + "-" + _this4.today.getMinutes();
-
-        var x = Math.floor(Math.random() * 100);
-        var dateTime = date + "_" + time;
-        var file_name = "image_" + dateTime + "_" + x + ".png";
-        _this4.picture_path = file_name;
-      };
-
-      reader.readAsDataURL(file);
+    groupBy: function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+      }, {});
     },
     pictureEachProject: function pictureEachProject(project_id) {
-      return this.pictures.filter(function (picture) {
+      var pic = this.pictures.filter(function (picture) {
         return picture.project_id == project_id;
       });
+      return this.groupBy(pic, 'picture_path');
     }
   },
   computed: {
     projectFil: function projectFil() {
-      var _this5 = this;
+      var _this4 = this;
 
       return this.projects.filter(function (project) {
-        return project.user_id == _this5.usernow.user_id;
+        return project.user_id == _this4.usernow.user_id;
       });
     }
   }
@@ -3685,10 +3669,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -3719,7 +3699,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/project/").then(function (response) {
         _this.projects = response.data;
       });
-      console.log("Project", this.project);
     },
     getPicture: function getPicture() {
       var _this2 = this;
@@ -3728,63 +3707,55 @@ __webpack_require__.r(__webpack_exports__);
         _this2.pictures = response.data;
       });
     },
-    addPicture: function addPicture() {
-      this.pictureFil.push({
-        user_id: this.usernow.user_id,
-        picture_path: this.picture_path,
-        project_id: this.getProjectID,
-        image: this.image
-      }) && axios.post("/api/pictures", {
-        user_id: this.usernow.user_id,
-        picture_path: this.picture_path,
-        project_id: this.getProjectID,
-        image: this.image
+    getMetric: function getMetric() {
+      var _this3 = this;
+
+      axios.get("/api/metrics").then(function (response) {
+        var res = response.data; // this.metrics = response.data;
+
+        _this3.metrics = _this3.tranFormData(res);
       });
-      this.upload = false;
     },
     onImageChange: function onImageChange(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       var file = e.target.files[0];
       var reader = new FileReader();
       this.noUpload = false;
 
       reader.onloadend = function (e) {
-        _this3.image = reader.result;
+        _this4.image = reader.result;
 
-        var date = _this3.today.getFullYear() + "-" + (_this3.today.getMonth() + 1) + "-" + _this3.today.getDate();
+        var date = _this4.today.getFullYear() + "-" + (_this4.today.getMonth() + 1) + "-" + _this4.today.getDate();
 
-        var time = _this3.today.getHours() + "-" + _this3.today.getMinutes();
+        var time = _this4.today.getHours() + "-" + _this4.today.getMinutes();
 
         var x = Math.floor(Math.random() * 100);
         var dateTime = date + "_" + time;
         var file_name = "image_" + dateTime + "_" + x + ".png";
-        _this3.picture_path = file_name;
+        _this4.picture_path = file_name;
       };
 
       reader.readAsDataURL(file);
     },
-    zoom: function zoom(val) {
-      this.pictureZoom = val;
-    },
-    getMetric: function getMetric() {
-      var _this4 = this;
-
-      axios.get("/api/metrics").then(function (response) {
-        var res = response.data; // this.metrics = response.data;
-
-        _this4.metrics = _this4.tranFormData(res);
-        console.log(_this4.metrics);
-      });
-    },
     postMetric: function postMetric() {
+      // axios.post("/api/pictures", {
+      //     user_id: this.usernow.user_id,
+      //     project_id: this.getProjectID,
+      //     picture_path: this.picture_path,
+      //     image: this.image
+      // });
       for (var index = 0; index < this.selected.length; index++) {
         var element = this.selected[index];
-        axios.post("/api/metricmodel", {
-          project_id: this.id,
+        axios.post("/api/pictures", {
+          user_id: this.usernow.user_id,
+          project_id: this.getProjectID,
+          picture_path: this.picture_path,
+          image: this.image,
           submetric_id: element.id,
           metric_id: element.metric_id
         });
+        this.upload = false;
       }
     },
     tranFormData: function tranFormData(data) {
@@ -3799,18 +3770,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    pictureFil: function pictureFil() {
+    projectFil: function projectFil() {
       var _this5 = this;
 
-      return this.pictures.filter(function (picture) {
-        return picture.project_id == _this5.id;
-      });
-    },
-    projectFil: function projectFil() {
-      var _this6 = this;
-
       return this.projects.filter(function (project) {
-        return project.user_id == _this6.usernow.user_id;
+        return project.user_id == _this5.usernow.user_id;
       });
     }
   }
@@ -4006,6 +3970,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -40961,7 +40927,7 @@ var render = function() {
                       [
                         _c(
                           "v-row",
-                          { attrs: { justify: "space-between center" } },
+                          { attrs: { justify: "space-between" } },
                           _vm._l(_vm.pictureEachProject(project.id), function(
                             picture
                           ) {
@@ -40985,7 +40951,7 @@ var render = function() {
                                             attrs: {
                                               src:
                                                 "/storage/" +
-                                                picture.picture_path,
+                                                picture[0].picture_path,
                                               height: "200px"
                                             }
                                           }),
@@ -43020,44 +42986,12 @@ var render = function() {
                 _vm.image
                   ? _c("img", {
                       staticClass: "img-responsive",
-                      attrs: { src: _vm.image, height: "120" }
+                      attrs: { src: _vm.image, height: "300" }
                     })
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c(
-                "v-row",
-                { staticClass: "mr-5 ml-5 mt-5" },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "ml-5 mr-3",
-                      attrs: { dark: "", color: "indigo" },
-                      on: {
-                        click: function($event) {
-                          return _vm.addPicture(_vm.projectFil.project_id)
-                        }
-                      }
-                    },
-                    [_vm._v("\n                    Upload\n                ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { outlined: "", color: "grey" },
-                      on: {
-                        click: function($event) {
-                          _vm.upload = false
-                        }
-                      }
-                    },
-                    [_vm._v("\n                    Cancel\n                ")]
-                  )
-                ],
-                1
-              )
+              _c("v-row", { staticClass: "mr-5 ml-5 mt-5" })
             ],
             1
           ),
@@ -43141,13 +43075,14 @@ var render = function() {
                             "v-btn",
                             {
                               staticClass: "ml-5 mr-3",
-                              attrs: {
-                                dark: "",
-                                large: "",
-                                color: "teal",
-                                href: "/evaluation/"
-                              },
-                              on: { click: _vm.postMetric }
+                              attrs: { dark: "", large: "", color: "teal" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.postMetric(
+                                    _vm.projectFil.project_id
+                                  )
+                                }
+                              }
                             },
                             [
                               _vm._v(

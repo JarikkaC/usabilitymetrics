@@ -41,21 +41,18 @@
                         :src="image"
                         v-if="image"
                         class="img-responsive"
-                        height="120"
+                        height="300"
                     />
                 </center>
                 <v-row class="mr-5 ml-5 mt-5">
-                    <v-btn
+                    <!-- <v-btn
                         class="ml-5 mr-3"
                         dark
                         color="indigo"
                         @click="addPicture(projectFil.project_id)"
                     >
                         Upload
-                    </v-btn>
-                    <v-btn outlined color="grey" @click="upload = false">
-                        Cancel
-                    </v-btn>
+                    </v-btn> -->
                 </v-row>
             </v-card-text>
 
@@ -104,8 +101,7 @@
                                 dark
                                 large
                                 color="teal"
-                                @click="postMetric"
-                                href="/evaluation/"
+                                @click="postMetric(projectFil.project_id)"
                             >
                                 Save
                             </v-btn>
@@ -155,7 +151,6 @@ export default {
             axios.get("/api/project/").then(response => {
                 this.projects = response.data;
             });
-            console.log("Project", this.project);
         },
 
         getPicture() {
@@ -164,20 +159,12 @@ export default {
             });
         },
 
-        addPicture() {
-            this.pictureFil.push({
-                user_id: this.usernow.user_id,
-                picture_path: this.picture_path,
-                project_id: this.getProjectID,
-                image: this.image
-            }) &&
-                axios.post("/api/pictures", {
-                    user_id: this.usernow.user_id,
-                    picture_path: this.picture_path,
-                    project_id: this.getProjectID,
-                    image: this.image
-                });
-            this.upload = false;
+        getMetric() {
+            axios.get("/api/metrics").then(response => {
+                let res = response.data;
+                // this.metrics = response.data;
+                this.metrics = this.tranFormData(res);
+            });
         },
 
         onImageChange(e) {
@@ -201,26 +188,25 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-        zoom(val) {
-            this.pictureZoom = val;
-        },
 
-        getMetric() {
-            axios.get("/api/metrics").then(response => {
-                let res = response.data;
-                // this.metrics = response.data;
-                this.metrics = this.tranFormData(res);
-                console.log(this.metrics);
-            });
-        },
         postMetric() {
+            // axios.post("/api/pictures", {
+            //     user_id: this.usernow.user_id,
+            //     project_id: this.getProjectID,
+            //     picture_path: this.picture_path,
+            //     image: this.image
+            // });
             for (let index = 0; index < this.selected.length; index++) {
                 const element = this.selected[index];
-                axios.post("/api/metricmodel", {
-                    project_id: this.id,
+                axios.post("/api/pictures", {
+                    user_id: this.usernow.user_id,
+                    project_id: this.getProjectID,
+                    picture_path: this.picture_path,
+                    image: this.image,
                     submetric_id: element.id,
                     metric_id: element.metric_id
                 });
+                this.upload = false;
             }
         },
         tranFormData(data) {
@@ -230,16 +216,11 @@ export default {
                 submetric: element.submetric
             }));
             return result;
-        }
+        },
+
     },
 
     computed: {
-        pictureFil: function() {
-            return this.pictures.filter(picture => {
-                return picture.project_id == this.id;
-            });
-        },
-
         projectFil: function() {
             return this.projects.filter(project => {
                 return project.user_id == this.usernow.user_id;
