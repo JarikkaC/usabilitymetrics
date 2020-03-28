@@ -93,6 +93,7 @@
                                 color="teal"
                                 @click="postMetric(projectFil.project_id)"
                             >
+                               
                                 Save
                             </v-btn>
 
@@ -110,37 +111,45 @@
                 </v-row>
             </v-card-text>
 
-            <v-dialog v-model="dialog" max-width="290">
+            <v-dialog v-model="dialog" max-width="400">
                 <v-card>
-                    <v-card-title class="headline"
-                        >Use Google's location service?</v-card-title
-                    >
+                    <v-container>
+                        <center>
+                            <v-btn
+                                class="m-5"
+                                outlined
+                                fab
+                                color="green darken-1"
+                                height="70px"
+                                width="70px"
+                            >
+                                <v-icon height="700px">
+                                    mdi-check-outline
+                                </v-icon>
+                            </v-btn>
 
-                    <v-card-text>
-                        Let Google help apps determine location. This means
-                        sending anonymous location data to Google, even when no
-                        apps are running.
-                    </v-card-text>
+                            <h2><b>เตรียมการประเมินเสร็จสิ้น!</b></h2>
+                            <h5>
+                                เพื่อทำเริ่มประเมิน
+                                กรุณากดกลับไปที่หน้าทำการประเมินสื่อเชิงภาพ
+                            </h5>
 
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
+                            <br>
+                        </center>
 
-                        <v-btn
-                            color="green darken-1"
-                            text
-                            @click="dialog = false"
-                        >
-                            Disagree
-                        </v-btn>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
 
-                        <v-btn
-                            color="green darken-1"
-                            text
-                            @click="dialog = false"
-                        >
-                            Agree
-                        </v-btn>
-                    </v-card-actions>
+                            <v-btn
+                                color="green darken-1"
+                                text
+                                @click="dialog = false"
+                                href="/evaluation/"
+                            >
+                                Back
+                            </v-btn>
+                        </v-card-actions>
+                    </v-container>
                 </v-card>
             </v-dialog>
         </v-card>

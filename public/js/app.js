@@ -3416,6 +3416,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -3767,9 +3776,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -3803,44 +3809,20 @@ __webpack_require__.r(__webpack_exports__);
         _this2.pictures = response.data;
       });
     },
-    addPicture: function addPicture() {
-      this.pictureFil.push({
-        user_id: this.usernow.user_id,
-        picture_path: this.picture_path,
-        project_id: this.id,
-        image: this.image
-      }) && axios.post("/api/pictures", {
-        user_id: this.usernow.user_id,
-        picture_path: this.picture_path,
-        project_id: this.id,
-        image: this.image
-      });
-      this.upload = false;
-    },
-    onImageChange: function onImageChange(e) {
-      var _this3 = this;
-
-      var file = e.target.files[0];
-      var reader = new FileReader();
-      this.noUpload = false;
-
-      reader.onloadend = function (e) {
-        _this3.image = reader.result;
-
-        var date = _this3.today.getFullYear() + "-" + (_this3.today.getMonth() + 1) + "-" + _this3.today.getDate();
-
-        var time = _this3.today.getHours() + "-" + _this3.today.getMinutes();
-
-        var x = Math.floor(Math.random() * 100);
-        var dateTime = date + "_" + time;
-        var file_name = "image_" + dateTime + "_" + x + ".png";
-        _this3.picture_path = file_name;
-      };
-
-      reader.readAsDataURL(file);
-    },
     zoom: function zoom(val) {
       this.pictureZoom = val;
+    },
+    groupBy: function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+      }, {});
+    },
+    pictureEachProject: function pictureEachProject(project_id) {
+      var pic = this.pictures.filter(function (picture) {
+        return picture.project_id == project_id;
+      });
+      return this.groupBy(pic, "picture_path");
     },
     close: function close() {
       this.dialog = false;
@@ -3848,10 +3830,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     pictureFil: function pictureFil() {
-      var _this4 = this;
+      var _this3 = this;
 
       return this.pictures.filter(function (picture) {
-        return picture.project_id == _this4.id;
+        return picture.project_id == _this3.id;
       });
     }
   },
@@ -42305,7 +42287,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                            Save\n                        "
+                                "\n                           \n                            Save\n                        "
                               )
                             ]
                           ),
@@ -42343,7 +42325,7 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: { "max-width": "290" },
+              attrs: { "max-width": "400" },
               model: {
                 value: _vm.dialog,
                 callback: function($$v) {
@@ -42356,53 +42338,76 @@ var render = function() {
               _c(
                 "v-card",
                 [
-                  _c("v-card-title", { staticClass: "headline" }, [
-                    _vm._v("Use Google's location service?")
-                  ]),
-                  _vm._v(" "),
-                  _c("v-card-text", [
-                    _vm._v(
-                      "\n                    Let Google help apps determine location. This means\n                    sending anonymous location data to Google, even when no\n                    apps are running.\n                "
-                    )
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "v-card-actions",
+                    "v-container",
                     [
-                      _c("v-spacer"),
-                      _vm._v(" "),
                       _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "green darken-1", text: "" },
-                          on: {
-                            click: function($event) {
-                              _vm.dialog = false
-                            }
-                          }
-                        },
+                        "center",
                         [
-                          _vm._v(
-                            "\n                        Disagree\n                    "
-                          )
-                        ]
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "m-5",
+                              attrs: {
+                                outlined: "",
+                                fab: "",
+                                color: "green darken-1",
+                                height: "70px",
+                                width: "70px"
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { height: "700px" } }, [
+                                _vm._v(
+                                  "\n                                mdi-check-outline\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("h2", [
+                            _c("b", [_vm._v("เตรียมการประเมินเสร็จสิ้น!")])
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", [
+                            _vm._v(
+                              "\n                            เพื่อทำเริ่มประเมิน\n                            กรุณากดกลับไปที่หน้าทำการประเมินสื่อเชิงภาพ\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("br")
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "green darken-1", text: "" },
-                          on: {
-                            click: function($event) {
-                              _vm.dialog = false
-                            }
-                          }
-                        },
+                        "v-card-actions",
                         [
-                          _vm._v(
-                            "\n                        Agree\n                    "
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "green darken-1",
+                                text: "",
+                                href: "/evaluation/"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.dialog = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Back\n                        "
+                              )
+                            ]
                           )
-                        ]
+                        ],
+                        1
                       )
                     ],
                     1
@@ -42781,7 +42786,7 @@ var render = function() {
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
-          _vm._l(_vm.pictureFil, function(picture) {
+          _vm._l(_vm.pictureEachProject(_vm.project.id), function(picture) {
             return _c(
               "v-card",
               { key: picture.id, staticClass: "d-inline-block m-3" },
@@ -42796,12 +42801,12 @@ var render = function() {
                         _c("v-col", { attrs: { cols: "auto" } }, [
                           _c("img", {
                             attrs: {
-                              src: "/storage/" + picture.picture_path,
-                              height: "250px"
+                              src: "/storage/" + picture[0].picture_path,
+                              height: "200px"
                             },
                             on: {
                               click: function($event) {
-                                ;(_vm.dialog = true), _vm.zoom(picture)
+                                ;(_vm.dialog = true), _vm.zoom(picture[0])
                               }
                             }
                           })

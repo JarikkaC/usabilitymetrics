@@ -17,29 +17,26 @@
             <br />
             <v-card
                 class="d-inline-block m-3"
-                v-for="picture in pictureFil"
+                v-for="picture in pictureEachProject(project.id)"
                 :key="picture.id"
             >
                 <v-row justify="space-between">
                     <v-container>
                         <v-col cols="auto">
                             <img
-                                :src="'/storage/' + picture.picture_path"
-                                height="250px"
-                                @click="(dialog = true), zoom(picture)"
+                                :src="'/storage/' + picture[0].picture_path"
+                                height="200px"
+                                @click="(dialog = true), zoom(picture[0])"
                             />
                         </v-col>
                     </v-container>
                 </v-row>
-
             </v-card>
-
 
             <!-- -------------------------------------------------------------------- -->
             <v-dialog v-model="dialog" max-width="1500px">
                 <v-card>
                     <v-card-text>
-                        
                         <v-container>
                             <img
                                 :src="
@@ -87,46 +84,24 @@ export default {
             });
         },
 
-        addPicture() {
-            this.pictureFil.push({
-                user_id: this.usernow.user_id,
-                picture_path: this.picture_path,
-                project_id: this.id,
-                image: this.image
-            }) &&
-                axios.post("/api/pictures", {
-                    user_id: this.usernow.user_id,
-                    picture_path: this.picture_path,
-                    project_id: this.id,
-                    image: this.image
-                });
-            this.upload = false;
-        },
-
-        onImageChange(e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
-            this.noUpload = false;
-            reader.onloadend = e => {
-                this.image = reader.result;
-                var date =
-                    this.today.getFullYear() +
-                    "-" +
-                    (this.today.getMonth() + 1) +
-                    "-" +
-                    this.today.getDate();
-                var time =
-                    this.today.getHours() + "-" + this.today.getMinutes();
-                var x = Math.floor(Math.random() * 100);
-                var dateTime = date + "_" + time;
-                const file_name = "image_" + dateTime + "_" + x + ".png";
-                this.picture_path = file_name;
-            };
-            reader.readAsDataURL(file);
-        },
         zoom(val) {
             this.pictureZoom = val;
         },
+
+        groupBy(xs, key) {
+            return xs.reduce(function(rv, x) {
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+                return rv;
+            }, {});
+        },
+
+        pictureEachProject(project_id) {
+            let pic = this.pictures.filter(picture => {
+                return picture.project_id == project_id;
+            });
+            return this.groupBy(pic, "picture_path");
+        },
+
         close() {
             this.dialog = false;
         }
@@ -147,5 +122,3 @@ export default {
     }
 };
 </script>
-
-
