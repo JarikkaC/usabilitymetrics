@@ -2581,11 +2581,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  computed: {
-    formTitle: function formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    }
-  },
   watch: {
     dialog: function dialog(val) {
       val || this.close();
@@ -2596,22 +2591,19 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/metrics").then(function (response) {
-        var res = response.data; // this.metrics = response.data;
-
-        _this.metrics = _this.tranFormData(res);
-        console.log(_this.metrics);
+        // let res = response.data;
+        _this.metrics = response.data; // this.metrics = this.tranFormData(res);
+        // console.log(this.metrics);
       });
     },
-    tranFormData: function tranFormData(data) {
-      var result = data.map(function (element) {
-        return {
-          id: element.id,
-          metric_name: element.metric_name,
-          submetric: element.submetric
-        };
-      });
-      return result;
-    },
+    // tranFormData(data) {
+    //     const result = data.map(element => ({
+    //         id: element.id,
+    //         metric_name: element.metric_name,
+    //         submetric: element.submetric
+    //     }));
+    //     return result;
+    // },
     editItem: function editItem(item) {
       this.editedIndex = this.metrics.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -4162,14 +4154,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["id"],
+  props: ["usernow", "id"],
   mounted: function mounted() {
-    this.getModel();
+    this.getMetric();
+    this.getSubmetric();
+    console.log(this.metrics.id);
   },
   data: function data() {
     return {
-      metricmodels: [],
+      submetrics: [],
+      metrics: [],
       headers: [{
         text: "Metric name",
         align: "left",
@@ -4219,29 +4216,30 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getModel: function getModel() {
+    getMetric: function getMetric() {
       var _this = this;
 
-      axios.get("/api/metricmodel/" + this.id).then(function (response) {
-        var res = response.data;
-        _this.metricmodels = _this.tranFormData(res);
+      axios.get("/api/metrics/" + this.id).then(function (response) {
+        _this.metrics = response.data;
+        console.log(_this.metrics);
       });
     },
-    tranFormData: function tranFormData(data) {
-      var result = data.map(function (element) {
-        return {
-          submetric_name: element.submetric.submetric_name,
-          purpose: element.submetric.purpose,
-          method: element.submetric.method,
-          measurement: element.submetric.measurement,
-          scale: element.submetric.scale,
-          type: element.submetric.type,
-          input: element.submetric.input,
-          iso: element.submetric.iso,
-          target: element.submetric.target
-        };
+    getSubmetric: function getSubmetric() {
+      var _this2 = this;
+
+      axios.get("/api/submetrics/").then(function (response) {
+        _this2.submetrics = response.data;
+        console.log("submetric", _this2.submetricFil);
       });
-      return result;
+    }
+  },
+  computed: {
+    submetricFil: function submetricFil() {
+      var _this3 = this;
+
+      return this.submetrics.filter(function (submetrics) {
+        return submetrics.metric_id == _this3.id;
+      });
     }
   }
 });
@@ -41094,7 +41092,11 @@ var render = function() {
                       "v-btn",
                       {
                         staticClass: "m-2",
-                        attrs: { outlined: "", color: "teal" }
+                        attrs: {
+                          outlined: "",
+                          color: "teal",
+                          href: /metric/ + item.id
+                        }
                       },
                       [
                         _c(
@@ -43337,54 +43339,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-app", [
-    _c(
-      "div",
-      [
-        _c(
-          "v-card",
-          { staticClass: "m-3 d-flex justify-center" },
-          [
-            _c("v-data-table", {
-              staticClass: "elevation-1",
-              attrs: {
-                headers: _vm.headers,
-                items: _vm.metricmodels,
-                "multi-sort": ""
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "text-center pt-2" },
-          [
-            _c(
-              "v-btn",
-              {
-                staticClass: "m-5",
-                attrs: { width: "350", color: "#64AC8F", href: /form/ }
-              },
-              [_vm._v("Create metric model")]
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                staticClass: "mr-5",
-                attrs: { width: "350", href: /selectmetric/ + this.id }
-              },
-              [_vm._v("Back")]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+  return _c(
+    "v-app",
+    [
+      _c(
+        "v-card",
+        { staticClass: "m-3" },
+        [
+          _c("v-card-title", [
+            _c("h3", { staticClass: "mt-3 ml-5" }, [
+              _vm._v(
+                "\n                Metric Name: " +
+                  _vm._s(this.metrics.metric_name) +
+                  "\n            "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "v-btn",
+                { staticClass: "mr-5", attrs: { href: "/metric/" } },
+                [_vm._v("\n                Back\n            ")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-data-table", {
+            staticClass: "elevation-1",
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.submetricFil,
+              "multi-sort": ""
+            }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

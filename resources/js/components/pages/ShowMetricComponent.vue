@@ -1,35 +1,40 @@
 <template>
     <v-app>
-        <div>
-            <v-card class="m-3 d-flex justify-center">
-                <v-data-table
-                    :headers="headers"
-                    :items="metricmodels"
-                    multi-sort
-                    class="elevation-1"
-                ></v-data-table>
-            </v-card>
-            <div class="text-center pt-2">
-                <v-btn class="m-5" width="350" color="#64AC8F" :href="/form/"
-                    >Create metric model</v-btn
-                >
-                <v-btn class="mr-5" width="350" :href="/selectmetric/ + this.id"
-                    >Back</v-btn
-                >
-            </div>
-        </div>
+        <v-card class="m-3">
+            <v-card-title>
+                <h3 class="mt-3 ml-5">
+                    Metric Name: {{ this.metrics.metric_name }}
+                </h3>
+            </v-card-title>
+
+            <v-card-text>
+                <v-btn class="mr-5" href="/metric/">
+                    Back
+                </v-btn>
+            </v-card-text>
+
+            <v-data-table
+                :headers="headers"
+                :items="submetricFil"
+                multi-sort
+                class="elevation-1"
+            ></v-data-table>
+        </v-card>
     </v-app>
 </template>
 
 <script>
 export default {
-    props: ["id"],
+    props: ["usernow", "id"],
     mounted() {
-        this.getModel();
+        this.getMetric();
+        this.getSubmetric();
+        console.log(this.metrics.id);
     },
     data() {
         return {
-            metricmodels: [],
+            submetrics: [],
+            metrics: [],
 
             headers: [
                 {
@@ -91,25 +96,27 @@ export default {
     },
 
     methods: {
-        getModel() {
-            axios.get("/api/metricmodel/"+this.id).then(response => {
-                let res = response.data;
-                this.metricmodels = this.tranFormData(res);
+    
+        getMetric() {
+            axios.get("/api/metrics/" + this.id).then(response => {
+                this.metrics = response.data;
+                console.log(this.metrics);
             });
         },
-        tranFormData(data) {
-            const result = data.map(element => ({
-                submetric_name: element.submetric.submetric_name,
-                purpose: element.submetric.purpose,
-                method: element.submetric.method,
-                measurement: element.submetric.measurement,
-                scale: element.submetric.scale,
-                type: element.submetric.type,
-                input: element.submetric.input,
-                iso: element.submetric.iso,
-                target: element.submetric.target
-            }));
-            return result;
+
+        getSubmetric() {
+            axios.get("/api/submetrics/").then(response => {
+                this.submetrics = response.data;
+                console.log("submetric", this.submetricFil);
+            });
+        }
+    },
+
+    computed: {
+        submetricFil: function() {
+            return this.submetrics.filter(submetrics => {
+                return submetrics.metric_id == this.id;
+            });
         }
     }
 };

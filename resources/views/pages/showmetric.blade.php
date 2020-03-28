@@ -2,6 +2,8 @@
 
 @section('content')
 <div id="app">
-    <showmetric-component id="{!!$id!!}"></showmetric-component>
+    @if(auth()->check())
+    <showmetric-component id="{!!$id!!}" :usernow="{{ Auth::user() }}"></showmetric-component>
+    @endif
 </div>
 @endsection

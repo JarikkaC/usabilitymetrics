@@ -18,7 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/example', 'ExampleController@index')->name('example');
 Route::get('/document', 'DocumentController@index')->name('document');
 Route::get('metric/addmetric', 'MetricController@create');
 Route::get('evaluation/upload', 'EvaluationController@create');
@@ -30,9 +29,7 @@ Route::resource('/metric','MetricController');
 Route::resource('/form','QuestionController');
 Route::resource('/report', 'ReportController');
 // Route::resource('/addmetric','AddModelController');
-Route::resource('/addmetricdetail', 'AddSubmetricController');
 
 
-// 
 
 

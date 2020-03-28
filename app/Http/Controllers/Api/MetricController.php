@@ -50,8 +50,7 @@ class MetricController extends Controller
      */
     public function show($id)
     {
-        // $projects = Project::find($id);
-        // return response()->json($projects);
+       
     }
 
     /**

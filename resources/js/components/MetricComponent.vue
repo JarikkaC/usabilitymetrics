@@ -24,7 +24,7 @@
                     </v-toolbar>
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-btn class="m-2" outlined color="teal">
+                    <v-btn class="m-2" outlined color="teal" :href="/metric/ + item.id">
                         <v-icon small class="mr-2">
                             mdi-view-grid-outline
                         </v-icon>
@@ -95,11 +95,6 @@ export default {
         }
     }),
 
-    computed: {
-        formTitle() {
-            return this.editedIndex === -1 ? "New Item" : "Edit Item";
-        }
-    },
 
     watch: {
         dialog(val) {
@@ -110,21 +105,21 @@ export default {
     methods: {
         getMetric() {
             axios.get("/api/metrics").then(response => {
-                let res = response.data;
-                // this.metrics = response.data;
-                this.metrics = this.tranFormData(res);
-                console.log(this.metrics);
+                // let res = response.data;
+                this.metrics = response.data;
+                // this.metrics = this.tranFormData(res);
+                // console.log(this.metrics);
             });
         },
 
-        tranFormData(data) {
-            const result = data.map(element => ({
-                id: element.id,
-                metric_name: element.metric_name,
-                submetric: element.submetric
-            }));
-            return result;
-        },
+        // tranFormData(data) {
+        //     const result = data.map(element => ({
+        //         id: element.id,
+        //         metric_name: element.metric_name,
+        //         submetric: element.submetric
+        //     }));
+        //     return result;
+        // },
 
         editItem(item) {
             this.editedIndex = this.metrics.indexOf(item);
