@@ -58,30 +58,35 @@
 
                 <v-row>
                     <v-col>
-                        <v-card class="mx-auto" width="500px" outlined>
+                        <v-card class="mx-auto" width="800px" >
                             <template v-for="metric in metrics">
-                                <v-checkbox
+                                <v-card-text
                                     :key="metric.metric_name"
                                     class="ml-5"
-                                    :label="metric.metric_name"
-                                    :value="metric.metric_name"
                                 >
-                                </v-checkbox>
+                                    <v-row>
+                                        <v-icon small class="mr-2" color="#F4D03F">
+                                            mdi-checkbox-blank-circle
+                                        </v-icon>
+                                        <h5>{{ metric.metric_name }}</h5>
+                                    </v-row>
+                                </v-card-text>
+
                                 <template
                                     v-if="metric.submetric"
                                     v-for="item in metric.submetric"
                                 >
-                                    <v-checkbox
-                                        return-object
-                                        v-model="selected"
-                                        v-if="item.submetric_name"
-                                        :key="item.submetric_name"
-                                        class="ml-10"
-                                        :label="item.submetric_name"
-                                        :value="item"
-                                    >
-                                    </v-checkbox>
-                                </template>
+                                        <v-checkbox
+                                            return-object
+                                            v-model="selected"
+                                            v-if="item.submetric_name"
+                                            :key="item.submetric_name"
+                                            class="ml-10"
+                                            :label="item.submetric_name"
+                                            :value="item"
+                                        >
+                                        </v-checkbox>
+                                </template><v-divider></v-divider>
                             </template>
                         </v-card>
 
@@ -93,7 +98,6 @@
                                 color="teal"
                                 @click="postMetric(projectFil.project_id)"
                             >
-                               
                                 Save
                             </v-btn>
 
@@ -134,7 +138,7 @@
                                 กรุณากดกลับไปที่หน้าทำการประเมินสื่อเชิงภาพ
                             </h5>
 
-                            <br>
+                            <br />
                         </center>
 
                         <v-card-actions>

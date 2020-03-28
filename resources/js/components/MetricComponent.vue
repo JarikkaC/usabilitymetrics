@@ -125,7 +125,7 @@ export default {
             }));
             return result;
         },
-        
+
         editItem(item) {
             this.editedIndex = this.metrics.indexOf(item);
             this.editedItem = Object.assign({}, item);
@@ -135,7 +135,9 @@ export default {
         deleteItem(item) {
             const index = this.metrics.indexOf(item);
             confirm("Are you sure you want to delete this Model?") &&
-                this.metrics.splice(index, 1);
+                axios.delete("api/metrics/" + item.id).then(response => {
+                    this.metrics.splice(index, 1);
+                });
         },
 
         close() {

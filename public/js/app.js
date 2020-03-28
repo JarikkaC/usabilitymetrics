@@ -2618,16 +2618,20 @@ __webpack_require__.r(__webpack_exports__);
       this.dialog = true;
     },
     deleteItem: function deleteItem(item) {
+      var _this2 = this;
+
       var index = this.metrics.indexOf(item);
-      confirm("Are you sure you want to delete this Model?") && this.metrics.splice(index, 1);
+      confirm("Are you sure you want to delete this Model?") && axios["delete"]("api/metrics/" + item.id).then(function (response) {
+        _this2.metrics.splice(index, 1);
+      });
     },
     close: function close() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this2.editedItem = Object.assign({}, _this2.defaultItem);
-        _this2.editedIndex = -1;
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
       }, 300);
     },
     save: function save() {
@@ -3120,9 +3124,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      dialog: false,
       metric_name: "",
       metricnameRules: [function (v) {
         return !!v || "Metric name is required";
@@ -3188,6 +3243,8 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       }
+
+      this.dialog = true;
     },
     addSubmetric: function addSubmetric() {
       this.submetrics.push({
@@ -3267,6 +3324,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -3721,6 +3782,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -42093,6 +42158,103 @@ var render = function() {
               )
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "400" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-container",
+                    [
+                      _c(
+                        "center",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "m-5",
+                              attrs: {
+                                outlined: "",
+                                fab: "",
+                                color: "green darken-1",
+                                height: "70px",
+                                width: "70px"
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { height: "700px" } }, [
+                                _vm._v(
+                                  "\n                                mdi-check-outline\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("h2", [
+                            _c("b", [_vm._v("คุณได้ทำการเพิ่ม Metrics!!")])
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", [
+                            _vm._v(
+                              "\n                            เพื่อดูรายละเอียดของ metrics ที่เพิ่ม\n                            กรุณากลับที่หน้า metrics\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("br")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "green darken-1",
+                                text: "",
+                                href: "/metric/"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.dialog = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Back\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
           )
         ],
         1
@@ -42222,21 +42384,42 @@ var render = function() {
                     [
                       _c(
                         "v-card",
-                        {
-                          staticClass: "mx-auto",
-                          attrs: { width: "500px", outlined: "" }
-                        },
+                        { staticClass: "mx-auto", attrs: { width: "800px" } },
                         [
                           _vm._l(_vm.metrics, function(metric) {
                             return [
-                              _c("v-checkbox", {
-                                key: metric.metric_name,
-                                staticClass: "ml-5",
-                                attrs: {
-                                  label: metric.metric_name,
-                                  value: metric.metric_name
-                                }
-                              }),
+                              _c(
+                                "v-card-text",
+                                {
+                                  key: metric.metric_name,
+                                  staticClass: "ml-5"
+                                },
+                                [
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticClass: "mr-2",
+                                          attrs: { small: "", color: "#F4D03F" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        mdi-checkbox-blank-circle\n                                    "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("h5", [
+                                        _vm._v(_vm._s(metric.metric_name))
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _vm._l(metric.submetric, function(item) {
                                 return metric.submetric
@@ -42261,7 +42444,8 @@ var render = function() {
                                         : _vm._e()
                                     ]
                                   : _vm._e()
-                              })
+                              }),
+                              _c("v-divider")
                             ]
                           })
                         ],
@@ -42287,7 +42471,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                           \n                            Save\n                        "
+                                "\n                            Save\n                        "
                               )
                             ]
                           ),
@@ -42761,21 +42945,35 @@ var render = function() {
           _c(
             "v-row",
             [
-              _c("v-col", { attrs: { cols: "auto" } }, [
-                _c("h3", { staticClass: "mt-3" }, [
-                  _vm._v(
-                    "\n                    Project Name: " +
-                      _vm._s(this.project.project_name) +
-                      "\n                "
-                  )
-                ])
-              ])
+              _c("h3", { staticClass: "mt-3 ml-5" }, [
+                _vm._v(
+                  "\n                Project Name: " +
+                    _vm._s(this.project.project_name) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "#F4D03F", outlined: "", href: "/project" } },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-arrow-left ")
+                  ]),
+                  _vm._v("\n                Back\n            ")
+                ],
+                1
+              )
             ],
             1
           ),
           _vm._v(" "),
           _c("v-row", [
-            _c("p", { staticClass: "mt-3 ml-5" }, [
+            _c("h5", { staticClass: "mt-3 ml-5" }, [_vm._v("Description:")]),
+            _vm._v(" "),
+            _c("p", { staticClass: "ml-5" }, [
               _vm._v(
                 "\n                " +
                   _vm._s(this.project.description) +

@@ -2,14 +2,18 @@
     <v-app>
         <v-container class="mt-2 mx-2">
             <v-row>
-                <v-col cols="auto">
-                    <h3 class="mt-3">
-                        Project Name: {{ this.project.project_name }}
-                    </h3>
-                </v-col>
+                <h3 class="mt-3 ml-5">
+                    Project Name: {{ this.project.project_name }}
+                </h3>
+                <v-spacer></v-spacer>
+                <v-btn color="#F4D03F" outlined href="/project">
+                    <v-icon class="mr-2"> mdi-arrow-left </v-icon>
+                    Back
+                </v-btn>
             </v-row>
             <v-row>
-                <p class="mt-3 ml-5">
+                <h5 class="mt-3 ml-5">Description:</h5>
+                <p class="ml-5">
                     {{ this.project.description }}
                 </p>
             </v-row>

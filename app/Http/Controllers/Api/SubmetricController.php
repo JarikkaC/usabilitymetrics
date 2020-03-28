@@ -98,6 +98,8 @@ class SubmetricController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $submetrics = Submetric::find($id);
+        $submetrics->delete();
+        return response()->json($submetrics);
     }
 }

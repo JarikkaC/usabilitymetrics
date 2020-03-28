@@ -220,6 +220,7 @@ export default {
                 axios.delete("api/project/" + item.id).then(response => {
                     this.projects.splice(index, 1);
                 });
+                
         },
 
         close() {

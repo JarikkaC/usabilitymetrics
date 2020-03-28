@@ -48,7 +48,11 @@
                                         label="Sub-Metric Name"
                                         persistent-hint
                                         outlined
-                                        :rules="[v => !!v || 'Sub-metric Name is require!']"
+                                        :rules="[
+                                            v =>
+                                                !!v ||
+                                                'Sub-metric Name is require!'
+                                        ]"
                                         required
                                     ></v-text-field>
                                 </v-col>
@@ -174,7 +178,9 @@
                                         label="Question"
                                         persistent-hint
                                         outlined
-                                        :rules="[v => !!v || 'Question is require!']"
+                                        :rules="[
+                                            v => !!v || 'Question is require!'
+                                        ]"
                                         required
                                     ></v-text-field>
                                 </v-col>
@@ -188,7 +194,9 @@
                                         :items="items"
                                         label="Level"
                                         outlined
-                                        :rules="[v => !!v || 'Level is require!']"
+                                        :rules="[
+                                            v => !!v || 'Level is require!'
+                                        ]"
                                         required
                                     ></v-select>
                                 </v-col>
@@ -279,6 +287,48 @@
                     Back
                 </v-btn>
             </v-row>
+            <!-- --------------------------------------------------------------- -->
+            <v-dialog v-model="dialog" max-width="400">
+                <v-card>
+                    <v-container>
+                        <center>
+                            <v-btn
+                                class="m-5"
+                                outlined
+                                fab
+                                color="green darken-1"
+                                height="70px"
+                                width="70px"
+                            >
+                                <v-icon height="700px">
+                                    mdi-check-outline
+                                </v-icon>
+                            </v-btn>
+
+                            <h2><b>คุณได้ทำการเพิ่ม Metrics!!</b></h2>
+                            <h5>
+                                เพื่อดูรายละเอียดของ metrics ที่เพิ่ม
+                                กรุณากลับที่หน้า metrics
+                            </h5>
+
+                            <br />
+                        </center>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+
+                            <v-btn
+                                color="green darken-1"
+                                text
+                                @click="dialog = false"
+                                href="/metric/"
+                            >
+                                Back
+                            </v-btn>
+                        </v-card-actions>
+                    </v-container>
+                </v-card>
+            </v-dialog>
         </v-card>
     </v-app>
 </template>
@@ -286,6 +336,7 @@
 <script>
 export default {
     data: () => ({
+        dialog: false,
         metric_name: "",
         metricnameRules: [v => !!v || "Metric name is required"],
         submetricnameRules: [v => !!v || "Sub-metric name is required"],
@@ -352,6 +403,7 @@ export default {
                     });
                 }
             }
+            this.dialog = true;
         },
         addSubmetric() {
             this.submetrics.push({
