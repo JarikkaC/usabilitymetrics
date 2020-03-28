@@ -22,6 +22,7 @@
                                 label="Metric Name"
                                 persistent-hint
                                 filled
+                                :rules="[v => !!v || 'Metric Name is require!']"
                                 required
                             >
                             </v-text-field>
@@ -47,6 +48,7 @@
                                         label="Sub-Metric Name"
                                         persistent-hint
                                         outlined
+                                        :rules="[v => !!v || 'Sub-metric Name is require!']"
                                         required
                                     ></v-text-field>
                                 </v-col>
@@ -172,6 +174,8 @@
                                         label="Question"
                                         persistent-hint
                                         outlined
+                                        :rules="[v => !!v || 'Question is require!']"
+                                        required
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="2">
@@ -184,6 +188,8 @@
                                         :items="items"
                                         label="Level"
                                         outlined
+                                        :rules="[v => !!v || 'Level is require!']"
+                                        required
                                     ></v-select>
                                 </v-col>
                                 <v-col cols="2">
@@ -258,7 +264,14 @@
             <!-- -------------------------------------------------------------- -->
             <v-row class="m-3">
                 <v-spacer></v-spacer>
-                <v-btn class="m-2" large dark color="teal" @click="submit" href="/metric/">
+                <v-btn
+                    class="m-2"
+                    large
+                    dark
+                    color="teal"
+                    @click="submit"
+                    href="/metric/"
+                >
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
                 </v-btn>
@@ -294,7 +307,7 @@ export default {
                         question: null,
                         max_select: null
                     }
-                ],
+                ]
             }
         ]
 
@@ -327,11 +340,15 @@ export default {
                     iso: element.iso,
                     target: element.target
                 });
-                for (let i = 0; i < this.submetrics[index].questions.length; i++) {
+                for (
+                    let i = 0;
+                    i < this.submetrics[index].questions.length;
+                    i++
+                ) {
                     const e = this.submetrics[index].questions[i];
                     axios.post("/api/questions", {
                         question: e.question,
-                        max_select: e.max_select,
+                        max_select: e.max_select
                     });
                 }
             }

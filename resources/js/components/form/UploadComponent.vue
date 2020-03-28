@@ -11,18 +11,17 @@
                 ที่จะใช้เป็นตัวชี้วัดในการประเมิน
             </v-card-text>
             <v-card-text>
-                <v-row>
-                    <v-select
-                        class="m-5"
-                        :items="projectFil"
-                        item-text="project_name"
-                        item-value="id"
-                        label="Select Your Project"
-                        v-model="getProjectID"
-                        dense
-                        outlined
-                    ></v-select>
-                </v-row>
+                <v-select
+                    class="m-5"
+                    :items="projectFil"
+                    item-text="project_name"
+                    item-value="id"
+                    label="Select Your Project"
+                    v-model="getProjectID"
+                    :rules="[v => !!v || 'Project is required']"
+                    required
+                    outlined
+                ></v-select>
 
                 <v-row class="mr-5 ml-5">
                     <h5 class="mt-3 mx-3">Upload Your Graphic Media</h5>
@@ -41,19 +40,10 @@
                         :src="image"
                         v-if="image"
                         class="img-responsive"
-                        height="300"
+                        height="400px"
                     />
                 </center>
-                <v-row class="mr-5 ml-5 mt-5">
-                    <!-- <v-btn
-                        class="ml-5 mr-3"
-                        dark
-                        color="indigo"
-                        @click="addPicture(projectFil.project_id)"
-                    >
-                        Upload
-                    </v-btn> -->
-                </v-row>
+                <v-row class="mr-5 ml-5 mt-5"> </v-row>
             </v-card-text>
 
             <v-card-text>
@@ -119,6 +109,40 @@
                     </v-col>
                 </v-row>
             </v-card-text>
+
+            <v-dialog v-model="dialog" max-width="290">
+                <v-card>
+                    <v-card-title class="headline"
+                        >Use Google's location service?</v-card-title
+                    >
+
+                    <v-card-text>
+                        Let Google help apps determine location. This means
+                        sending anonymous location data to Google, even when no
+                        apps are running.
+                    </v-card-text>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                            color="green darken-1"
+                            text
+                            @click="dialog = false"
+                        >
+                            Disagree
+                        </v-btn>
+
+                        <v-btn
+                            color="green darken-1"
+                            text
+                            @click="dialog = false"
+                        >
+                            Agree
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-card>
     </v-app>
 </template>
@@ -143,7 +167,8 @@ export default {
         pictureZoom: {},
         item: [],
         metrics: [],
-        selected: []
+        selected: [],
+        dialog: false
     }),
 
     methods: {
@@ -162,7 +187,6 @@ export default {
         getMetric() {
             axios.get("/api/metrics").then(response => {
                 let res = response.data;
-                // this.metrics = response.data;
                 this.metrics = this.tranFormData(res);
             });
         },
@@ -190,12 +214,6 @@ export default {
         },
 
         postMetric() {
-            // axios.post("/api/pictures", {
-            //     user_id: this.usernow.user_id,
-            //     project_id: this.getProjectID,
-            //     picture_path: this.picture_path,
-            //     image: this.image
-            // });
             for (let index = 0; index < this.selected.length; index++) {
                 const element = this.selected[index];
                 axios.post("/api/pictures", {
@@ -207,6 +225,7 @@ export default {
                     metric_id: element.metric_id
                 });
                 this.upload = false;
+                this.dialog = true;
             }
         },
         tranFormData(data) {
@@ -216,8 +235,7 @@ export default {
                 submetric: element.submetric
             }));
             return result;
-        },
-
+        }
     },
 
     computed: {

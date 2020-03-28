@@ -6,6 +6,8 @@ import Vuetify from 'vuetify'
 import '@mdi/font/css/materialdesignicons.css'
 
 
+
+
 Vue.use(Vuetify)
 
 Vue.component('leftnav-component', require('./components/LeftNavComponent.vue').default);
@@ -23,10 +25,7 @@ Vue.component('project-component', require('./components/pages/ProjectComponent.
 Vue.component('reportpage-component', require('./components/pages/ReportPagesComponent.vue').default);
 
 Vue.component('addmetric-component', require('./components/form/AddMetricComponent.vue').default);
-Vue.component('addsubmetric-component', require('./components/form/AddSubmetricComponent.vue').default);
 Vue.component('upload-component', require('./components/form/UploadComponent.vue').default);
-
-
 
 
 const app = new Vue({

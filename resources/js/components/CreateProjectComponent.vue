@@ -37,13 +37,19 @@
                                         <v-row>
                                             <v-col>
                                                 <v-text-field
-                                                    v-model=" editedItem.project_name"
+                                                    v-model="
+                                                        editedItem.project_name
+                                                    "
                                                     label="Project name"
+                                                    :rules="projectnameRules"
                                                 ></v-text-field>
                                                 <v-textarea
-                                                    v-model=" editedItem.description "
+                                                    v-model="
+                                                        editedItem.description
+                                                    "
                                                     autocomplete="description"
                                                     label="Description"
+                                                    :rules="descriptionRules"
                                                 ></v-textarea>
                                             </v-col>
                                         </v-row>
@@ -144,7 +150,10 @@ export default {
         defaultItem: {
             project_name: "",
             description: ""
-        }
+        },
+
+        projectnameRules: [v => !!v || "Project name is required"],
+        descriptionRules: [v => !!v || "Description is required"]
     }),
 
     computed: {
