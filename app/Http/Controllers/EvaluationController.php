@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\picture;
 
 class EvaluationController extends Controller
 {
@@ -45,7 +46,8 @@ class EvaluationController extends Controller
      */
     public function show($id)
     {
-        //
+        $pictures = picture::find($id);
+        return view('/pages/form/', compact('id'));
     }
 
     /**

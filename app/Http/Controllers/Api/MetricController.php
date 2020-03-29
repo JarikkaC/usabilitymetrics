@@ -50,7 +50,8 @@ class MetricController extends Controller
      */
     public function show($id)
     {
-       
+        $metrics = Metric::find($id);
+        return response()->json($metrics);
     }
 
     /**

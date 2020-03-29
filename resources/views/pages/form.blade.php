@@ -2,6 +2,8 @@
 
 @section('content')
 <div id="app">
-    <form-component></form-component>
+    @if(auth()->check())
+    <form-component id="{!!$id!!}" :usernow="{{ Auth::user() }}"></form-component>
+    @endif
 </div>
 @endsection

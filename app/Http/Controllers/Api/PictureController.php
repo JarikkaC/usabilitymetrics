@@ -67,7 +67,8 @@ class PictureController extends Controller
      */
     public function show($id)
     {
-        //
+        $pictures = Picture::find($id);
+        return response()->json($pictures);
     }
 
     /**

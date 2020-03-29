@@ -3695,27 +3695,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["id"],
+  props: ["usernow", "id"],
   mounted: function mounted() {
-    this.getQuestion();
     this.getPicture();
-    this.postPicture();
+    this.getQuestion();
+    this.getSubmetric();
   },
   data: function data() {
     return {
       dialog: false,
       pictureZoom: {},
-      questions: [],
       column: null,
       row: null,
-      pictures: [],
-      picture_path: null
+      picture_path: null,
+      picture: [],
+      project: [],
+      question: [],
+      submetric: []
     };
   },
   methods: {
@@ -3723,38 +3720,43 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/pictures/" + this.id).then(function (response) {
-        _this.pictures = response.data;
-        console.log("Picture", _this.pictures);
+        _this.picture = response.data;
+        console.log("Picture", _this.picture);
       });
     },
     getQuestion: function getQuestion() {
       var _this2 = this;
 
       axios.get("/api/questions/").then(function (response) {
-        _this2.questions = response.data;
+        _this2.question = response.data;
+        console.log("Question", _this2.question);
       });
     },
-    postPicture: function postPicture() {
-      axios.post("/api/pictures/", {
-        picture_path: this.picture_path,
-        project_id: this.id
+    getSubmetric: function getSubmetric() {
+      var _this3 = this;
+
+      axios.get("/api/submetrics/").then(function (response) {
+        _this3.submetric = response.data;
+        console.log("Submetric", _this3.submetric);
       });
     },
     zoom: function zoom(val) {
       this.pictureZoom = val;
-    },
-    close: function close() {
-      this.dialog = false;
     }
   },
   computed: {
-    pictureFil: function pictureFil() {
-      var _this3 = this;
+    submetricFill: function submetricFill() {
+      var _this4 = this;
 
-      return this.pictures.filter(function (picture) {
-        return picture.project_id == _this3.id;
+      return this.submetric.filter(function (submetric) {
+        return submetric.id == _this4.submetric_id;
       });
-    }
+    } //  pictureFil: function() {
+    //     return this.pictures.filter(picture => {
+    //         return picture.project_id == this.id;
+    //     });
+    // }
+
   },
   watch: {
     dialog: function dialog(val) {
@@ -40754,7 +40756,10 @@ var render = function() {
                                                 {
                                                   attrs: {
                                                     color: "teal",
-                                                    dark: ""
+                                                    dark: "",
+                                                    href:
+                                                      /evaluation/ +
+                                                      picture[0].id
                                                   }
                                                 },
                                                 [
@@ -42640,7 +42645,7 @@ var render = function() {
         "v-card",
         { staticClass: "m-4" },
         [
-          _c("h2", { staticClass: "p-3" }, [_vm._v("Evaluation Form")]),
+          _c("v-card-title", [_vm._v("Evaluation Form")]),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -42650,8 +42655,8 @@ var render = function() {
               _c("center", [
                 _c("img", {
                   attrs: {
-                    src: "/storage/" + _vm.pictureFil.picture_path,
-                    height: "250px"
+                    src: "/storage/" + _vm.picture.picture_path,
+                    height: "400px"
                   },
                   on: {
                     click: function($event) {
@@ -42740,29 +42745,6 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c(
-            "v-radio-group",
-            {
-              staticClass: "ml-5",
-              attrs: { column: "" },
-              model: {
-                value: _vm.column,
-                callback: function($$v) {
-                  _vm.column = $$v
-                },
-                expression: "column"
-              }
-            },
-            [
-              _c("v-radio", { attrs: { label: "เข้าใจ", value: "1" } }),
-              _vm._v(" "),
-              _c("v-radio", { attrs: { label: "เข้าใจบางส่วน", value: "2" } }),
-              _vm._v(" "),
-              _c("v-radio", { attrs: { label: "ไม่เข้าใจ", value: "3" } })
-            ],
-            1
-          ),
-          _vm._v(" "),
           _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
           _vm._v(" "),
           _c("p", { staticClass: "ml-5" }, [
@@ -42770,33 +42752,6 @@ var render = function() {
               "\n            คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด\n            5-มากที่สุด)\n        "
             )
           ]),
-          _vm._v(" "),
-          _c(
-            "v-radio-group",
-            {
-              staticClass: "ml-5",
-              attrs: { column: "" },
-              model: {
-                value: _vm.column,
-                callback: function($$v) {
-                  _vm.column = $$v
-                },
-                expression: "column"
-              }
-            },
-            [
-              _c("v-radio", { attrs: { label: "1", value: "1" } }),
-              _vm._v(" "),
-              _c("v-radio", { attrs: { label: "2", value: "2" } }),
-              _vm._v(" "),
-              _c("v-radio", { attrs: { label: "3", value: "3" } }),
-              _vm._v(" "),
-              _c("v-radio", { attrs: { label: "4", value: "4" } }),
-              _vm._v(" "),
-              _c("v-radio", { attrs: { label: "5", value: "5" } })
-            ],
-            1
-          ),
           _vm._v(" "),
           _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
           _vm._v(" "),
@@ -42878,7 +42833,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { "max-width": "800px" },
+          attrs: { "max-width": "1000px" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {

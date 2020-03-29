@@ -14,7 +14,7 @@ class PictureController extends Controller
      */
     public function index()
     {
-        //
+        return view('/evaluation');
     }
 
     /**
@@ -24,7 +24,7 @@ class PictureController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages/upload');
     }
 
     /**
@@ -35,7 +35,6 @@ class PictureController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**
@@ -46,7 +45,8 @@ class PictureController extends Controller
      */
     public function show($id)
     {
-        //
+        $pictures = picture::find($id);
+        return view('/pages/form', compact('id'));
     }
 
     /**
