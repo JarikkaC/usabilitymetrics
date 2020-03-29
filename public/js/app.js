@@ -3178,6 +3178,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3490,6 +3496,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -3615,6 +3631,36 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -42345,9 +42391,26 @@ var render = function() {
         "v-card",
         { staticClass: "m-4" },
         [
-          _c("v-card-title", [
-            _vm._v("\n            Create Your Metrics\n        ")
-          ]),
+          _c(
+            "v-card-title",
+            [
+              _vm._v("\n            Create Your Metrics\n\n            "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "#F4D03F", outlined: "", href: "/metric" } },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-arrow-left ")
+                  ]),
+                  _vm._v("\n                Back\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -43124,9 +43187,26 @@ var render = function() {
         "v-card",
         { staticClass: "m-4" },
         [
-          _c("v-card-title", [
-            _vm._v("\n            Prepare Evaluation\n        ")
-          ]),
+          _c(
+            "v-card-title",
+            [
+              _vm._v("\n            Prepare Evaluation\n\n            "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "#F4D03F", outlined: "", href: "/metric" } },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-arrow-left ")
+                  ]),
+                  _vm._v("\n                Back\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -43470,7 +43550,26 @@ var render = function() {
         "v-card",
         { staticClass: "m-4" },
         [
-          _c("v-card-title", [_vm._v("Evaluation Form")]),
+          _c(
+            "v-card-title",
+            [
+              _vm._v("\n            Evaluation Form\n\n            "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "#F4D03F", outlined: "", href: "/metric" } },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-arrow-left ")
+                  ]),
+                  _vm._v("\n                Back\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -43549,13 +43648,49 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _c("v-btn", { staticClass: "m-5", attrs: { color: "#64AC8F" } }, [
-            _vm._v("Create Form")
-          ]),
-          _vm._v(" "),
-          _c("v-btn", { staticClass: "m-5", attrs: { href: "/evaluation" } }, [
-            _vm._v("Back")
-          ])
+          _c(
+            "v-row",
+            { staticClass: "m-3" },
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "m-2",
+                  attrs: {
+                    large: "",
+                    dark: "",
+                    color: "teal",
+                    href: "/metric/"
+                  },
+                  on: { click: _vm.submit }
+                },
+                [
+                  _c("v-icon", { staticClass: "mr-3", attrs: { large: "" } }, [
+                    _vm._v("mdi-application-import")
+                  ]),
+                  _vm._v("\n                Submit\n            ")
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "m-2",
+                  attrs: {
+                    large: "",
+                    outlined: "",
+                    color: "grey",
+                    href: "/evaluation/"
+                  }
+                },
+                [_vm._v("\n                Back\n            ")]
+              )
+            ],
+            1
+          )
         ],
         2
       ),

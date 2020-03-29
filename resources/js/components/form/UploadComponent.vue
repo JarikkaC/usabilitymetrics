@@ -3,6 +3,12 @@
         <v-card class="m-4">
             <v-card-title>
                 Prepare Evaluation
+
+                <v-spacer></v-spacer>
+                <v-btn color="#F4D03F" outlined href="/metric">
+                    <v-icon class="mr-2"> mdi-arrow-left </v-icon>
+                    Back
+                </v-btn>
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
@@ -58,14 +64,18 @@
 
                 <v-row>
                     <v-col>
-                        <v-card class="mx-auto" width="800px" >
+                        <v-card class="mx-auto" width="800px">
                             <template v-for="metric in metrics">
                                 <v-card-text
                                     :key="metric.metric_name"
                                     class="ml-5"
                                 >
                                     <v-row>
-                                        <v-icon small class="mr-2" color="#F4D03F">
+                                        <v-icon
+                                            small
+                                            class="mr-2"
+                                            color="#F4D03F"
+                                        >
                                             mdi-checkbox-blank-circle
                                         </v-icon>
                                         <h5>{{ metric.metric_name }}</h5>
@@ -76,17 +86,17 @@
                                     v-if="metric.submetric"
                                     v-for="item in metric.submetric"
                                 >
-                                        <v-checkbox
-                                            return-object
-                                            v-model="selected"
-                                            v-if="item.submetric_name"
-                                            :key="item.submetric_name"
-                                            class="ml-10"
-                                            :label="item.submetric_name"
-                                            :value="item"
-                                        >
-                                        </v-checkbox>
-                                </template><v-divider></v-divider>
+                                    <v-checkbox
+                                        return-object
+                                        v-model="selected"
+                                        v-if="item.submetric_name"
+                                        :key="item.submetric_name"
+                                        class="ml-10"
+                                        :label="item.submetric_name"
+                                        :value="item"
+                                    >
+                                    </v-checkbox> </template
+                                ><v-divider></v-divider>
                             </template>
                         </v-card>
 

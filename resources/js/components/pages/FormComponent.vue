@@ -1,7 +1,15 @@
 <template>
     <v-app>
         <v-card class="m-4">
-            <v-card-title>Evaluation Form</v-card-title>
+            <v-card-title>
+                Evaluation Form
+
+                <v-spacer></v-spacer>
+                <v-btn color="#F4D03F" outlined href="/metric">
+                    <v-icon class="mr-2"> mdi-arrow-left </v-icon>
+                    Back
+                </v-btn>
+            </v-card-title>
             <v-divider></v-divider>
             <v-container>
                 <center>
@@ -33,8 +41,30 @@
             </div>
 
             <v-divider></v-divider>
-            <v-btn class="m-5" color="#64AC8F">Create Form</v-btn>
-            <v-btn class="m-5" href="/evaluation">Back</v-btn>
+
+            <v-row class="m-3">
+                <v-spacer></v-spacer>
+                <v-btn
+                    class="m-2"
+                    large
+                    dark
+                    color="teal"
+                    @click="submit"
+                    href="/metric/"
+                >
+                    <v-icon large class="mr-3">mdi-application-import</v-icon>
+                    Submit
+                </v-btn>
+                <v-btn
+                    class="m-2"
+                    large
+                    outlined
+                    color="grey"
+                    href="/evaluation/"
+                >
+                    Back
+                </v-btn>
+            </v-row>
         </v-card>
 
         <v-dialog v-model="dialog" max-width="1000px">
