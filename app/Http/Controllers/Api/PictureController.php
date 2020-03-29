@@ -14,8 +14,9 @@ class PictureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $pictures = picture::all();
         return response()->json($pictures);
     }
@@ -53,8 +54,8 @@ class PictureController extends Controller
 
         $pictures->picture_path = $file_name;
 
-        $pictures ->submetric_id= $request->get('submetric_id');
-        $pictures ->metric_id= $request->get('metric_id');
+        $pictures->submetric_id = $request->get('submetric_id');
+        $pictures->metric_id = $request->get('metric_id');
         $pictures->save();
         return response()->json($pictures);
     }
@@ -67,7 +68,7 @@ class PictureController extends Controller
      */
     public function show($id)
     {
-        $pictures = Picture::find($id);
+        $pictures = picture::where('picture_path', '=', $id)->get();
         return response()->json($pictures);
     }
 

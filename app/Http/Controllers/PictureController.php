@@ -43,10 +43,10 @@ class PictureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($picture_path)
     {
-        $pictures = picture::find($id);
-        return view('/pages/form', compact('id'));
+        $pictures = picture::find($picture_path);
+        return view('/pages/form', compact('picture_path'));
     }
 
     /**

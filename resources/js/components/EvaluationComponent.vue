@@ -60,7 +60,7 @@
                                                     height="200px"
                                                 />
                                                 <div class="mt-5">
-                                                    <v-btn color="teal" dark :href="/evaluation/ + picture[0].id">
+                                                    <v-btn color="teal" dark :href="/evaluation/ + picture[0].picture_path">
                                                         Evaluation
                                                     </v-btn>
                                                     <v-btn color="indigo" dark>

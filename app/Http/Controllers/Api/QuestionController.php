@@ -54,7 +54,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        $questions = question::where('submetric_id', '=', $id)->get();
+        return response()->json($questions);
     }
 
     /**

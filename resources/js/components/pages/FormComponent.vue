@@ -6,7 +6,7 @@
             <v-container>
                 <center>
                     <img
-                        :src="'/storage/' + picture.picture_path"
+                        :src="'/storage/' + this.picture_path"
                         height="400px"
                         @click="(dialog = true), zoom(picture)"
                     />
@@ -15,72 +15,26 @@
 
             <v-divider></v-divider>
 
-            <h4 class="p-3">Question:</h4>
-            <p class="ml-5">
-                คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด
-                5-มากที่สุด)
-            </p>
-
-            <v-radio-group class="ml-5" v-model="column" column>
-                <v-radio label="1" value="1"></v-radio>
-                <v-radio label="2" value="2"></v-radio>
-                <v-radio label="3" value="3"></v-radio>
-                <v-radio label="4" value="4"></v-radio>
-                <v-radio label="5" value="5"></v-radio>
-            </v-radio-group>
-
-            <h4 class="p-3">Question:</h4>
-            <p class="ml-5">
-                คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
-            </p>
-            <v-radio-group class="ml-5" v-model="column" column>
-                <v-radio label="เข้าใจ" value="1"></v-radio>
-                <v-radio label="เข้าใจบางส่วน" value="2"></v-radio>
-                <v-radio label="ไม่เข้าใจ" value="3"></v-radio>
-            </v-radio-group>
-
-            <h4 class="p-3">Question:</h4>
-            <p class="ml-5">
-                คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
-            </p>
-
-            <h4 class="p-3">Question:</h4>
-            <p class="ml-5">
-                คุณคิดว่า Interface นี้มีความน่าสนใจมากแค่ไหน? (1-น้อยที่สุด
-                5-มากที่สุด)
-            </p>
-
-            <!-- <v-radio-group class="ml-5" v-model="column" column>
-                <v-radio label="1" value="1"></v-radio>
-                <v-radio label="2" value="2"></v-radio>
-                <v-radio label="3" value="3"></v-radio>
-                <v-radio label="4" value="4"></v-radio>
-                <v-radio label="5" value="5"></v-radio>
-            </v-radio-group> -->
-
-            <h4 class="p-3">Question:</h4>
-            <p class="ml-5">
-                คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
-            </p>
-            <v-radio-group class="ml-5" v-model="column" column>
-                <v-radio label="เข้าใจ" value="1"></v-radio>
-                <v-radio label="เข้าใจบางส่วน" value="2"></v-radio>
-                <v-radio label="ไม่เข้าใจ" value="3"></v-radio>
-            </v-radio-group>
-
-            <h4 class="p-3">Question:</h4>
-            <p class="ml-5">
-                คุณเข้าใจหรือไม่ว่า interface นี่ทำงานอย่างไร
-            </p>
-            <v-radio-group class="ml-5" v-model="column" column>
-                <v-radio label="เข้าใจ" value="1"></v-radio>
-                <v-radio label="เข้าใจบางส่วน" value="2"></v-radio>
-                <v-radio label="ไม่เข้าใจ" value="3"></v-radio>
-            </v-radio-group>
+            <div v-for="(question, index) in questions" :key="question.id">
+                <h4 class="p-3">Question:</h4>
+                <p class="ml-5">
+                    {{ question.question }}
+                </p>
+                <v-radio-group class="ml-5" v-model="answer[index]" column>
+                    <v-radio
+                        :label="choice.toString()"
+                        v-for="choice in question.choices"
+                        :key="choice"
+                        :value="choice"
+                    >
+                        {{ choice }}
+                    </v-radio>
+                </v-radio-group>
+            </div>
 
             <v-divider></v-divider>
             <v-btn class="m-5" color="#64AC8F">Create Form</v-btn>
-            <v-btn class="m-5" :href="/showmetric/ + this.id">Back</v-btn>
+            <v-btn class="m-5" href="/evaluation">Back</v-btn>
         </v-card>
 
         <v-dialog v-model="dialog" max-width="1000px">
@@ -88,7 +42,7 @@
                 <v-card-text>
                     <v-container>
                         <img
-                            :src="'/storage/' + this.pictureZoom.picture_path"
+                            :src="'/storage/' + this.picture_path"
                             width="100%"
                         />
                     </v-container>
@@ -100,39 +54,54 @@
 
 <script>
 export default {
-    props: ["usernow", "id"],
-    mounted() {
-        this.getPicture();
-        this.getQuestion();
-        this.getSubmetric();
+    props: ["usernow", "picture_path"],
+    async created() {
+        await this.getPicture();
+        await this.getSubmetric();
     },
     data: () => ({
         dialog: false,
         pictureZoom: {},
-        column: null,
+        answer: [],
         row: null,
-
-        picture_path: null,
-
         picture: [],
         project: [],
-        question: [],
+        questions: [],
         submetric: []
     }),
 
     methods: {
-        getPicture() {
-            axios.get("/api/pictures/" + this.id).then(response => {
-                this.picture = response.data;
-                console.log("Picture", this.picture);
-            });
+        async getPicture() {
+            await axios
+                .get("/api/pictures/" + this.picture_path)
+                .then(response => {
+                    this.picture = response.data;
+                });
+            //console.log("this.picture", this.picture);
+            await this.getQuestion();
         },
 
-        getQuestion() {
-            axios.get("/api/questions/").then(response => {
-                this.question = response.data;
-                console.log("Question", this.question);
-            });
+        async getQuestion() {
+            for (let index = 0; index < this.picture.length; index++) {
+                const element = this.picture[index];
+                let submetric_id = element.submetric_id;
+                await axios
+                    .get("/api/questions/" + submetric_id)
+                    .then(response => {
+                        this.questions.push(response.data[0]);
+                        this.questions.forEach(question => {
+                            question.choices = [];
+                            for (
+                                let index = 0;
+                                index < question.max_select;
+                                index++
+                            ) {
+                                question.choices.push(index + 1);
+                            }
+                        });
+                    });
+            }
+            console.log(this.questions);
         },
 
         getSubmetric() {
@@ -144,8 +113,7 @@ export default {
 
         zoom(val) {
             this.pictureZoom = val;
-        },
-
+        }
     },
 
     computed: {

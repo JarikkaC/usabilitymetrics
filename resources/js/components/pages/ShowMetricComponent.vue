@@ -5,13 +5,14 @@
                 <h3 class="mt-3 ml-5">
                     Metric Name: {{ this.metrics.metric_name }}
                 </h3>
-            </v-card-title>
-
-            <v-card-text>
-                <v-btn class="mr-5" href="/metric/">
+               
+                <v-spacer></v-spacer>
+                <v-btn color="#F4D03F" outlined href="/metric">
+                    <v-icon class="mr-2"> mdi-arrow-left </v-icon>
                     Back
                 </v-btn>
-            </v-card-text>
+            
+            </v-card-title>
 
             <v-data-table
                 :headers="headers"
@@ -19,6 +20,8 @@
                 multi-sort
                 class="elevation-1"
             ></v-data-table>
+
+            
         </v-card>
     </v-app>
 </template>
@@ -29,12 +32,13 @@ export default {
     mounted() {
         this.getMetric();
         this.getSubmetric();
-        console.log(this.metrics.id);
+        this.getQuestion();
     },
     data() {
         return {
             submetrics: [],
             metrics: [],
+            question: [],
 
             headers: [
                 {
@@ -96,7 +100,6 @@ export default {
     },
 
     methods: {
-    
         getMetric() {
             axios.get("/api/metrics/" + this.id).then(response => {
                 this.metrics = response.data;
@@ -109,6 +112,13 @@ export default {
                 this.submetrics = response.data;
                 console.log("submetric", this.submetricFil);
             });
+        },
+
+        getQuestion() {
+            axios.get("/api/questions/").then(response => {
+                this.question = response.data;
+                console.log("question", this.question);
+            });
         }
     },
 
@@ -118,6 +128,12 @@ export default {
                 return submetrics.metric_id == this.id;
             });
         }
+
+        // questionFil: function() {
+        //     return this.question,filter(question =>{
+        //         return question.submetric_id == this.id;
+        //     });
+        // }
     }
 };
 </script>

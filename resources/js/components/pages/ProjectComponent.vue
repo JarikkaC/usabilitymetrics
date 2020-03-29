@@ -13,6 +13,7 @@
             </v-row>
             <v-row>
                 <h5 class="mt-3 ml-5">Description:</h5>
+                <br />
                 <p class="ml-5">
                     {{ this.project.description }}
                 </p>
