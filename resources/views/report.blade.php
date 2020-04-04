@@ -2,6 +2,7 @@
 
 @section('content')
 <div id="app">
-   <report-component></report-component>
+   <report-component :usernow="{{ Auth::user() }}"></report-component>
 </div>
+
 @endsection

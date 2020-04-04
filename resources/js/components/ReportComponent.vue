@@ -1,179 +1,142 @@
 <template>
     <v-app>
         <v-card class="m-4">
-            <v-data-table
-                :headers="headers"
-                :items="metrics"
-                sort-by="project_name"
-                class="elevation-1"
-            >
-                <template v-slot:top>
-                    <v-toolbar flat color="white">
-                        <v-toolbar-title>Usability Report</v-toolbar-title>
-                        <v-divider class="mx-4" inset vertical></v-divider>
-                        <v-spacer></v-spacer>
-                        <v-dialog v-model="dialog" max-width="500px">
-                            <v-card>
-                                <v-card-title>
-                                    <span class="headline">{{
-                                        formTitle
-                                    }}</span>
-                                </v-card-title>
+            <div>
+                <v-row class="mr-3 ml-3">
+                    <v-toolbar-title class="m-4">Usability Report </v-toolbar-title>
+                </v-row>
+                <v-divider></v-divider>
 
-                                <v-card-text>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col>
-                                                <v-text-field
-                                                    v-model="
-                                                        editedItem.project_name
-                                                    "
-                                                    label="Metric Name"
-                                                ></v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card-text>
-
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-
-                                    <v-btn color="blue darken-1" text
-                                        >Save</v-btn
-                                    >
-
-                                    <v-btn color="#CD4D4D" text @click="close"
-                                        >Cancel</v-btn
-                                    >
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-toolbar>
-                </template>
-                <template v-slot:item.actions="{ item }">
-                    <v-btn
-                        class="m-2"
-                        outlined
-                        color="teal"
-                        href="/addmetricdetail/"
-                    >
-                        <v-icon small class="mr-2">
-                            mdi-view-grid-outline
-                        </v-icon>
-                        view
-                    </v-btn>
+                <div class="text-center d-flex pb-4 m-4">
+                    <h5 class="ml-5">Your Project</h5>
+                    <v-spacer></v-spacer>
+                    <v-btn outlined small color="grey" @click="all">all</v-btn>
 
                     <v-btn
-                        class="m-2"
+                        class="ml-4"
                         small
                         outlined
-                        fab
-                        color="red"
-                        @click="deleteItem(item)"
+                        color="grey"
+                        @click="none"
                     >
-                        <v-icon> mdi-delete</v-icon>
+                        none
                     </v-btn>
-                </template>
-                <template v-slot:no-data>
-                    <v-btn color="primary" @click="initialize">Reset</v-btn>
-                </template>
-            </v-data-table>
+                </div>
+                <v-expansion-panels v-model="panel" multiple>
+                    <v-expansion-panel
+                        v-for="project in projectFil"
+                        :key="project.id"
+                    >
+                        <v-expansion-panel-header>
+                            {{ project.project_name }}
+                        </v-expansion-panel-header>
+
+                        <v-expansion-panel-content>
+                            <v-row justify="space-between">
+                                <v-card
+                                    class="d-inline-block m-3"
+                                    v-for="picture in pictureEachProject(
+                                        project.id
+                                    )"
+                                    :key="picture.id"
+                                >
+                                    <v-container class="center">
+                                        <v-col cols="auto">
+                                            <center>
+                                                <img
+                                                    :src="
+                                                        '/storage/' +
+                                                            picture[0].picture_path
+                                                    "
+                                                    height="200px"
+                                                />
+                                                <div class="mt-5">
+                                                    <v-btn color="indigo" dark :href="/report/ + picture[0].picture_path">
+                                                        See Report
+                                                    </v-btn>
+                                                </div>
+                                            </center>
+                                        </v-col>
+                                    </v-container>
+                                </v-card>
+                            </v-row>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </div>
         </v-card>
     </v-app>
 </template>
 
 <script>
 export default {
-    data: () => ({
-        dialog: false,
-        headers: [
-            {
-                text: "Metric ID",
-                align: "center",
-                sortable: false,
-                value: "id"
-            },
-            { text: "Metric Name", value: "metric_name", align: "center" },
-            {
-                text: "Actions",
-                value: "actions",
-                sortable: false,
-                align: "center"
-            }
-        ],
-        metrics: [],
-        editedIndex: -1,
-        editedItem: {
-            id: "",
-            metric_name: ""
+    props: ["usernow", "id"],
+    mounted() {
+        this.getProject();
+        this.getPicture();
+    },
+    data() {
+        return {
+            upload: false,
+            panel: [],
+            today: new Date(),
+            projects: [],
+            pictures: [],
+            picture_path: null,
+            image: null
+        };
+    },
+    methods: {
+        // Create an array the length of our items
+        // with all values as true
+        all() {
+            this.panel = [...Array(this.items).keys()].map((k, i) => i);
         },
-        defaultItem: {
-            id: "",
-            metric_name: 0
+        // Reset the panel
+        none() {
+            this.panel = [];
+        },
+
+        getProject() {
+            axios.get("/api/project/").then(response => {
+                this.projects = response.data;
+            });
+        },
+
+        getPicture() {
+            axios.get("/api/pictures/").then(response => {
+                this.pictures = response.data;
+            });
+        },
+
+        getMetric() {
+            axios.get("/api/metrics").then(response => {
+                let res = response.data;
+                // this.metrics = response.data;
+                this.metrics = this.tranFormData(res);
+            });
+        },
+
+        groupBy(xs, key) {
+            return xs.reduce(function(rv, x) {
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+                return rv;
+            }, {});
+        },
+
+        pictureEachProject(project_id) {
+            let pic =  this.pictures.filter(picture => {
+                return picture.project_id == project_id;
+            });
+            return this.groupBy(pic,'picture_path')
         }
-    }),
+    },
 
     computed: {
-        formTitle() {
-            return this.editedIndex === -1 ? "New Item" : "Edit Item";
-        }
-    },
-
-    watch: {
-        dialog(val) {
-            val || this.close();
-        }
-    },
-
-    created() {
-        this.initialize();
-    },
-
-    methods: {
-        initialize() {
-            this.metrics = [
-                {
-                    id: "1",
-                    metric_name: "testmetrics"
-                },
-                {
-                    id: "2",
-                    metric_name: "testmetrics2"
-                },
-                {
-                    id: "3",
-                    metric_name: "testmetrics3"
-                }
-            ];
-        },
-
-        editItem(item) {
-            this.editedIndex = this.metrics.indexOf(item);
-            this.editedItem = Object.assign({}, item);
-            this.dialog = true;
-        },
-
-        deleteItem(item) {
-            const index = this.metrics.indexOf(item);
-            confirm("Are you sure you want to delete this Model?") &&
-                this.metrics.splice(index, 1);
-        },
-
-        close() {
-            this.dialog = false;
-            setTimeout(() => {
-                this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
-            }, 300);
-        },
-
-        save() {
-            if (this.editedIndex > -1) {
-                Object.assign(this.metrics[this.editedIndex], this.editedItem);
-            } else {
-                this.metrics.push(this.editedItem);
-            }
-            this.close();
+        projectFil: function() {
+            return this.projects.filter(project => {
+                return project.user_id == this.usernow.user_id;
+            });
         }
     }
 };

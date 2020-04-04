@@ -1,16 +1,20 @@
 <template>
     <v-app>
         <v-card class="m-4">
-            <h2 class="p-3">Report</h2>
-
+            <v-card-title>
+                Report
+                <v-spacer></v-spacer>
+                <v-btn color="grey" outlined href="/report">
+                    <v-icon class="mr-2"> mdi-arrow-left </v-icon>
+                    Back
+                </v-btn>
+            </v-card-title>
             <v-divider></v-divider>
-
             <v-container>
                 <center>
-                    <!-- <img :src="'/storage/' + pictureFil.picture_path" height="250px" /> -->
                     <img
-                        src="https://cdn.pixabay.com/photo/2020/03/08/08/31/yellow-4911816_960_720.jpg"
-                        width="30%"
+                        :src="'/storage/' + this.picture_path"
+                        height="400px"
                         @click="(dialog = true), zoom(picture)"
                     />
                 </center>
@@ -18,48 +22,118 @@
 
             <v-divider></v-divider>
 
-            <v-container width="900px">
-                <v-card-text>
-                    <v-row class="mb-4" align="center">
-                        <strong class="title">Title</strong>
-                    </v-row>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                    </p>
 
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                    </p>
-                </v-card-text>
-            </v-container>
+             <div v-for="(question, index) in questions" :key="question.id">
+            <v-card-text>
+                <h6>Question: {{ question.question }}</h6>
+                <h6>Your result: </h6>
+                <h6>Comment:</h6>
+            </v-card-text>
+            </div>
+
+            <v-divider></v-divider>
         </v-card>
+
+        <v-dialog v-model="dialog" max-width="1000px">
+            <v-card>
+                <v-card-text>
+                    <v-container>
+                        <img
+                            :src="'/storage/' + this.picture_path"
+                            width="100%"
+                        />
+                    </v-container>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
 <script>
 export default {
-    props: ["id"],
+    props: ["usernow", "picture_path"],
+    async created() {
+        await this.getPicture();
+        await this.getSubmetric();
+        this.getAnswer();
+    },
+    data: () => ({
+        dialog: false,
+        pictureZoom: {},
+        answer: [],
+        row: null,
+        picture: [],
+        project: [],
+        questions: [],
+        submetric: [],
+        choices: []
+    }),
 
-    mounted() {},
+    methods: {
+        async getPicture() {
+            await axios
+                .get("/api/pictures/" + this.picture_path)
+                .then(response => {
+                    this.picture = response.data;
+                });
+            //console.log("this.picture", this.picture);
+            await this.getQuestion();
+        },
 
-    data: () => ({}),
+        async getQuestion() {
+            for (let index = 0; index < this.picture.length; index++) {
+                const element = this.picture[index];
+                let submetric_id = element.submetric_id;
+                await axios
+                    .get("/api/questions/" + submetric_id)
+                    .then(response => {
+                        this.questions.push(response.data[0]);
+                        this.questions.forEach(question => {
+                            question.choices = [];
+                            for (
+                                let index = 0;
+                                index < question.max_select;
+                                index++
+                            ) {
+                                question.choices.push(index + 1);
+                            }
+                        });
+                    });
+            }
+            console.log(this.questions);
+        },
 
-    methods: {}
+        getSubmetric() {
+            axios.get("/api/submetrics/").then(response => {
+                this.submetric = response.data;
+                console.log("Submetric", this.submetric);
+            });
+        },
+
+        getAnswer() {
+            axios.get("/api/answers/").then(response => {
+                this.answer = response.data;
+                console.log("answers", this.answer);
+            });
+        },
+
+        zoom(val) {
+            this.pictureZoom = val;
+        }
+    },
+
+    computed: {
+        submetricFill: function() {
+            return this.submetric.filter(submetric => {
+                return submetric.id == this.submetric_id;
+            });
+        }
+    },
+
+    watch: {
+        dialog(val) {
+            val || this.close();
+        }
+    }
 };
 </script>

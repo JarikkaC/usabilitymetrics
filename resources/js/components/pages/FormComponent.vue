@@ -54,7 +54,7 @@
 
             <v-row class="m-3">
                 <v-spacer></v-spacer>
-                <v-btn class="m-2" large dark color="teal" href="/metric/">
+                <v-btn class="m-2" large dark color="teal"  @click="submit">
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
                 </v-btn>
@@ -151,7 +151,16 @@ export default {
 
         zoom(val) {
             this.pictureZoom = val;
-        }
+        },
+
+        submit() {
+            axios.post("/api/answers", {
+                question_id: this.question_id,
+                level_selected: this.answer.choice,
+                comment: this.answer.comment, 
+            });
+            // this.dialog = true;
+        },
     },
 
     computed: {

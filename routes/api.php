@@ -24,6 +24,7 @@ Route::resource('submetrics', 'Api\SubmetricController');
 Route::resource('metricmodel', 'Api\ModelController');
 Route::resource('questions', 'Api\QuestionController');
 Route::resource('reports', 'Api\ReportController');
+Route::resource('answers', 'Api\AnswerController');
 
 
 

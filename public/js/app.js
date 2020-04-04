@@ -2661,20 +2661,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 //
 //
 //
@@ -2746,88 +2740,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["usernow", "id"],
+  mounted: function mounted() {
+    this.getProject();
+    this.getPicture();
+  },
   data: function data() {
     return {
-      dialog: false,
-      headers: [{
-        text: "Metric ID",
-        align: "center",
-        sortable: false,
-        value: "id"
-      }, {
-        text: "Metric Name",
-        value: "metric_name",
-        align: "center"
-      }, {
-        text: "Actions",
-        value: "actions",
-        sortable: false,
-        align: "center"
-      }],
-      metrics: [],
-      editedIndex: -1,
-      editedItem: {
-        id: "",
-        metric_name: ""
-      },
-      defaultItem: {
-        id: "",
-        metric_name: 0
-      }
+      upload: false,
+      panel: [],
+      today: new Date(),
+      projects: [],
+      pictures: [],
+      picture_path: null,
+      image: null
     };
   },
-  computed: {
-    formTitle: function formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    }
-  },
-  watch: {
-    dialog: function dialog(val) {
-      val || this.close();
-    }
-  },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.metrics = [{
-        id: "1",
-        metric_name: "testmetrics"
-      }, {
-        id: "2",
-        metric_name: "testmetrics2"
-      }, {
-        id: "3",
-        metric_name: "testmetrics3"
-      }];
+    // Create an array the length of our items
+    // with all values as true
+    all: function all() {
+      this.panel = _toConsumableArray(Array(this.items).keys()).map(function (k, i) {
+        return i;
+      });
     },
-    editItem: function editItem(item) {
-      this.editedIndex = this.metrics.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+    // Reset the panel
+    none: function none() {
+      this.panel = [];
     },
-    deleteItem: function deleteItem(item) {
-      var index = this.metrics.indexOf(item);
-      confirm("Are you sure you want to delete this Model?") && this.metrics.splice(index, 1);
-    },
-    close: function close() {
+    getProject: function getProject() {
       var _this = this;
 
-      this.dialog = false;
-      setTimeout(function () {
-        _this.editedItem = Object.assign({}, _this.defaultItem);
-        _this.editedIndex = -1;
-      }, 300);
+      axios.get("/api/project/").then(function (response) {
+        _this.projects = response.data;
+      });
     },
-    save: function save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.metrics[this.editedIndex], this.editedItem);
-      } else {
-        this.metrics.push(this.editedItem);
-      }
+    getPicture: function getPicture() {
+      var _this2 = this;
 
-      this.close();
+      axios.get("/api/pictures/").then(function (response) {
+        _this2.pictures = response.data;
+      });
+    },
+    getMetric: function getMetric() {
+      var _this3 = this;
+
+      axios.get("/api/metrics").then(function (response) {
+        var res = response.data; // this.metrics = response.data;
+
+        _this3.metrics = _this3.tranFormData(res);
+      });
+    },
+    groupBy: function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+      }, {});
+    },
+    pictureEachProject: function pictureEachProject(project_id) {
+      var pic = this.pictures.filter(function (picture) {
+        return picture.project_id == project_id;
+      });
+      return this.groupBy(pic, 'picture_path');
+    }
+  },
+  computed: {
+    projectFil: function projectFil() {
+      var _this4 = this;
+
+      return this.projects.filter(function (project) {
+        return project.user_id == _this4.usernow.user_id;
+      });
     }
   }
 });
@@ -3864,6 +3847,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     zoom: function zoom(val) {
       this.pictureZoom = val;
+    },
+    submit: function submit() {
+      axios.post("/api/answers", {
+        question_id: this.question_id,
+        level_selected: this.answer.choice,
+        comment: this.answer.comment
+      }); // this.dialog = true;
     }
   },
   computed: {
@@ -4052,9 +4042,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -4107,12 +4102,176 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["id"],
-  mounted: function mounted() {},
+  props: ["usernow", "picture_path"],
+  created: function () {
+    var _created = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.getPicture();
+
+            case 2:
+              _context.next = 4;
+              return this.getSubmetric();
+
+            case 4:
+              this.getAnswer();
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function created() {
+      return _created.apply(this, arguments);
+    }
+
+    return created;
+  }(),
   data: function data() {
-    return {};
+    return {
+      dialog: false,
+      pictureZoom: {},
+      answer: [],
+      row: null,
+      picture: [],
+      project: [],
+      questions: [],
+      submetric: [],
+      choices: []
+    };
   },
-  methods: {}
+  methods: {
+    getPicture: function () {
+      var _getPicture = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get("/api/pictures/" + this.picture_path).then(function (response) {
+                  _this.picture = response.data;
+                });
+
+              case 2:
+                _context2.next = 4;
+                return this.getQuestion();
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getPicture() {
+        return _getPicture.apply(this, arguments);
+      }
+
+      return getPicture;
+    }(),
+    getQuestion: function () {
+      var _getQuestion = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _this2 = this;
+
+        var index, element, submetric_id;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                index = 0;
+
+              case 1:
+                if (!(index < this.picture.length)) {
+                  _context3.next = 9;
+                  break;
+                }
+
+                element = this.picture[index];
+                submetric_id = element.submetric_id;
+                _context3.next = 6;
+                return axios.get("/api/questions/" + submetric_id).then(function (response) {
+                  _this2.questions.push(response.data[0]);
+
+                  _this2.questions.forEach(function (question) {
+                    question.choices = [];
+
+                    for (var _index = 0; _index < question.max_select; _index++) {
+                      question.choices.push(_index + 1);
+                    }
+                  });
+                });
+
+              case 6:
+                index++;
+                _context3.next = 1;
+                break;
+
+              case 9:
+                console.log(this.questions);
+
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function getQuestion() {
+        return _getQuestion.apply(this, arguments);
+      }
+
+      return getQuestion;
+    }(),
+    getSubmetric: function getSubmetric() {
+      var _this3 = this;
+
+      axios.get("/api/submetrics/").then(function (response) {
+        _this3.submetric = response.data;
+        console.log("Submetric", _this3.submetric);
+      });
+    },
+    getAnswer: function getAnswer() {
+      var _this4 = this;
+
+      axios.get("/api/answers/").then(function (response) {
+        _this4.answer = response.data;
+        console.log("answers", _this4.answer);
+      });
+    },
+    zoom: function zoom(val) {
+      this.pictureZoom = val;
+    }
+  },
+  computed: {
+    submetricFill: function submetricFill() {
+      var _this5 = this;
+
+      return this.submetric.filter(function (submetric) {
+        return submetric.id == _this5.submetric_id;
+      });
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
+    }
+  }
 });
 
 /***/ }),
@@ -42086,124 +42245,139 @@ var render = function() {
   return _c(
     "v-app",
     [
-      _c(
-        "v-card",
-        { staticClass: "m-4" },
-        [
-          _c("v-data-table", {
-            staticClass: "elevation-1",
-            attrs: {
-              headers: _vm.headers,
-              items: _vm.metrics,
-              "sort-by": "project_name"
-            },
-            scopedSlots: _vm._u([
+      _c("v-card", { staticClass: "m-4" }, [
+        _c(
+          "div",
+          [
+            _c(
+              "v-row",
+              { staticClass: "mr-3 ml-3" },
+              [
+                _c("v-toolbar-title", { staticClass: "m-4" }, [
+                  _vm._v("Usability Report ")
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("v-divider"),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "text-center d-flex pb-4 m-4" },
+              [
+                _c("h5", { staticClass: "ml-5" }, [_vm._v("Your Project")]),
+                _vm._v(" "),
+                _c("v-spacer"),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    attrs: { outlined: "", small: "", color: "grey" },
+                    on: { click: _vm.all }
+                  },
+                  [_vm._v("all")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticClass: "ml-4",
+                    attrs: { small: "", outlined: "", color: "grey" },
+                    on: { click: _vm.none }
+                  },
+                  [_vm._v("\n                    none\n                ")]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-expansion-panels",
               {
-                key: "top",
-                fn: function() {
-                  return [
+                attrs: { multiple: "" },
+                model: {
+                  value: _vm.panel,
+                  callback: function($$v) {
+                    _vm.panel = $$v
+                  },
+                  expression: "panel"
+                }
+              },
+              _vm._l(_vm.projectFil, function(project) {
+                return _c(
+                  "v-expansion-panel",
+                  { key: project.id },
+                  [
+                    _c("v-expansion-panel-header", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(project.project_name) +
+                          "\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
                     _c(
-                      "v-toolbar",
-                      { attrs: { flat: "", color: "white" } },
+                      "v-expansion-panel-content",
                       [
-                        _c("v-toolbar-title", [_vm._v("Usability Report")]),
-                        _vm._v(" "),
-                        _c("v-divider", {
-                          staticClass: "mx-4",
-                          attrs: { inset: "", vertical: "" }
-                        }),
-                        _vm._v(" "),
-                        _c("v-spacer"),
-                        _vm._v(" "),
                         _c(
-                          "v-dialog",
-                          {
-                            attrs: { "max-width": "500px" },
-                            model: {
-                              value: _vm.dialog,
-                              callback: function($$v) {
-                                _vm.dialog = $$v
-                              },
-                              expression: "dialog"
-                            }
-                          },
-                          [
-                            _c(
+                          "v-row",
+                          { attrs: { justify: "space-between" } },
+                          _vm._l(_vm.pictureEachProject(project.id), function(
+                            picture
+                          ) {
+                            return _c(
                               "v-card",
+                              {
+                                key: picture.id,
+                                staticClass: "d-inline-block m-3"
+                              },
                               [
-                                _c("v-card-title", [
-                                  _c("span", { staticClass: "headline" }, [
-                                    _vm._v(_vm._s(_vm.formTitle))
-                                  ])
-                                ]),
-                                _vm._v(" "),
                                 _c(
-                                  "v-card-text",
+                                  "v-container",
+                                  { staticClass: "center" },
                                   [
                                     _c(
-                                      "v-container",
+                                      "v-col",
+                                      { attrs: { cols: "auto" } },
                                       [
-                                        _c(
-                                          "v-row",
-                                          [
-                                            _c(
-                                              "v-col",
-                                              [
-                                                _c("v-text-field", {
+                                        _c("center", [
+                                          _c("img", {
+                                            attrs: {
+                                              src:
+                                                "/storage/" +
+                                                picture[0].picture_path,
+                                              height: "200px"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "mt-5" },
+                                            [
+                                              _c(
+                                                "v-btn",
+                                                {
                                                   attrs: {
-                                                    label: "Metric Name"
-                                                  },
-                                                  model: {
-                                                    value:
-                                                      _vm.editedItem
-                                                        .project_name,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "project_name",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "\n                                                    editedItem.project_name\n                                                "
+                                                    color: "indigo",
+                                                    dark: "",
+                                                    href:
+                                                      /report/ +
+                                                      picture[0].picture_path
                                                   }
-                                                })
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                    See Report\n                                                "
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
                                       ],
                                       1
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-card-actions",
-                                  [
-                                    _c("v-spacer"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-btn",
-                                      {
-                                        attrs: {
-                                          color: "blue darken-1",
-                                          text: ""
-                                        }
-                                      },
-                                      [_vm._v("Save")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-btn",
-                                      {
-                                        attrs: { color: "#CD4D4D", text: "" },
-                                        on: { click: _vm.close }
-                                      },
-                                      [_vm._v("Cancel")]
                                     )
                                   ],
                                   1
@@ -42211,89 +42385,22 @@ var render = function() {
                               ],
                               1
                             )
-                          ],
+                          }),
                           1
                         )
                       ],
                       1
                     )
-                  ]
-                },
-                proxy: true
-              },
-              {
-                key: "item.actions",
-                fn: function(ref) {
-                  var item = ref.item
-                  return [
-                    _c(
-                      "v-btn",
-                      {
-                        staticClass: "m-2",
-                        attrs: {
-                          outlined: "",
-                          color: "teal",
-                          href: "/addmetricdetail/"
-                        }
-                      },
-                      [
-                        _c(
-                          "v-icon",
-                          { staticClass: "mr-2", attrs: { small: "" } },
-                          [
-                            _vm._v(
-                              "\n                        mdi-view-grid-outline\n                    "
-                            )
-                          ]
-                        ),
-                        _vm._v("\n                    view\n                ")
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-btn",
-                      {
-                        staticClass: "m-2",
-                        attrs: {
-                          small: "",
-                          outlined: "",
-                          fab: "",
-                          color: "red"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteItem(item)
-                          }
-                        }
-                      },
-                      [_c("v-icon", [_vm._v(" mdi-delete")])],
-                      1
-                    )
-                  ]
-                }
-              },
-              {
-                key: "no-data",
-                fn: function() {
-                  return [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { color: "primary" },
-                        on: { click: _vm.initialize }
-                      },
-                      [_vm._v("Reset")]
-                    )
-                  ]
-                },
-                proxy: true
-              }
-            ])
-          })
-        ],
-        1
-      )
+                  ],
+                  1
+                )
+              }),
+              1
+            )
+          ],
+          1
+        )
+      ])
     ],
     1
   )
@@ -43704,12 +43811,8 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "m-2",
-                  attrs: {
-                    large: "",
-                    dark: "",
-                    color: "teal",
-                    href: "/metric/"
-                  }
+                  attrs: { large: "", dark: "", color: "teal" },
+                  on: { click: _vm.submit }
                 },
                 [
                   _c("v-icon", { staticClass: "mr-3", attrs: { large: "" } }, [
@@ -43993,7 +44096,26 @@ var render = function() {
         "v-card",
         { staticClass: "m-4" },
         [
-          _c("h2", { staticClass: "p-3" }, [_vm._v("Report")]),
+          _c(
+            "v-card-title",
+            [
+              _vm._v("\n            Report\n            "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "grey", outlined: "", href: "/report" } },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-arrow-left ")
+                  ]),
+                  _vm._v("\n                Back\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -44003,9 +44125,8 @@ var render = function() {
               _c("center", [
                 _c("img", {
                   attrs: {
-                    src:
-                      "https://cdn.pixabay.com/photo/2020/03/08/08/31/yellow-4911816_960_720.jpg",
-                    width: "30%"
+                    src: "/storage/" + this.picture_path,
+                    height: "400px"
                   },
                   on: {
                     click: function($event) {
@@ -44020,29 +44141,54 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
+          _vm._l(_vm.questions, function(question, index) {
+            return _c(
+              "div",
+              { key: question.id },
+              [
+                _c("v-card-text", [
+                  _c("h6", [_vm._v("Question: " + _vm._s(question.question))]),
+                  _vm._v(" "),
+                  _c("h6", [_vm._v("Your result: ")]),
+                  _vm._v(" "),
+                  _c("h6", [_vm._v("Comment:")])
+                ])
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c("v-divider")
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "1000px" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
           _c(
-            "v-container",
-            { attrs: { width: "900px" } },
+            "v-card",
             [
               _c(
                 "v-card-text",
                 [
-                  _c(
-                    "v-row",
-                    { staticClass: "mb-4", attrs: { align: "center" } },
-                    [_c("strong", { staticClass: "title" }, [_vm._v("Title")])]
-                  ),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "\n                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,\n                    sed do eiusmod tempor incididunt ut labore et dolore\n                    magna aliqua. Ut enim ad minim veniam, quis nostrud\n                    exercitation ullamco laboris nisi ut aliquip ex ea\n                    commodo consequat. Duis aute irure dolor in\n                    reprehenderit in voluptate velit esse cillum dolore eu\n                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat\n                    non proident, sunt in culpa qui officia deserunt mollit\n                    anim id est laborum.\n                "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "\n                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,\n                    sed do eiusmod tempor incididunt ut labore et dolore\n                    magna aliqua. Ut enim ad minim veniam, quis nostrud\n                    exercitation ullamco laboris nisi ut aliquip ex ea\n                    commodo consequat. Duis aute irure dolor in\n                    reprehenderit in voluptate velit esse cillum dolore eu\n                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat\n                    non proident, sunt in culpa qui officia deserunt mollit\n                    anim id est laborum.\n                "
-                    )
+                  _c("v-container", [
+                    _c("img", {
+                      attrs: {
+                        src: "/storage/" + this.picture_path,
+                        width: "100%"
+                      }
+                    })
                   ])
                 ],
                 1

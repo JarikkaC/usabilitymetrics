@@ -27,7 +27,7 @@ Route::resource('/evaluation','PictureController');
 Route::resource('/project','ProjectController');
 Route::resource('/metric','MetricController');
 // Route::resource('/form','QuestionController');
-Route::resource('/report', 'ReportController');
+Route::resource('/report', 'AnswerController');
 // Route::resource('/addmetric','AddModelController');
 
 
