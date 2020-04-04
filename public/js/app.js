@@ -3715,6 +3715,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "picture_path"],
   created: function () {
@@ -3750,7 +3753,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: false,
       pictureZoom: {},
-      answer: [],
+      answer: [{
+        comment: null,
+        level_selected: null
+      }],
       row: null,
       picture: [],
       project: [],
@@ -3892,6 +3898,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -43558,7 +43579,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { color: "#F4D03F", outlined: "", href: "/metric" } },
+                { attrs: { color: "grey", outlined: "", href: "/metric" } },
                 [
                   _c("v-icon", { staticClass: "mr-2" }, [
                     _vm._v(" mdi-arrow-left ")
@@ -43628,7 +43649,14 @@ var render = function() {
                       "v-radio",
                       {
                         key: choice,
-                        attrs: { label: choice.toString(), value: choice }
+                        attrs: { label: choice.toString(), value: choice },
+                        model: {
+                          value: _vm.answer.level_selected,
+                          callback: function($$v) {
+                            _vm.$set(_vm.answer, "level_selected", $$v)
+                          },
+                          expression: "answer.level_selected"
+                        }
                       },
                       [
                         _vm._v(
@@ -43640,7 +43668,25 @@ var render = function() {
                     )
                   }),
                   1
-                )
+                ),
+                _vm._v(" "),
+                _c("h5", { staticClass: "p-3" }, [_vm._v("Comment:")]),
+                _vm._v(" "),
+                _c("v-textarea", {
+                  staticClass: "ml-5 mr-5",
+                  attrs: {
+                    label: "write a comment",
+                    "persistent-hint": "",
+                    outlined: ""
+                  },
+                  model: {
+                    value: _vm.answer.comment,
+                    callback: function($$v) {
+                      _vm.$set(_vm.answer, "comment", $$v)
+                    },
+                    expression: "answer.comment"
+                  }
+                })
               ],
               1
             )
@@ -43663,8 +43709,7 @@ var render = function() {
                     dark: "",
                     color: "teal",
                     href: "/metric/"
-                  },
-                  on: { click: _vm.submit }
+                  }
                 },
                 [
                   _c("v-icon", { staticClass: "mr-3", attrs: { large: "" } }, [
@@ -43761,13 +43806,14 @@ var render = function() {
     "v-app",
     [
       _c(
-        "v-container",
-        { staticClass: "mt-2 mx-2" },
+        "v-card",
+        { staticClass: "m-4" },
         [
           _c(
             "v-row",
+            { staticClass: "mt-5 ml-5" },
             [
-              _c("h3", { staticClass: "mt-3 ml-5" }, [
+              _c("h3", [
                 _vm._v(
                   "\n                Project Name: " +
                     _vm._s(this.project.project_name) +
@@ -43779,7 +43825,10 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { color: "#F4D03F", outlined: "", href: "/project" } },
+                {
+                  staticClass: "mr-10",
+                  attrs: { color: "grey", outlined: "", href: "/project" }
+                },
                 [
                   _c("v-icon", { staticClass: "mr-2" }, [
                     _vm._v(" mdi-arrow-left ")
@@ -43792,19 +43841,47 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-row", [
-            _c("h5", { staticClass: "mt-3 ml-5" }, [_vm._v("Description:")]),
+          _c("v-row", { staticClass: "mt-5 ml-5 mr-5" }, [
+            _c("h5", [_vm._v("Description: "), _c("br")]),
             _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("p", { staticClass: "ml-5" }, [
+            _c("p", [_vm._v(_vm._s(this.project.description))])
+          ]),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c("v-row", { staticClass: "mt-4 ml-5" }, [
+            _c("p", { staticStyle: { color: "grey" } }, [
               _vm._v(
-                "\n                " +
-                  _vm._s(this.project.description) +
-                  "\n            "
-              )
+                "\n                *หากต้องการเริ่มขั้นตอนการ upload รูปภาพและการประเมินรูปภาพ\n                กรุณา click ที่ปุ่ม "
+              ),
+              _c("u", [_vm._v("Prepare Evaluation\n                    ")])
             ])
           ]),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            { staticClass: "ml-5" },
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    color: "#F4D03F",
+                    dark: "",
+                    href: "/evaluation/upload"
+                  }
+                },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-upload ")
+                  ]),
+                  _vm._v("\n                Prepare Evaluation\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),

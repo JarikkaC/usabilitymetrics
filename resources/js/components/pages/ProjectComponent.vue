@@ -1,22 +1,37 @@
 <template>
     <v-app>
-        <v-container class="mt-2 mx-2">
-            <v-row>
-                <h3 class="mt-3 ml-5">
+        <v-card class="m-4">
+            <v-row class="mt-5 ml-5">
+                <h3>
                     Project Name: {{ this.project.project_name }}
                 </h3>
                 <v-spacer></v-spacer>
-                <v-btn color="#F4D03F" outlined href="/project">
+                <v-btn class="mr-10" color="grey" outlined href="/project">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>
                     Back
                 </v-btn>
             </v-row>
-            <v-row>
-                <h5 class="mt-3 ml-5">Description:</h5>
-                <br />
-                <p class="ml-5">
-                    {{ this.project.description }}
+            <v-row class="mt-5 ml-5 mr-5">
+                <h5>Description: <br /></h5>
+                <p>{{ this.project.description }}</p>
+            </v-row>
+            <v-divider></v-divider>
+            <v-row class="mt-4 ml-5">
+                <p style="color: grey;">
+                    *หากต้องการเริ่มขั้นตอนการ upload รูปภาพและการประเมินรูปภาพ
+                    กรุณา click ที่ปุ่ม <u>Prepare Evaluation
+                        </u>
                 </p>
+            </v-row>
+            <v-row class="ml-5">
+                <v-btn
+                    color="#F4D03F"
+                    dark
+                    href="/evaluation/upload"
+                >
+                    <v-icon class="mr-2"> mdi-upload </v-icon>
+                    Prepare Evaluation
+                </v-btn>
             </v-row>
 
             <br />
@@ -54,7 +69,7 @@
                 </v-card>
             </v-dialog>
             <!-- -------------------------------------------------------------------- -->
-        </v-container>
+        </v-card>
     </v-app>
 </template>
 

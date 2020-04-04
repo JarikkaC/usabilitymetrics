@@ -5,7 +5,7 @@
                 Evaluation Form
 
                 <v-spacer></v-spacer>
-                <v-btn color="#F4D03F" outlined href="/metric">
+                <v-btn color="grey" outlined href="/metric">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>
                     Back
                 </v-btn>
@@ -34,24 +34,27 @@
                         v-for="choice in question.choices"
                         :key="choice"
                         :value="choice"
+                        v-model="answer.level_selected"
                     >
                         {{ choice }}
                     </v-radio>
                 </v-radio-group>
+                <h5 class="p-3">Comment:</h5>
+                <v-textarea
+                    label="write a comment"
+                    persistent-hint
+                    outlined
+                    class="ml-5 mr-5"
+                    v-model="answer.comment"
+                >
+                </v-textarea>
             </div>
 
             <v-divider></v-divider>
 
             <v-row class="m-3">
                 <v-spacer></v-spacer>
-                <v-btn
-                    class="m-2"
-                    large
-                    dark
-                    color="teal"
-                    @click="submit"
-                    href="/metric/"
-                >
+                <v-btn class="m-2" large dark color="teal" href="/metric/">
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
                 </v-btn>
@@ -92,7 +95,12 @@ export default {
     data: () => ({
         dialog: false,
         pictureZoom: {},
-        answer: [],
+        answer: [
+            {
+                comment: null,
+                level_selected: null
+            }
+        ],
         row: null,
         picture: [],
         project: [],
