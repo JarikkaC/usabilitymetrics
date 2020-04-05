@@ -54,7 +54,7 @@
 
             <v-row class="m-3">
                 <v-spacer></v-spacer>
-                <v-btn class="m-2" large dark color="teal"  @click="submit">
+                <v-btn class="m-2" large dark color="teal" @click="submit">
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
                 </v-btn>
@@ -98,21 +98,21 @@ export default {
         answer: [
             {
                 comment: null,
-                level_selected: null
-            }
+                level_selected: null,
+            },
         ],
         row: null,
         picture: [],
         project: [],
         questions: [],
-        submetric: []
+        submetric: [],
     }),
 
     methods: {
         async getPicture() {
             await axios
                 .get("/api/pictures/" + this.picture_path)
-                .then(response => {
+                .then((response) => {
                     this.picture = response.data;
                 });
             //console.log("this.picture", this.picture);
@@ -120,14 +120,18 @@ export default {
         },
 
         async getQuestion() {
+            console.log("this.picture", this.picture);
             for (let index = 0; index < this.picture.length; index++) {
                 const element = this.picture[index];
                 let submetric_id = element.submetric_id;
+                console.log(submetric_id);
                 await axios
                     .get("/api/questions/" + submetric_id)
-                    .then(response => {
-                        this.questions.push(response.data[0]);
-                        this.questions.forEach(question => {
+                    .then((response) => {
+                        this.questions.push(response.data);
+                        let temp = this.questions[0];
+                        this.questions = temp
+                        this.questions.forEach((question) => {
                             question.choices = [];
                             for (
                                 let index = 0;
@@ -139,11 +143,10 @@ export default {
                         });
                     });
             }
-            console.log(this.questions);
         },
 
         getSubmetric() {
-            axios.get("/api/submetrics/").then(response => {
+            axios.get("/api/submetrics/").then((response) => {
                 this.submetric = response.data;
                 console.log("Submetric", this.submetric);
             });
@@ -157,18 +160,18 @@ export default {
             axios.post("/api/answers", {
                 question_id: this.question_id,
                 level_selected: this.answer.choice,
-                comment: this.answer.comment, 
+                comment: this.answer.comment,
             });
             // this.dialog = true;
         },
     },
 
     computed: {
-        submetricFill: function() {
-            return this.submetric.filter(submetric => {
+        submetricFill: function () {
+            return this.submetric.filter((submetric) => {
                 return submetric.id == this.submetric_id;
             });
-        }
+        },
         //  pictureFil: function() {
         //     return this.pictures.filter(picture => {
         //         return picture.project_id == this.id;
@@ -179,7 +182,7 @@ export default {
     watch: {
         dialog(val) {
             val || this.close();
-        }
-    }
+        },
+    },
 };
 </script>

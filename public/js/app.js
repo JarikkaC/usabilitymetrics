@@ -3792,19 +3792,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                console.log("this.picture", this.picture);
                 index = 0;
 
-              case 1:
+              case 2:
                 if (!(index < this.picture.length)) {
-                  _context3.next = 9;
+                  _context3.next = 11;
                   break;
                 }
 
                 element = this.picture[index];
                 submetric_id = element.submetric_id;
-                _context3.next = 6;
+                console.log(submetric_id);
+                _context3.next = 8;
                 return axios.get("/api/questions/" + submetric_id).then(function (response) {
-                  _this2.questions.push(response.data[0]);
+                  _this2.questions.push(response.data);
+
+                  var temp = _this2.questions[0];
+                  _this2.questions = temp;
 
                   _this2.questions.forEach(function (question) {
                     question.choices = [];
@@ -3815,15 +3820,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 });
 
-              case 6:
+              case 8:
                 index++;
-                _context3.next = 1;
+                _context3.next = 2;
                 break;
 
-              case 9:
-                console.log(this.questions);
-
-              case 10:
+              case 11:
               case "end":
                 return _context3.stop();
             }
