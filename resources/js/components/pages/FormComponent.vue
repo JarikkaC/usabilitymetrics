@@ -20,21 +20,18 @@
                     />
                 </center>
             </v-container>
-
             <v-divider></v-divider>
-
-            <div v-for="(question, index) in questions" :key="question.id">
+            <div v-for="question in questions" :key="question.id">
                 <h4 class="p-3">Question:</h4>
                 <p class="ml-5">
                     {{ question.question }}
                 </p>
-                <v-radio-group class="ml-5" v-model="answer[index]" column>
+                <v-radio-group class="ml-5" v-model="question.level_selected" column>
                     <v-radio
                         :label="choice.toString()"
                         v-for="choice in question.choices"
                         :key="choice"
                         :value="choice"
-                        v-model="answer.level_selected"
                     >
                         {{ choice }}
                     </v-radio>
@@ -45,7 +42,7 @@
                     persistent-hint
                     outlined
                     class="ml-5 mr-5"
-                    v-model="answer.comment"
+                    v-model="question.comment"
                 >
                 </v-textarea>
             </div>
@@ -95,12 +92,6 @@ export default {
     data: () => ({
         dialog: false,
         pictureZoom: {},
-        answer: [
-            {
-                comment: null,
-                level_selected: null,
-            },
-        ],
         row: null,
         picture: [],
         project: [],
@@ -115,7 +106,6 @@ export default {
                 .then((response) => {
                     this.picture = response.data;
                 });
-            //console.log("this.picture", this.picture);
             await this.getQuestion();
         },
 
@@ -130,7 +120,7 @@ export default {
                     .then((response) => {
                         this.questions.push(response.data);
                         let temp = this.questions[0];
-                        this.questions = temp
+                        this.questions = temp;
                         this.questions.forEach((question) => {
                             question.choices = [];
                             for (
@@ -148,7 +138,6 @@ export default {
         getSubmetric() {
             axios.get("/api/submetrics/").then((response) => {
                 this.submetric = response.data;
-                console.log("Submetric", this.submetric);
             });
         },
 
@@ -157,12 +146,16 @@ export default {
         },
 
         submit() {
-            axios.post("/api/answers", {
-                question_id: this.question_id,
-                level_selected: this.answer.choice,
-                comment: this.answer.comment,
-            });
-            // this.dialog = true;
+            console.log(this.questions)
+            for (let index = 0; index < this.questions.length; index++) {
+                const element = this.questions[index];
+                axios.post("/api/answers", {
+                    question_id: element.id,
+                    level_selected: element.level_selected,
+                    comment: element.comment,
+                    picture_path: this.picture_path
+                });
+            }
         },
     },
 

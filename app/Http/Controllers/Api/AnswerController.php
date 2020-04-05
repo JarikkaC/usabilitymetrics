@@ -40,16 +40,10 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
         $answers = new answer();
-
-        $questions = question::orderBy('created_at', 'desc')->first();
-        $answers->question_id = $questions->id;
-
-        $pictures = picture::orderBy('created_at', 'desc')->first();
-        $answers->picture_path = $pictures->picture_path;
-         
+        $answers->question_id = $request->get('question_id');
         $answers->level_selected = $request->get('level_selected');
         $answers->comment = $request->get('comment');
-
+        $answers->picture_path = $request->get('picture_path');
         $answers->save();
         return response()->json($answers);
     }

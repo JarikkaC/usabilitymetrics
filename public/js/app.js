@@ -3698,9 +3698,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "picture_path"],
   created: function () {
@@ -3736,10 +3733,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: false,
       pictureZoom: {},
-      answer: [{
-        comment: null,
-        level_selected: null
-      }],
       row: null,
       picture: [],
       project: [],
@@ -3844,18 +3837,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.get("/api/submetrics/").then(function (response) {
         _this3.submetric = response.data;
-        console.log("Submetric", _this3.submetric);
       });
     },
     zoom: function zoom(val) {
       this.pictureZoom = val;
     },
     submit: function submit() {
-      axios.post("/api/answers", {
-        question_id: this.question_id,
-        level_selected: this.answer.choice,
-        comment: this.answer.comment
-      }); // this.dialog = true;
+      console.log(this.questions);
+
+      for (var index = 0; index < this.questions.length; index++) {
+        var element = this.questions[index];
+        axios.post("/api/answers", {
+          question_id: element.id,
+          level_selected: element.level_selected,
+          comment: element.comment,
+          picture_path: this.picture_path
+        });
+      }
     }
   },
   computed: {
@@ -43725,7 +43723,7 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _vm._l(_vm.questions, function(question, index) {
+          _vm._l(_vm.questions, function(question) {
             return _c(
               "div",
               { key: question.id },
@@ -43746,11 +43744,11 @@ var render = function() {
                     staticClass: "ml-5",
                     attrs: { column: "" },
                     model: {
-                      value: _vm.answer[index],
+                      value: question.level_selected,
                       callback: function($$v) {
-                        _vm.$set(_vm.answer, index, $$v)
+                        _vm.$set(question, "level_selected", $$v)
                       },
-                      expression: "answer[index]"
+                      expression: "question.level_selected"
                     }
                   },
                   _vm._l(question.choices, function(choice) {
@@ -43758,14 +43756,7 @@ var render = function() {
                       "v-radio",
                       {
                         key: choice,
-                        attrs: { label: choice.toString(), value: choice },
-                        model: {
-                          value: _vm.answer.level_selected,
-                          callback: function($$v) {
-                            _vm.$set(_vm.answer, "level_selected", $$v)
-                          },
-                          expression: "answer.level_selected"
-                        }
+                        attrs: { label: choice.toString(), value: choice }
                       },
                       [
                         _vm._v(
@@ -43789,11 +43780,11 @@ var render = function() {
                     outlined: ""
                   },
                   model: {
-                    value: _vm.answer.comment,
+                    value: question.comment,
                     callback: function($$v) {
-                      _vm.$set(_vm.answer, "comment", $$v)
+                      _vm.$set(question, "comment", $$v)
                     },
-                    expression: "answer.comment"
+                    expression: "question.comment"
                   }
                 })
               ],
