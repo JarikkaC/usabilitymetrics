@@ -22,49 +22,6 @@
             </v-container>
             <v-divider></v-divider>
 
-            <!-- <div>
-                <h4 class="p-3">Question:</h4>
-                <p class="ml-5">
-                    คุณคิดว่า interface นี้มีความน่าดึงดูดใจหรือไม่
-                    (1-น้อยที่สุด, 5-มากที่สุด)
-                </p>
-                <v-radio-group class="ml-5" v-model="radios" :mandatory="false">
-                    <v-radio label="1" value="radio-1"></v-radio>
-                    <v-radio label="2" value="radio-2"></v-radio>
-                    <v-radio label="3" value="radio-2"></v-radio>
-                    <v-radio label="4" value="radio-2"></v-radio>
-                    <v-radio label="5" value="radio-2"></v-radio>
-                </v-radio-group>
-                <h5 class="p-3">Comment:</h5>
-                <v-textarea
-                    label="write a comment"
-                    persistent-hint
-                    outlined
-                    class="ml-5 mr-5"
-                >
-                </v-textarea>
-            </div>
-
-             <div>
-                <h4 class="p-3">Question:</h4>
-                <p class="ml-5">
-                   คุณเข้าใจหรือไม่กว่า interface นี้มีฟังก์ชันอะไรบ้าง {1-ไม่เข้าใจ, 2-เข้าใจบางส่วน, 3-เข้าใจทั้งหมด)
-                </p>
-                <v-radio-group class="ml-5" v-model="radios" :mandatory="false">
-                    <v-radio label="1" value="radio-1"></v-radio>
-                    <v-radio label="2" value="radio-2"></v-radio>
-                    <v-radio label="3" value="radio-2"></v-radio>
-                </v-radio-group>
-                <h5 class="p-3">Comment:</h5>
-                <v-textarea
-                    label="write a comment"
-                    persistent-hint
-                    outlined
-                    class="ml-5 mr-5"
-                >
-                </v-textarea>
-            </div> -->
-
             <div v-for="question in questions" :key="question.id">
                 <h4 class="p-3">Question:</h4>
                 <p class="ml-5">
@@ -161,7 +118,7 @@ export default {
             for (let index = 0; index < this.picture.length; index++) {
                 const element = await this.picture[index];
                 let submetric_id = await element.submetric_id;
-                console.log('submetric_id',submetric_id)
+                //console.log('submetric_id',submetric_id)
                 await axios
                     .get("/api/questions/" + submetric_id)
                     .then(async response => {

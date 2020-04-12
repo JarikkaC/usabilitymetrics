@@ -3711,49 +3711,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "picture_path"],
   created: function () {
@@ -4129,10 +4086,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4267,9 +4238,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return this.getSubmetric();
 
             case 4:
-              this.getAnswer();
+              _context.next = 6;
+              return this.getAnswer();
 
-            case 5:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -4333,51 +4305,72 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getQuestion: function () {
       var _getQuestion = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var _this2 = this;
 
         var index, element, submetric_id;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 index = 0;
 
               case 1:
                 if (!(index < this.picture.length)) {
-                  _context3.next = 9;
+                  _context4.next = 13;
                   break;
                 }
 
-                element = this.picture[index];
-                submetric_id = element.submetric_id;
-                _context3.next = 6;
-                return axios.get("/api/questions/" + submetric_id).then(function (response) {
-                  _this2.questions.push(response.data[0]);
+                _context4.next = 4;
+                return this.picture[index];
 
-                  _this2.questions.forEach(function (question) {
-                    question.choices = [];
+              case 4:
+                element = _context4.sent;
+                _context4.next = 7;
+                return element.submetric_id;
 
-                    for (var _index = 0; _index < question.max_select; _index++) {
-                      question.choices.push(_index + 1);
-                    }
-                  });
-                });
+              case 7:
+                submetric_id = _context4.sent;
+                _context4.next = 10;
+                return axios.get("/api/questions/" + submetric_id).then(
+                /*#__PURE__*/
+                function () {
+                  var _ref = _asyncToGenerator(
+                  /*#__PURE__*/
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(response) {
+                    var _this2$questions;
 
-              case 6:
-                index++;
-                _context3.next = 1;
-                break;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            _context3.next = 2;
+                            return (_this2$questions = _this2.questions).push.apply(_this2$questions, _toConsumableArray(response.data));
 
-              case 9:
-                console.log(this.questions);
+                          case 2:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
+
+                  return function (_x) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
 
               case 10:
+                index++;
+                _context4.next = 1;
+                break;
+
+              case 13:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function getQuestion() {
@@ -4390,8 +4383,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       axios.get("/api/submetrics/").then(function (response) {
-        _this3.submetric = response.data;
-        console.log("Submetric", _this3.submetric);
+        _this3.submetric = response.data; // console.log("Submetric", this.submetric);
       });
     },
     getAnswer: function getAnswer() {
@@ -44267,184 +44259,48 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "ml-5" },
-            [
-              _c("v-card-text", [
-                _c(
-                  "h5",
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "", color: "grey" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        mdi-checkbox-blank-circle\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v("\n                    Question: "),
-                    _c("br"),
-                    _vm._v(
-                      "\n                         คุณคิดว่า interface\n                    นี้มีความน่าดึงดูดใจหรือไม่ (1-น้อยที่สุด, 5-มากที่สุด)\n                "
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "h5",
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "", color: "#F4D03F" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        mdi-checkbox-blank-circle\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v("\n                    Your result: "),
-                    _c("br"),
-                    _vm._v("\n                         3/5\n                ")
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "h5",
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "", color: "#F4D03F" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        mdi-checkbox-blank-circle\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v("\n                    Comment: "),
-                    _c("br"),
-                    _vm._v(
-                      "\n                         interface\n                    ใช้สีสันในการออกแบบได้ดี แต่มีการจัดวางหน้า layout\n                    ที่ยากต่อการใช้งาน และตัวอักษรมีขนาดเล็กเกินไป\n                "
-                    )
-                  ],
-                  1
-                )
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-divider"),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "ml-5" },
-            [
-              _c("v-card-text", [
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "h5",
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "", color: "grey" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        mdi-checkbox-blank-circle\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v("\n                    Question: "),
-                    _c("br"),
-                    _vm._v(
-                      "\n                         คุณเข้าใจหรือไม่กว่า\n                    interface นี้มีฟังก์ชันอะไรบ้าง {1-ไม่เข้าใจ,\n                    2-เข้าใจบางส่วน, 3-เข้าใจทั้งหมด)\n                "
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "h5",
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "", color: "#F4D03F" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        mdi-checkbox-blank-circle\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v("\n                    Your result: "),
-                    _c("br"),
-                    _vm._v("\n                         2/3\n                ")
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "h5",
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "", color: "#F4D03F" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        mdi-checkbox-blank-circle\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v("\n                    Comment: "),
-                    _c("br"),
-                    _vm._v(
-                      "\n                          ออกแบบ interface\n                    ส่วนที่เป็นฟังก์ชันได้สังเกตง่าย\n                    และสามารถคาดเดาการใช้งานได้ด้วยการมอง\n                "
-                    )
-                  ],
-                  1
-                )
-              ])
-            ],
-            1
-          ),
+          _vm._l(_vm.questions, function(question) {
+            return _c(
+              "div",
+              { key: question.id },
+              [
+                _c("v-card-text", [
+                  _c(
+                    "h5",
+                    [
+                      _c(
+                        "v-icon",
+                        {
+                          staticClass: "mr-2",
+                          attrs: { small: "", color: "#F4D03F" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        mdi-checkbox-blank-circle\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(
+                        "\n                    Question: " +
+                          _vm._s(question.question) +
+                          "\n                "
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("h5", [_vm._v("Your result:")]),
+                  _vm._v(" "),
+                  _c("h5", [_vm._v("Comment:")])
+                ])
+              ],
+              1
+            )
+          }),
           _vm._v(" "),
           _c("v-divider")
         ],
-        1
+        2
       ),
       _vm._v(" "),
       _c(
