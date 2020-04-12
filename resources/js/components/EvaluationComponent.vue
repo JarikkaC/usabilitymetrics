@@ -63,9 +63,9 @@
                                                     <v-btn color="teal" dark :href="/evaluation/ + picture[0].picture_path">
                                                         Evaluation
                                                     </v-btn>
-                                                    <v-btn color="indigo" dark>
+                                                    <!-- <v-btn color="indigo" dark>
                                                         See Report
-                                                    </v-btn>
+                                                    </v-btn> -->
                                                 </div>
                                             </center>
                                         </v-col>

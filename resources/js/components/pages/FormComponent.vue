@@ -21,12 +21,60 @@
                 </center>
             </v-container>
             <v-divider></v-divider>
+
+            <!-- <div>
+                <h4 class="p-3">Question:</h4>
+                <p class="ml-5">
+                    คุณคิดว่า interface นี้มีความน่าดึงดูดใจหรือไม่
+                    (1-น้อยที่สุด, 5-มากที่สุด)
+                </p>
+                <v-radio-group class="ml-5" v-model="radios" :mandatory="false">
+                    <v-radio label="1" value="radio-1"></v-radio>
+                    <v-radio label="2" value="radio-2"></v-radio>
+                    <v-radio label="3" value="radio-2"></v-radio>
+                    <v-radio label="4" value="radio-2"></v-radio>
+                    <v-radio label="5" value="radio-2"></v-radio>
+                </v-radio-group>
+                <h5 class="p-3">Comment:</h5>
+                <v-textarea
+                    label="write a comment"
+                    persistent-hint
+                    outlined
+                    class="ml-5 mr-5"
+                >
+                </v-textarea>
+            </div>
+
+             <div>
+                <h4 class="p-3">Question:</h4>
+                <p class="ml-5">
+                   คุณเข้าใจหรือไม่กว่า interface นี้มีฟังก์ชันอะไรบ้าง {1-ไม่เข้าใจ, 2-เข้าใจบางส่วน, 3-เข้าใจทั้งหมด)
+                </p>
+                <v-radio-group class="ml-5" v-model="radios" :mandatory="false">
+                    <v-radio label="1" value="radio-1"></v-radio>
+                    <v-radio label="2" value="radio-2"></v-radio>
+                    <v-radio label="3" value="radio-2"></v-radio>
+                </v-radio-group>
+                <h5 class="p-3">Comment:</h5>
+                <v-textarea
+                    label="write a comment"
+                    persistent-hint
+                    outlined
+                    class="ml-5 mr-5"
+                >
+                </v-textarea>
+            </div> -->
+
             <div v-for="question in questions" :key="question.id">
                 <h4 class="p-3">Question:</h4>
                 <p class="ml-5">
                     {{ question.question }}
                 </p>
-                <v-radio-group class="ml-5" v-model="question.level_selected" column>
+                <v-radio-group
+                    class="ml-5"
+                    v-model="question.level_selected"
+                    column
+                >
                     <v-radio
                         :label="choice.toString()"
                         v-for="choice in question.choices"
@@ -96,47 +144,41 @@ export default {
         picture: [],
         project: [],
         questions: [],
-        submetric: [],
+        submetric: []
     }),
 
     methods: {
         async getPicture() {
             await axios
                 .get("/api/pictures/" + this.picture_path)
-                .then((response) => {
+                .then(response => {
                     this.picture = response.data;
                 });
             await this.getQuestion();
         },
 
         async getQuestion() {
-            console.log("this.picture", this.picture);
             for (let index = 0; index < this.picture.length; index++) {
-                const element = this.picture[index];
-                let submetric_id = element.submetric_id;
-                console.log(submetric_id);
+                const element = await this.picture[index];
+                let submetric_id = await element.submetric_id;
+                console.log('submetric_id',submetric_id)
                 await axios
                     .get("/api/questions/" + submetric_id)
-                    .then((response) => {
-                        this.questions.push(response.data);
-                        let temp = this.questions[0];
-                        this.questions = temp;
-                        this.questions.forEach((question) => {
-                            question.choices = [];
-                            for (
-                                let index = 0;
-                                index < question.max_select;
-                                index++
-                            ) {
-                                question.choices.push(index + 1);
-                            }
-                        });
+                    .then(async response => {
+                        await console.log('>>>',response.data)
+                        await this.questions.push(...response.data);
                     });
+                await this.questions.forEach(question => {
+                    question.choices = [];
+                    for (let index = 0; index < question.max_select; index++) {
+                        question.choices.push(index + 1);
+                    }
+                });
             }
         },
 
         getSubmetric() {
-            axios.get("/api/submetrics/").then((response) => {
+            axios.get("/api/submetrics/").then(response => {
                 this.submetric = response.data;
             });
         },
@@ -146,7 +188,6 @@ export default {
         },
 
         submit() {
-            console.log(this.questions)
             for (let index = 0; index < this.questions.length; index++) {
                 const element = this.questions[index];
                 axios.post("/api/answers", {
@@ -156,26 +197,21 @@ export default {
                     picture_path: this.picture_path
                 });
             }
-        },
+        }
     },
 
     computed: {
-        submetricFill: function () {
-            return this.submetric.filter((submetric) => {
+        submetricFill: function() {
+            return this.submetric.filter(submetric => {
                 return submetric.id == this.submetric_id;
             });
-        },
-        //  pictureFil: function() {
-        //     return this.pictures.filter(picture => {
-        //         return picture.project_id == this.id;
-        //     });
-        // }
+        }
     },
 
     watch: {
         dialog(val) {
             val || this.close();
-        },
-    },
+        }
+    }
 };
 </script>

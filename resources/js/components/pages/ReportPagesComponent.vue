@@ -22,14 +22,79 @@
 
             <v-divider></v-divider>
 
-
-             <div v-for="(question, index) in questions" :key="question.id">
-            <v-card-text>
-                <h6>Question: {{ question.question }}</h6>
-                <h6>Your result: </h6>
-                <h6>Comment:</h6>
-            </v-card-text>
+            <div class="ml-5">
+                <v-card-text>
+                    <h5>
+                        <v-icon small class="mr-2" color="grey">
+                            mdi-checkbox-blank-circle
+                        </v-icon>
+                        Question: <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณคิดว่า interface
+                        นี้มีความน่าดึงดูดใจหรือไม่ (1-น้อยที่สุด, 5-มากที่สุด)
+                    </h5>
+                    <br /><br />
+                    <h5>
+                        <v-icon small class="mr-2" color="#F4D03F">
+                            mdi-checkbox-blank-circle
+                        </v-icon>
+                        Your result: <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3/5
+                    </h5>
+                    <br /><br />
+                    <h5>
+                        <v-icon small class="mr-2" color="#F4D03F">
+                            mdi-checkbox-blank-circle
+                        </v-icon>
+                        Comment: <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;interface
+                        ใช้สีสันในการออกแบบได้ดี แต่มีการจัดวางหน้า layout
+                        ที่ยากต่อการใช้งาน และตัวอักษรมีขนาดเล็กเกินไป
+                    </h5>
+                </v-card-text>
             </div>
+
+            <v-divider></v-divider>
+
+            <div class="ml-5">
+                <v-card-text>
+                    <br /><br />
+                    <h5>
+                        <v-icon small class="mr-2" color="grey">
+                            mdi-checkbox-blank-circle
+                        </v-icon>
+                        Question: <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณเข้าใจหรือไม่กว่า
+                        interface นี้มีฟังก์ชันอะไรบ้าง {1-ไม่เข้าใจ,
+                        2-เข้าใจบางส่วน, 3-เข้าใจทั้งหมด)
+                    </h5>
+                    <br /><br />
+                    <h5>
+                        <v-icon small class="mr-2" color="#F4D03F">
+                            mdi-checkbox-blank-circle
+                        </v-icon>
+                        Your result: <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2/3
+                    </h5>
+                    <br /><br />
+                    <h5>
+                        <v-icon small class="mr-2" color="#F4D03F">
+                            mdi-checkbox-blank-circle
+                        </v-icon>
+                        Comment: <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ออกแบบ interface
+                        ส่วนที่เป็นฟังก์ชันได้สังเกตง่าย
+                        และสามารถคาดเดาการใช้งานได้ด้วยการมอง
+                    </h5>
+                </v-card-text>
+            </div>
+
+            <!-- <div v-for="(question, index) in questions" :key="question.id">
+                <v-card-text>
+                    <h6>Question: {{ question.question }}</h6>
+                    <h6>Your result:</h6>
+                    <h6>Comment:</h6>
+                </v-card-text>
+            </div> -->
 
             <v-divider></v-divider>
         </v-card>
@@ -66,14 +131,14 @@ export default {
         project: [],
         questions: [],
         submetric: [],
-        choices: []
+        choices: [],
     }),
 
     methods: {
         async getPicture() {
             await axios
                 .get("/api/pictures/" + this.picture_path)
-                .then(response => {
+                .then((response) => {
                     this.picture = response.data;
                 });
             //console.log("this.picture", this.picture);
@@ -86,9 +151,9 @@ export default {
                 let submetric_id = element.submetric_id;
                 await axios
                     .get("/api/questions/" + submetric_id)
-                    .then(response => {
+                    .then((response) => {
                         this.questions.push(response.data[0]);
-                        this.questions.forEach(question => {
+                        this.questions.forEach((question) => {
                             question.choices = [];
                             for (
                                 let index = 0;
@@ -104,14 +169,14 @@ export default {
         },
 
         getSubmetric() {
-            axios.get("/api/submetrics/").then(response => {
+            axios.get("/api/submetrics/").then((response) => {
                 this.submetric = response.data;
                 console.log("Submetric", this.submetric);
             });
         },
 
         getAnswer() {
-            axios.get("/api/answers/").then(response => {
+            axios.get("/api/answers/").then((response) => {
                 this.answer = response.data;
                 console.log("answers", this.answer);
             });
@@ -119,21 +184,21 @@ export default {
 
         zoom(val) {
             this.pictureZoom = val;
-        }
+        },
     },
 
     computed: {
-        submetricFill: function() {
-            return this.submetric.filter(submetric => {
+        submetricFill: function () {
+            return this.submetric.filter((submetric) => {
                 return submetric.id == this.submetric_id;
             });
-        }
+        },
     },
 
     watch: {
         dialog(val) {
             val || this.close();
-        }
-    }
+        },
+    },
 };
 </script>
