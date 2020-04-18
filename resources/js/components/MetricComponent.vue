@@ -10,7 +10,7 @@
             >
                 <template v-slot:top>
                     <v-toolbar flat color="white">
-                        <v-toolbar-title>Default Metrics</v-toolbar-title>
+                        <v-toolbar-title>Metrics</v-toolbar-title>
                         <v-divider class="mx-4" inset vertical></v-divider>
                         <v-spacer></v-spacer>
                         <v-btn

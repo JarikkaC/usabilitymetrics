@@ -3,7 +3,7 @@
 @section('content')
 <div id="app">
     @if(auth()->check())
-    <form-component picture_path="{!!$picture_path!!}" :usernow="{{ Auth::user() }}"></form-component>
+    <form-component picture_path="{!!$picture_path!!}"></form-component>
     @endif
 </div>
 @endsection

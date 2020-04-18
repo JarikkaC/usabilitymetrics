@@ -22,72 +22,6 @@
 
             <v-divider></v-divider>
 
-            <!-- <div class="ml-5">
-                <v-card-text>
-                    <h5>
-                        <v-icon small class="mr-2" color="grey">
-                            mdi-checkbox-blank-circle
-                        </v-icon>
-                        Question: <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณคิดว่า interface
-                        นี้มีความน่าดึงดูดใจหรือไม่ (1-น้อยที่สุด, 5-มากที่สุด)
-                    </h5>
-                    <br /><br />
-                    <h5>
-                        <v-icon small class="mr-2" color="#F4D03F">
-                            mdi-checkbox-blank-circle
-                        </v-icon>
-                        Your result: <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3/5
-                    </h5>
-                    <br /><br />
-                    <h5>
-                        <v-icon small class="mr-2" color="#F4D03F">
-                            mdi-checkbox-blank-circle
-                        </v-icon>
-                        Comment: <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;interface
-                        ใช้สีสันในการออกแบบได้ดี แต่มีการจัดวางหน้า layout
-                        ที่ยากต่อการใช้งาน และตัวอักษรมีขนาดเล็กเกินไป
-                    </h5>
-                </v-card-text>
-            </div>
-
-            <v-divider></v-divider>
-
-            <div class="ml-5">
-                <v-card-text>
-                    <br /><br />
-                    <h5>
-                        <v-icon small class="mr-2" color="grey">
-                            mdi-checkbox-blank-circle
-                        </v-icon>
-                        Question: <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณเข้าใจหรือไม่กว่า
-                        interface นี้มีฟังก์ชันอะไรบ้าง {1-ไม่เข้าใจ,
-                        2-เข้าใจบางส่วน, 3-เข้าใจทั้งหมด)
-                    </h5>
-                    <br /><br />
-                    <h5>
-                        <v-icon small class="mr-2" color="#F4D03F">
-                            mdi-checkbox-blank-circle
-                        </v-icon>
-                        Your result: <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2/3
-                    </h5>
-                    <br /><br />
-                    <h5>
-                        <v-icon small class="mr-2" color="#F4D03F">
-                            mdi-checkbox-blank-circle
-                        </v-icon>
-                        Comment: <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ออกแบบ interface
-                        ส่วนที่เป็นฟังก์ชันได้สังเกตง่าย
-                        และสามารถคาดเดาการใช้งานได้ด้วยการมอง
-                    </h5>
-                </v-card-text>
-            </div> -->
-
             <div v-for="question in questions" :key="question.id">
                 <v-card-text>
                     <h5>
@@ -97,8 +31,27 @@
                         Question: {{ question.question }}
                     </h5>
 
-                    <h5>Your result:</h5>
-                    <h5>Comment:</h5>
+                    <!-- <div
+                        v-for="answer in answerFills(question.id)"
+                        :key="answer.id"
+                    >
+                        <h5>Average:</h5>
+                        <h5>Your result: {{ answer.level_selected }}</h5>
+                        <h5>Comment: {{ answer.comment }}</h5>
+                    </div> -->
+                    
+                    <v-data-table
+                        :headers="headers"
+                        :items="answerFills(question.id)"
+                        multi-sort
+                        single-line
+                        hide-details
+                        class="elevation-1 mx-5 mt-3"
+                    ></v-data-table>
+
+                    <h5 class="ml-10">
+                        AVG: {{ avgAnswer(answerFills(question.id)) }}
+                    </h5>
                 </v-card-text>
             </div>
 
@@ -131,16 +84,38 @@ export default {
     data: () => ({
         dialog: false,
         pictureZoom: {},
-        answer: [],
+        answers: [],
         row: null,
         picture: [],
         project: [],
         questions: [],
         submetric: [],
-        choices: []
+        choices: [],
+        headers: [
+            {
+                text: "Level Selected",
+                align: "start",
+                sortable: false,
+                value: "level_selected"
+            },
+            {
+                text: "Comment",
+                align: "left",
+                sortable: false,
+                value: "comment"
+            }
+        ]
     }),
 
     methods: {
+        avgAnswer(data) {
+            let sum = 0;
+            data.forEach(el => {
+                sum += el.level_selected;
+            });
+            return sum / data.length;
+        },
+
         async getPicture() {
             await axios
                 .get("/api/pictures/" + this.picture_path)
@@ -148,17 +123,17 @@ export default {
                     this.picture = response.data;
                 });
             await this.getQuestion();
+            await this.getAnswer();
         },
 
         async getQuestion() {
             for (let index = 0; index < this.picture.length; index++) {
                 const element = await this.picture[index];
                 let submetric_id = await element.submetric_id;
-                // console.log('submetric_id',submetric_id)
+                //console.log('submetric_id',submetric_id)
                 await axios
                     .get("/api/questions/" + submetric_id)
                     .then(async response => {
-                        // await console.log('>>>',response.data)
                         await this.questions.push(...response.data);
                     });
             }
@@ -167,19 +142,27 @@ export default {
         getSubmetric() {
             axios.get("/api/submetrics/").then(response => {
                 this.submetric = response.data;
-                // console.log("Submetric", this.submetric);
             });
         },
 
         getAnswer() {
             axios.get("/api/answers/").then(response => {
-                this.answer = response.data;
-                console.log("answers", this.answer);
+                this.answers = response.data;
+                console.log(this.answers);
             });
         },
 
         zoom(val) {
             this.pictureZoom = val;
+        },
+
+        answerFills(id) {
+            return this.answers.filter(answers => {
+                return (
+                    answers.picture_path == this.picture_path &&
+                    answers.question_id == id
+                );
+            });
         }
     },
 

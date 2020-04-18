@@ -23,7 +23,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
-        
         a {
             color: black;
         }
@@ -31,7 +30,6 @@
         #app {
             font-family: 'Prompt', sans-serif;
         }
-
     </style>
 </head>
 
@@ -42,16 +40,23 @@
         <v-row class="md-3" no-gutters>
 
             @if (Route::has('login'))
-            @auth
-            <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
+                @auth
+                    <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
+                @endauth
+            @else
+                <h1>fdskldskldsakldasklads</h1>
+                <leftnav-component></leftnav-component>
             @endif
-            @endauth
+            
 
             <v-col class="md-9">
                 @yield('content')
             </v-col>
 
         </v-row>
+
+
+
 
 
     </div>

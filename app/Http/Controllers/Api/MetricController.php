@@ -26,6 +26,7 @@ class MetricController extends Controller
      */
     public function create()
     {
+        
     }
 
     /**
@@ -74,18 +75,10 @@ class MetricController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $metrics = Metric::find($id);
-        // $metrics->submetric_name = $request->get('submetric_name');
-        // $metrics->purpose = $request->get('purpose');
-        // $metrics->method = $request->get('method');
-        // $metrics->measurement = $request->get('measurement');
-        // $metrics->scale = $request->get('scale');
-        // $metrics->type = $request->get('type');
-        // $metrics->input = $request->get('input');
-        // $metrics->target = $request->get('target');
-        // $metrics->iso = $request->get('iso');
-        // $metrics->update();
-        // return response()->json($metrics);
+        $metrics = Metric::find($id);
+        $metrics->metric_name = $request->get('metric_name');
+        $metrics->update();
+        return response()->json($metrics);
     }
 
     /**

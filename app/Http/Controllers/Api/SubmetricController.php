@@ -51,9 +51,8 @@ class SubmetricController extends Controller
 
         $metrics = Metric::orderBy('created_at', 'desc')->first();
         $submetrics->metric_id = $metrics->id;
-        
-        $submetrics->save();
 
+        $submetrics->save();
     }
 
     /**
@@ -87,7 +86,19 @@ class SubmetricController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $submetrics = new Submetric();
+        $submetrics->submetric_name = $request->get('submetric_name');
+        $submetrics->purpose = $request->get('purpose');
+        $submetrics->method = $request->get('method');
+        $submetrics->measurement = $request->get('measurement');
+        $submetrics->scale = $request->get('scale');
+        $submetrics->type = $request->get('type');
+        $submetrics->input = $request->get('input');
+        $submetrics->target = $request->get('target');
+        $submetrics->iso = $request->get('iso');
+        $submetrics->update();
+        return response()->json($submetrics);
     }
 
     /**
