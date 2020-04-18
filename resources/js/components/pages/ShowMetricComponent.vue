@@ -21,8 +21,7 @@
             ></v-data-table>
 
             <div v-for="submetric in submetricFil" :key="submetric">
-               
-
+        
                 <div
                     v-for="question in questionFil(submetric.id)"
                     :key="question.id"

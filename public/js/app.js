@@ -4522,6 +4522,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "picture_path"],
   created: function () {
@@ -4578,6 +4590,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         align: "left",
         sortable: false,
         value: "comment"
+      }, {
+        text: "Date/Time",
+        align: "left",
+        sortable: false,
+        value: "created_at"
       }]
     };
   },
@@ -4901,7 +4918,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -45063,7 +45079,7 @@ var render = function() {
           _c(
             "v-card-title",
             [
-              _vm._v("\n            Report\n            "),
+              _vm._v("\n            Evaluation Report\n            "),
               _c("v-spacer"),
               _vm._v(" "),
               _c(
@@ -45138,23 +45154,37 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("v-data-table", {
-                      staticClass: "elevation-1 mx-5 mt-3",
+                      staticClass: "elevation-1 mx-10 mt-3 mb-3",
                       attrs: {
                         headers: _vm.headers,
                         items: _vm.answerFills(question.id),
                         "multi-sort": "",
-                        "single-line": "",
-                        "hide-details": ""
+                        "hide-details": "",
+                        "hide-default-footer": "",
+                        outlined: ""
                       }
                     }),
                     _vm._v(" "),
-                    _c("h5", { staticClass: "ml-10" }, [
-                      _vm._v(
-                        "\n                    AVG: " +
-                          _vm._s(_vm.avgAnswer(_vm.answerFills(question.id))) +
-                          "\n                "
-                      )
-                    ])
+                    _c("v-spacer"),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        staticClass: "ml-10",
+                        attrs: { outlined: "", large: "" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    AVG: " +
+                            _vm._s(
+                              _vm.avgAnswer(_vm.answerFills(question.id))
+                            ) +
+                            "/" +
+                            _vm._s(question.max_select) +
+                            "\n                "
+                        )
+                      ]
+                    )
                   ],
                   1
                 )
@@ -45163,7 +45193,27 @@ var render = function() {
             )
           }),
           _vm._v(" "),
-          _c("v-divider")
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-card-title",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "grey", outlined: "", href: "/report" } },
+                [
+                  _c("v-icon", { staticClass: "mr-2" }, [
+                    _vm._v(" mdi-arrow-left ")
+                  ]),
+                  _vm._v("\n                Back\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         2
       ),

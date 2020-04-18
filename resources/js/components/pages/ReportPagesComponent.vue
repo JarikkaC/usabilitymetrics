@@ -2,7 +2,7 @@
     <v-app>
         <v-card class="m-4">
             <v-card-title>
-                Report
+                Evaluation Report
                 <v-spacer></v-spacer>
                 <v-btn color="grey" outlined href="/report">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>
@@ -39,23 +39,35 @@
                         <h5>Your result: {{ answer.level_selected }}</h5>
                         <h5>Comment: {{ answer.comment }}</h5>
                     </div> -->
-                    
+
                     <v-data-table
                         :headers="headers"
                         :items="answerFills(question.id)"
                         multi-sort
-                        single-line
                         hide-details
-                        class="elevation-1 mx-5 mt-3"
+                        hide-default-footer
+                        outlined
+                        class="elevation-1 mx-10 mt-3 mb-3"
                     ></v-data-table>
 
-                    <h5 class="ml-10">
-                        AVG: {{ avgAnswer(answerFills(question.id)) }}
-                    </h5>
+                    <v-spacer></v-spacer>
+
+                    <v-btn outlined large class="ml-10">
+                        AVG: {{ avgAnswer(answerFills(question.id)) }}/{{
+                            question.max_select
+                        }}
+                    </v-btn>
                 </v-card-text>
             </div>
 
             <v-divider></v-divider>
+            <v-card-title>
+                <v-spacer></v-spacer>
+                <v-btn color="grey" outlined href="/report">
+                    <v-icon class="mr-2"> mdi-arrow-left </v-icon>
+                    Back
+                </v-btn>
+            </v-card-title>
         </v-card>
 
         <v-dialog v-model="dialog" max-width="1000px">
@@ -103,6 +115,12 @@ export default {
                 align: "left",
                 sortable: false,
                 value: "comment"
+            },
+            {
+                text: "Date/Time",
+                align: "left",
+                sortable: false,
+                value: "created_at"
             }
         ]
     }),
@@ -138,13 +156,11 @@ export default {
                     });
             }
         },
-
         getSubmetric() {
             axios.get("/api/submetrics/").then(response => {
                 this.submetric = response.data;
             });
         },
-
         getAnswer() {
             axios.get("/api/answers/").then(response => {
                 this.answers = response.data;
