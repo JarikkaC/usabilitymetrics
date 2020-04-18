@@ -82,6 +82,10 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+
+        <!-- --------------------------------------------------------------------------------- -->
+
+       
     </v-app>
 </template>
 
@@ -94,6 +98,7 @@ export default {
         await this.getAnswer();
     },
     data: () => ({
+
         dialog: false,
         pictureZoom: {},
         answers: [],

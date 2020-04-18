@@ -4534,6 +4534,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "picture_path"],
   created: function () {
@@ -4953,6 +4957,129 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -4962,6 +5089,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      itemsPerPage: 2,
       submetrics: [],
       metrics: [],
       question: [],
@@ -45461,7 +45589,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { color: "#F4D03F", outlined: "", href: "/metric" } },
+                { attrs: { color: "grey", outlined: "", href: "/metric" } },
                 [
                   _c("v-icon", { staticClass: "mr-2" }, [
                     _vm._v(" mdi-arrow-left ")
@@ -45474,29 +45602,312 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-data-table", {
-            staticClass: "elevation-1",
-            attrs: {
-              headers: _vm.headers,
-              items: _vm.submetricFil,
-              "multi-sort": ""
-            }
-          }),
-          _vm._v(" "),
-          _vm._l(_vm.submetricFil, function(submetric) {
-            return _c(
-              "div",
-              { key: submetric },
-              _vm._l(_vm.questionFil(submetric.id), function(question) {
-                return _c("div", { key: question.id }, [
-                  _c("h5", [_vm._v("Question: " + _vm._s(question.question))])
-                ])
-              }),
-              0
-            )
-          })
+          _c(
+            "div",
+            [
+              _c(
+                "v-row",
+                { staticClass: "m-3", attrs: { justify: "space-between" } },
+                _vm._l(_vm.submetricFil, function(submetric) {
+                  return _c(
+                    "v-card",
+                    {
+                      key: submetric,
+                      staticClass: "d-inline-block m-3",
+                      attrs: { width: "570px" }
+                    },
+                    [
+                      _c(
+                        "v-toolbar",
+                        { attrs: { color: "teal", dark: "", flat: "" } },
+                        [
+                          _c(
+                            "v-toolbar-title",
+                            { staticClass: "subheading font-weight-bold" },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(submetric.submetric_name) +
+                                  " \n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                small: "",
+                                fab: "",
+                                dark: "",
+                                color: "indigo"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editItem(_vm.item)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v(" mdi-pencil")])],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _vm._l(_vm.questionFil(submetric.id), function(
+                            question
+                          ) {
+                            return _c(
+                              "div",
+                              { key: question.id },
+                              [
+                                _c(
+                                  "v-row",
+                                  [
+                                    _c("v-col", { attrs: { cols: "3" } }, [
+                                      _c(
+                                        "h5",
+                                        {
+                                          staticStyle: { "font-size": "16px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        Question:\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("v-col", { attrs: { cols: "9" } }, [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(question.question) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "16px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Purpose of the metrics:\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.purpose) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "16px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Method of application:\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.method) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "15px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Measurement, formula and data element\n                                    computations:\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.measurement) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "16px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Metric scale type\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.type) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "16px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Input to measurement\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.input) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "16px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    ISO/IEC 12207 SLCP Reference\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.iso) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "3" } }, [
+                                _c(
+                                  "h5",
+                                  { staticStyle: { "font-size": "16px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Target audience\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "9" } }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(submetric.target) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
         ],
-        2
+        1
       )
     ],
     1
