@@ -57,6 +57,25 @@
                             question.max_select
                         }}
                     </v-btn>
+
+                    <v-data-table
+                        :headers="headers_freq"
+                        :items="stat_Answer(answerFills(question.id))"
+                        multi-sort
+                        hide-details
+                        hide-default-footer
+                        outlined
+                        class="elevation-1 mx-10 mt-3 mb-3"
+                    ></v-data-table>
+
+                    <div id="chart">
+                        <apexchart
+                            type="bar"
+                            height="350"
+                            :options="chartOptions"
+                            :series="series"
+                        ></apexchart>
+                    </div>
                 </v-card-text>
             </div>
 
@@ -84,8 +103,6 @@
         </v-dialog>
 
         <!-- --------------------------------------------------------------------------------- -->
-
-       
     </v-app>
 </template>
 
@@ -98,7 +115,6 @@ export default {
         await this.getAnswer();
     },
     data: () => ({
-
         dialog: false,
         pictureZoom: {},
         answers: [],
@@ -108,6 +124,20 @@ export default {
         questions: [],
         submetric: [],
         choices: [],
+        headers_freq: [
+            {
+                text: "Level Selected",
+                align: "start",
+                sortable: false,
+                value: "level_selected"
+            },
+            {
+                text: "count",
+                align: "left",
+                sortable: false,
+                value: "count"
+            }
+        ],
         headers: [
             {
                 text: "Level Selected",
@@ -127,7 +157,33 @@ export default {
                 sortable: false,
                 value: "created_at"
             }
-        ]
+        ],
+        series: [
+            {
+                data: [1,2,5]
+            }
+        ],
+        chartOptions: {
+            chart: {
+                type: "bar",
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: [
+                    "South Korea",
+                    "Canada",
+                    "United Kingdom",
+                ]
+            }
+        }
     }),
 
     methods: {
@@ -184,6 +240,32 @@ export default {
                     answers.question_id == id
                 );
             });
+        },
+        stat_Answer(arr) {
+            var temp = [];
+            var produce = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (temp.indexOf(arr[i].level_selected) == -1) {
+                    temp.push(arr[i].level_selected);
+                    var _data = {};
+                    _data.level_selected = arr[i].level_selected;
+                    _data.count = 1;
+                    produce.push(_data);
+                } else {
+                    for (var j = 0; j < produce.length; j++) {
+                        if (
+                            produce[j].level_selected === arr[i].level_selected
+                        ) {
+                            var _x = parseInt(produce[j].count) + 1;
+                            produce[j].count = _x;
+                        }
+                    }
+                }
+            }
+            produce.sort((a, b) => parseInt(b.count) - parseInt(a.count));
+            console.log(produce);
+            
+            return produce;
         }
     },
 

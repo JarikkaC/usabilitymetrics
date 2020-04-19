@@ -25,7 +25,7 @@
                     <v-card
                         class="d-inline-block m-3"
                         v-for="submetric in submetricFil"
-                        :key="submetric"
+                        :key="submetric.id"
                         width="570px"
                     >
                         <v-toolbar color="teal" dark flat>
@@ -41,11 +41,12 @@
                                 fab
                                 dark
                                 color="indigo"
-                                @click="dialog = !dialog"
+                                @click="(dialog = !dialog), editItem(submetric)"
                             >
                                 <v-icon> mdi-pencil</v-icon>
                             </v-btn>
                         </v-toolbar>
+
                         <v-card-text>
                             <div
                                 v-for="question in questionFil(submetric.id)"
@@ -59,6 +60,16 @@
                                     </v-col>
                                     <v-col cols="9">
                                         {{ question.question }}
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="3">
+                                        <h5 style="font-size: 16px;">
+                                            Level Select:
+                                        </h5>
+                                    </v-col>
+                                    <v-col cols="9">
+                                        {{ question.max_select }}
                                     </v-col>
                                 </v-row>
                             </div>
@@ -75,6 +86,7 @@
                                     {{ submetric.purpose }}
                                 </v-col>
                             </v-row>
+
                             <v-divider></v-divider>
 
                             <v-row>
@@ -87,6 +99,7 @@
                                     {{ submetric.method }}
                                 </v-col>
                             </v-row>
+
                             <v-divider></v-divider>
 
                             <v-row>
@@ -100,6 +113,7 @@
                                     {{ submetric.measurement }}
                                 </v-col>
                             </v-row>
+
                             <v-divider></v-divider>
 
                             <v-row>
@@ -112,6 +126,7 @@
                                     {{ submetric.type }}
                                 </v-col>
                             </v-row>
+
                             <v-divider></v-divider>
 
                             <v-row>
@@ -124,6 +139,7 @@
                                     {{ submetric.input }}
                                 </v-col>
                             </v-row>
+
                             <v-divider></v-divider>
 
                             <v-row>
@@ -136,6 +152,7 @@
                                     {{ submetric.iso }}
                                 </v-col>
                             </v-row>
+
                             <v-divider></v-divider>
 
                             <v-row>
@@ -167,54 +184,78 @@
                                 <v-card-text>
                                     <v-container>
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
-                                            label="Metric Name"
+                                            v-model="editedItem.submetric_name"
+                                            label="Sub-Metric Name"
                                         ></v-text-field>
 
-                                        <v-text-field
-                                            v-model="editedItem.metric_name"
-                                            label="Question"
-                                        ></v-text-field>
-                                        
+                                        <div
+                                            v-for="(question,
+                                            index) in editedItem.questions"
+                                            :key="question.id"
+                                        >
+                                            <v-text-field
+                                                v-model="
+                                                    editedItem.questions[index]
+                                                        .question
+                                                "
+                                                label="Question"
+                                            ></v-text-field>
+
+                                            <v-select
+                                                v-model="
+                                                    editedItem.questions[index]
+                                                        .max_select
+                                                "
+                                                :items="items"
+                                                label="Level"
+                                                outlined
+                                                :rules="[
+                                                    v =>
+                                                        !!v ||
+                                                        'Level is require!'
+                                                ]"
+                                                required
+                                            ></v-select>
+                                        </div>
 
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
+                                            v-model="editedItem.purpose"
                                             label="Purpose of the metrics"
                                             persistent-hint
                                         ></v-text-field>
 
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
+                                            v-model="editedItem.method"
                                             label="Method of application"
                                             persistent-hint
                                         ></v-text-field>
 
                                         <v-textarea
-                                            v-model="editedItem"
+                                            v-model="editedItem.measurement"
                                             label="Measurement, formula and data element computation"
                                             persistent-hint
                                         ></v-textarea>
 
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
+                                            v-model="editedItem.type"
                                             label="Measure type"
                                             persistent-hint
                                         ></v-text-field>
 
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
+                                            v-model="editedItem.input"
                                             label="Input to measurement"
                                             persistent-hint
                                         ></v-text-field>
 
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
+                                            v-model="editedItem.iso"
                                             label="ISO/IEC 12207 SLCP Reference"
                                             persistent-hint
                                         ></v-text-field>
 
                                         <v-text-field
-                                            v-model="editedItem.metric_name"
+                                            v-model="editedItem.target"
                                             label="Target audience"
                                             persistent-hint
                                         ></v-text-field>
@@ -223,14 +264,12 @@
 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-
                                     <v-btn
                                         color="blue darken-1"
                                         text
                                         @click="save"
                                         >Save</v-btn
                                     >
-
                                     <v-btn color="#CD4D4D" text @click="close"
                                         >Cancel</v-btn
                                     >
@@ -315,9 +354,35 @@ export default {
                     value: "target"
                 }
             ],
+
             editedItem: {
-                submetric_name: ""
-            }
+                submetric_name: "",
+                questions: [],
+                purpose: "",
+                method: "",
+                measurement: "",
+                scale: "",
+                type: "",
+                input: "",
+                iso: "",
+                target: "",
+                max_select: ""
+            },
+            defaultItem: {
+                submetric_name: "",
+                questions: [],
+                purpose: "",
+                method: "",
+                measurement: "",
+                scale: "",
+                type: "",
+                input: "",
+                iso: "",
+                target: "",
+                max_select: ""
+            },
+            editedID: null,
+            items: [1, 2, 3, 4, 5]
         };
     },
 
@@ -347,6 +412,47 @@ export default {
             return this.question.filter(question => {
                 return question.submetric_id == id;
             });
+        },
+
+        save() {
+                Object.assign(
+                    this.submetrics[this.editedIndex],
+                    this.editedItem
+                ) &&
+                    axios.put("/api/submetrics/" + this.editedID, {
+                        submetric_name: this.editedItem.submetric_name,
+                        purpose: this.editedItem.purpose,
+                        method: this.editedItem.method,
+                        measurement: this.editedItem.measurement,
+                        scale: this.editedItem.scale,
+                        type: this.editedItem.type,
+                        input: this.editedItem.input,
+                        iso: this.editedItem.iso,
+                        target: this.editedItem.target
+                    }) &&
+                    this.editedItem.questions.forEach(element => {
+                        axios.put("/api/questions/" + element.id, {
+                            question: element.question,
+                            max_select: element.max_select
+                        });
+                    });
+            this.close();
+        },
+
+        close() {
+            this.dialog = false;
+            setTimeout(() => {
+                this.editedItem = Object.assign({}, this.defaultItem);
+                this.editedIndex = -1;
+            }, 300);
+        },
+
+        async editItem(item) {
+            this.editedIndex = await this.submetrics.indexOf(item);
+            this.editedItem = await Object.assign({}, item);
+            this.editedItem.questions = this.questionFil(item.id);
+            this.dialog = await true;
+            this.editedID = await item.id;
         }
     },
 

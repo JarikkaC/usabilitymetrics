@@ -86,8 +86,7 @@ class SubmetricController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $submetrics = new Submetric();
+        $submetrics = submetric::find($id);
         $submetrics->submetric_name = $request->get('submetric_name');
         $submetrics->purpose = $request->get('purpose');
         $submetrics->method = $request->get('method');

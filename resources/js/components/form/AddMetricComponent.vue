@@ -411,6 +411,7 @@ export default {
             }
             this.dialog = true;
         },
+        
         addSubmetric() {
             this.submetrics.push({
                 submetric_name: null,

@@ -4,11 +4,13 @@ window.Vue = require('vue');
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import '@mdi/font/css/materialdesignicons.css'
-
+import VueApexCharts from 'vue-apexcharts'
 
 
 
 Vue.use(Vuetify)
+
+Vue.component('apexchart', VueApexCharts);
 
 Vue.component('leftnav-component', require('./components/LeftNavComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);

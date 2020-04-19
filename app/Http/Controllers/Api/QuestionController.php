@@ -78,7 +78,7 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $questions = new Question();
+        $questions = question::find($id);
         $questions->question = $request->get('question');
         $questions->max_select = $request->get('max_select');
         $questions->update();

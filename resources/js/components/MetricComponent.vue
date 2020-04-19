@@ -203,15 +203,6 @@ export default {
                 this.editedIndex = -1;
             }, 300);
         },
-
-        // save() {
-        //     if (this.editedIndex > -1) {
-        //         Object.assign(this.metrics[this.editedIndex], this.editedItem);
-        //     } else {
-        //         this.metrics.push(this.editedItem);
-        //     }
-        //     this.close();
-        // }
     }
 };
 </script>
