@@ -5219,6 +5219,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -46167,6 +46173,21 @@ var render = function() {
                                     [
                                       _c("v-text-field", {
                                         attrs: { label: "Metric Name" },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: { label: "Question" },
                                         model: {
                                           value: _vm.editedItem.metric_name,
                                           callback: function($$v) {

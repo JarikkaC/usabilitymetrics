@@ -173,6 +173,12 @@
 
                                         <v-text-field
                                             v-model="editedItem.metric_name"
+                                            label="Question"
+                                        ></v-text-field>
+                                        
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
                                             label="Purpose of the metrics"
                                             persistent-hint
                                         ></v-text-field>
