@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DocumentController extends Controller
+class AboutController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        return view('document');
+        return view('about');
     }
 
     /**

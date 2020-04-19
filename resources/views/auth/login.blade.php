@@ -1,13 +1,21 @@
 @extends('layouts.app')
+
+
 @section('content')
 <section class="page-section" id="contact">
     <div class="container">
         <div class="row justify-content-center">
+
+            <!-- ขนาดของกล่อง -->
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header text-center">
+                    <div class="card-head text-center">
+                        <br><br>
                         <h2 class="section-subheading text-uppercase">{{ __('Login') }}</h2>
-                        <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                        <h3 class="section-subheading text-muted">
+                            If you don't have an account, click
+                            <a href="/register">Register</a>
+                        </h3>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
@@ -68,7 +76,5 @@
         </div>
     </div>
 </section>
-
-
 
 @endsection

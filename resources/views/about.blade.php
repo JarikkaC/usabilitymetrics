@@ -103,7 +103,7 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Features</h2>
-          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+
         </div>
       </div>
       <div class="row">
@@ -115,10 +115,10 @@
               </div>
               <div class="timeline-panel">
                 <div class="timeline-heading">
-                  <h4>Import Graphic Media</h4>
+                  <h4>Upload Graphic Media</h4>
                 </div>
                 <div class="timeline-body">
-                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                  <p class="text-thai">สร้างโปรเจคของคุณ และอัปโหลดสื่อเชิงภาพ หรือรูปภาพที่ต้องการการประเมินในโปรเจคนั้น ๆ</p>
                 </div>
               </div>
             </li>
@@ -131,7 +131,7 @@
                   <h4>Create a Measurement Model</h4>
                 </div>
                 <div class="timeline-body">
-                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                  <p class="text-thai">สร้างแบบจำลองตัวชี้วัดความสามารถในการใช้งาน เพื่อประเมินสื่อเชิงภาพของคุณ</p>
                 </div>
               </div>
             </li>
@@ -144,7 +144,7 @@
                   <h4>Generate Evaluation form</h4>
                 </div>
                 <div class="timeline-body">
-                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                  <p class="text-thai">สร้างแบบสอบถามการประเมินจากตัวชี้วัดความสามารถในการใช้งานที่เลือก และส่งให้กับผู้ประเมิน</p>
                 </div>
               </div>
             </li>
@@ -154,10 +154,10 @@
               </div>
               <div class="timeline-panel">
                 <div class="timeline-heading">
-                  <h4>Usability Report</h4>
+                  <h4>See Report</h4>
                 </div>
                 <div class="timeline-body">
-                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                  <p class="text-thai">เก็บรวมรวบคำถามที่ได้จากการประเมิน และสรุปผลในรูปแบบของรายงานผลการประเมินสื่อเชิงภาพของคุณ </p>
                 </div>
               </div>
             </li>

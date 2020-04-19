@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/document', 'DocumentController@index')->name('document');
+Route::get('about', 'AboutController@index');
 Route::get('metric/addmetric', 'MetricController@create');
 Route::get('evaluation/upload', 'PictureController@create');
 Route::get('/editform', 'PictureController@edit');

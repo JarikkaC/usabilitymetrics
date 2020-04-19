@@ -8,9 +8,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header text-center">
+                    <div class="card-head text-center">
+                        <br><br>
                         <h2 class="section-subheading text-uppercase">{{ __('Register') }}</h2>
-                        <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                        <h3 class="section-subheading text-muted">
+                            If you already have an account, click
+                            <a href="/login">Log in</a>
+                        </h3>
                     </div>
 
                     <div class="card-body">

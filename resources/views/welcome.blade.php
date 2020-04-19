@@ -40,9 +40,6 @@
                         <a class="nav-link js-scroll-trigger" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="/document">Document</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/about">About Us</a>
                     </li>
 
@@ -93,7 +90,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading text-uppercase">What we can do?</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    
                 </div>
             </div>
             <div class="row text-center">
@@ -127,7 +124,7 @@
                 </div>
 
                 <div class="col-lg-12  text-center">
-                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/document">All Features</a>
+                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/about">About Us</a>
                 </div>
 
             </div>
