@@ -28,7 +28,9 @@
     "dependencies": {
         "apexcharts": "^3.18.1",
         "chart.js": "^2.9.3",
+        "vee-validate": "^3.3.0",
         "vue-apexcharts": "^1.5.3",
+        "vuelidate": "^0.7.5",
         "vuetify": "^2.2.1"
     }
 }

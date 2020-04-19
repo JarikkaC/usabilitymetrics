@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="app">
-    <welcomeproject-component></welcomeproject-component>
+    <home-component></home-component>
 </div>
 @endsection
 

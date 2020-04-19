@@ -14,6 +14,8 @@
 
                         <v-spacer></v-spacer>
 
+                        <!-- ----------------------------------------------------------------- -->
+
                         <v-dialog v-model="dialog" max-width="500px">
                             <template v-slot:activator="{ on }">
                                 <v-btn
@@ -34,21 +36,36 @@
 
                                 <v-card-text>
                                     <v-container>
-                                        <v-row>
-                                            <v-col>
-                                                <v-text-field
-                                                    v-model="editedItem.project_name"
-                                                    label="Project name"
-                                                    :rules="projectnameRules"
-                                                ></v-text-field>
-                                                <v-textarea
-                                                    v-model="editedItem.description"
-                                                    autocomplete="description"
-                                                    label="Description"
-                                                    :rules="descriptionRules"
-                                                ></v-textarea>
-                                            </v-col>
-                                        </v-row>
+                                        <v-form v-model="valid">
+                                            <v-row>
+                                                <v-col>
+                                                    <v-text-field
+                                                        v-model="
+                                                            editedItem.project_name
+                                                        "
+                                                        label="Project name"
+                                                        :rules="[
+                                                            required(
+                                                                'Project name'
+                                                            )
+                                                        ]"
+                                                    ></v-text-field>
+                                                    <v-textarea
+                                                        v-model="
+                                                            editedItem.description
+                                                        "
+                                                        autocomplete="description"
+                                                        label="Description"
+                                                        :rules="[
+                                                            required(
+                                                                'Description'
+                                                            )
+                                                        ]
+                                                        "
+                                                    ></v-textarea>
+                                                </v-col>
+                                            </v-row>
+                                        </v-form>
                                     </v-container>
                                 </v-card-text>
 
@@ -59,6 +76,7 @@
                                         color="blue darken-1"
                                         text
                                         @click="addProject"
+                                        :disabled="!valid"
                                         >Save</v-btn
                                     >
 
@@ -68,6 +86,8 @@
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
+
+                        <!-- --------------------------------------------------------------------- -->
                     </v-toolbar>
                 </template>
                 <template v-slot:item.action="{ item }">
@@ -115,10 +135,19 @@
 <script>
 export default {
     props: ["usernow"],
+
     mounted() {
         this.getProject();
     },
+
     data: () => ({
+
+        valid: false,
+        required(propertyType) {
+            return v =>
+                (v && v.length > 0) || (propertyType) + " is required" ;
+        },
+
         dialog: false,
         headers: [
             {
@@ -146,10 +175,7 @@ export default {
         defaultItem: {
             project_name: "",
             description: ""
-        },
-
-        projectnameRules: [v => !!v || "Project name is required"],
-        descriptionRules: [v => !!v || "Description is required"]
+        }
     }),
 
     computed: {
@@ -161,6 +187,15 @@ export default {
             return this.projects.filter(project => {
                 return project.user_id == this.usernow.user_id;
             });
+        },
+
+        nameErrors() {
+            const errors = [];
+            if (!this.$v.name.$dirty) return errors;
+            !this.$v.name.maxLength &&
+                errors.push("Name must be at most 10 characters long");
+            !this.$v.name.required && errors.push("Name is required.");
+            return errors;
         }
     },
 
@@ -216,7 +251,6 @@ export default {
                 axios.delete("api/project/" + item.id).then(response => {
                     this.projects.splice(index, 1);
                 });
-                
         },
 
         close() {

@@ -3,7 +3,7 @@
 @section('content')
 <div id="app">
     @if(auth()->check())
-    <project-component id="{!!$id!!}" :usernow="{{ Auth::user() }}"></project-component>
+    <yourproject-component id="{!!$id!!}" :usernow="{{ Auth::user() }}"></yourproject-component>
     @endif
 </div>
 @endsection
