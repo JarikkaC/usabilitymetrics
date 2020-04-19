@@ -2049,10 +2049,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow"],
   mounted: function mounted() {
@@ -2622,7 +2618,6 @@ __webpack_require__.r(__webpack_exports__);
         align: "center"
       }],
       metrics: [],
-      submetrics: [],
       editedID: null,
       editedIndex: -1,
       editedItem: {
@@ -42260,7 +42255,7 @@ var render = function() {
                                                       )
                                                     },
                                                     expression:
-                                                      "\n                                                    editedItem.project_name\n                                                "
+                                                      "editedItem.project_name"
                                                   }
                                                 }),
                                                 _vm._v(" "),
@@ -42282,7 +42277,7 @@ var render = function() {
                                                       )
                                                     },
                                                     expression:
-                                                      "\n                                                    editedItem.description\n                                                "
+                                                      "editedItem.description"
                                                   }
                                                 })
                                               ],
@@ -42956,7 +42951,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            _vm.dialog = !_vm.dialog
+                            ;(_vm.dialog = !_vm.dialog), _vm.editItem(item)
                           }
                         }
                       },

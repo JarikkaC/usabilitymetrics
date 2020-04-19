@@ -37,16 +37,12 @@
                                         <v-row>
                                             <v-col>
                                                 <v-text-field
-                                                    v-model="
-                                                        editedItem.project_name
-                                                    "
+                                                    v-model="editedItem.project_name"
                                                     label="Project name"
                                                     :rules="projectnameRules"
                                                 ></v-text-field>
                                                 <v-textarea
-                                                    v-model="
-                                                        editedItem.description
-                                                    "
+                                                    v-model="editedItem.description"
                                                     autocomplete="description"
                                                     label="Description"
                                                     :rules="descriptionRules"

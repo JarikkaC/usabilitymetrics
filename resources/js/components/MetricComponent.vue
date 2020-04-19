@@ -42,7 +42,7 @@
                         outlined
                         fab
                         color="indigo"
-                        @click="dialog=!dialog"
+                        @click="dialog=!dialog,editItem(item)"
                        
                     >
                         <v-icon> mdi-pencil</v-icon>
@@ -124,7 +124,6 @@ export default {
             }
         ],
         metrics: [],
-        submetrics: [],
         editedID: null,
         editedIndex: -1,
         editedItem: {
