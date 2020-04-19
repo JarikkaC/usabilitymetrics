@@ -24,7 +24,12 @@
                     </v-toolbar>
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-btn class="m-2" outlined color="teal" :href="/metric/ + item.id">
+                    <v-btn
+                        class="m-2"
+                        outlined
+                        color="teal"
+                        :href="/metric/ + item.id"
+                    >
                         <v-icon small class="mr-2">
                             mdi-view-grid-outline
                         </v-icon>
@@ -37,7 +42,8 @@
                         outlined
                         fab
                         color="indigo"
-                        @click="editItem(item)"
+                        @click="dialog=!dialog"
+                       
                     >
                         <v-icon> mdi-pencil</v-icon>
                     </v-btn>
@@ -54,6 +60,43 @@
                     </v-btn>
                 </template>
             </v-data-table>
+
+            <!-- ---------------------------------------------- -->
+
+            <v-dialog v-model="dialog" max-width="500px">
+                <v-card>
+                    <v-card-title>
+                        <span class="headline">Edit Metric Name</span>
+                    </v-card-title>
+
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedItem.metric_name"
+                                        label="Metric Name"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn color="blue darken-1" text @click="save"
+                            >Save</v-btn
+                        >
+
+                        <v-btn color="#CD4D4D" text @click="close"
+                            >Cancel</v-btn
+                        >
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+            <!-- ------------------------------------------------ -->
         </v-card>
     </v-app>
 </template>
@@ -82,19 +125,15 @@ export default {
         ],
         metrics: [],
         submetrics: [],
+        editedID: null,
         editedIndex: -1,
         editedItem: {
-            id: "",
-            metric_name: 0,
-            create_at: 0
+            metric_name: "",
         },
         defaultItem: {
-            id: "",
-            metric_name: 0,
-            create_at: 0
+            metric_name: "",
         }
     }),
-
 
     watch: {
         dialog(val) {
@@ -121,10 +160,33 @@ export default {
         //     return result;
         // },
 
+         save() {
+            if (this.editedIndex > -1) {
+                Object.assign(
+                    this.metrics[this.editedIndex],
+                    this.editedItem
+                ) &&
+                    axios.put("/api/metrics/" + this.editedID, {
+                        metric_name: this.editedItem.metric_name,
+                    });
+            } else {
+                this.metrics.push({
+                    user_id: this.usernow.user_id,
+                    metric_name: this.editedItem.metric_name,
+                }) &&
+                    axios.post("api/metrics", {
+                        user_id: this.usernow.user_id,
+                        metric_name: this.editedItem.metric_name,
+                    });
+            }
+            this.close();
+        },
+
         editItem(item) {
             this.editedIndex = this.metrics.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
+            this.editedID = item.id;
         },
 
         deleteItem(item) {
@@ -143,14 +205,14 @@ export default {
             }, 300);
         },
 
-        save() {
-            if (this.editedIndex > -1) {
-                Object.assign(this.metrics[this.editedIndex], this.editedItem);
-            } else {
-                this.metrics.push(this.editedItem);
-            }
-            this.close();
-        }
+        // save() {
+        //     if (this.editedIndex > -1) {
+        //         Object.assign(this.metrics[this.editedIndex], this.editedItem);
+        //     } else {
+        //         this.metrics.push(this.editedItem);
+        //     }
+        //     this.close();
+        // }
     }
 };
 </script>

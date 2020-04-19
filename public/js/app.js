@@ -2556,6 +2556,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getMetric();
@@ -2580,16 +2623,13 @@ __webpack_require__.r(__webpack_exports__);
       }],
       metrics: [],
       submetrics: [],
+      editedID: null,
       editedIndex: -1,
       editedItem: {
-        id: "",
-        metric_name: 0,
-        create_at: 0
+        metric_name: ""
       },
       defaultItem: {
-        id: "",
-        metric_name: 0,
-        create_at: 0
+        metric_name: ""
       }
     };
   },
@@ -2616,10 +2656,28 @@ __webpack_require__.r(__webpack_exports__);
     //     }));
     //     return result;
     // },
+    save: function save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.metrics[this.editedIndex], this.editedItem) && axios.put("/api/metrics/" + this.editedID, {
+          metric_name: this.editedItem.metric_name
+        });
+      } else {
+        this.metrics.push({
+          user_id: this.usernow.user_id,
+          metric_name: this.editedItem.metric_name
+        }) && axios.post("api/metrics", {
+          user_id: this.usernow.user_id,
+          metric_name: this.editedItem.metric_name
+        });
+      }
+
+      this.close();
+    },
     editItem: function editItem(item) {
       this.editedIndex = this.metrics.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.editedID = item.id;
     },
     deleteItem: function deleteItem(item) {
       var _this2 = this;
@@ -2637,16 +2695,15 @@ __webpack_require__.r(__webpack_exports__);
         _this3.editedItem = Object.assign({}, _this3.defaultItem);
         _this3.editedIndex = -1;
       }, 300);
-    },
-    save: function save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.metrics[this.editedIndex], this.editedItem);
-      } else {
-        this.metrics.push(this.editedItem);
-      }
+    } // save() {
+    //     if (this.editedIndex > -1) {
+    //         Object.assign(this.metrics[this.editedIndex], this.editedItem);
+    //     } else {
+    //         this.metrics.push(this.editedItem);
+    //     }
+    //     this.close();
+    // }
 
-      this.close();
-    }
   }
 });
 
@@ -5080,6 +5137,88 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -5089,6 +5228,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      dialog: false,
       itemsPerPage: 2,
       submetrics: [],
       metrics: [],
@@ -5138,7 +5278,10 @@ __webpack_require__.r(__webpack_exports__);
         align: "left",
         sortable: false,
         value: "target"
-      }]
+      }],
+      editedItem: {
+        submetric_name: ""
+      }
     };
   },
   methods: {
@@ -42807,7 +42950,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            return _vm.editItem(item)
+                            _vm.dialog = !_vm.dialog
                           }
                         }
                       },
@@ -42838,7 +42981,100 @@ var render = function() {
                 }
               }
             ])
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { "max-width": "500px" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", [
+                    _c("span", { staticClass: "headline" }, [
+                      _vm._v("Edit Metric Name")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-container",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Metric Name" },
+                                    model: {
+                                      value: _vm.editedItem.metric_name,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "metric_name",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedItem.metric_name"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "blue darken-1", text: "" },
+                          on: { click: _vm.save }
+                        },
+                        [_vm._v("Save")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "#CD4D4D", text: "" },
+                          on: { click: _vm.close }
+                        },
+                        [_vm._v("Cancel")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )
@@ -45628,7 +45864,7 @@ var render = function() {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(submetric.submetric_name) +
-                                  " \n                        "
+                                  "\n                        "
                               )
                             ]
                           ),
@@ -45646,7 +45882,7 @@ var render = function() {
                               },
                               on: {
                                 click: function($event) {
-                                  return _vm.editItem(_vm.item)
+                                  _vm.dialog = !_vm.dialog
                                 }
                               }
                             },
@@ -45896,6 +46132,216 @@ var render = function() {
                           )
                         ],
                         2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: {
+                            "max-width": "700px",
+                            "max-height": "700px"
+                          },
+                          model: {
+                            value: _vm.dialog,
+                            callback: function($$v) {
+                              _vm.dialog = $$v
+                            },
+                            expression: "dialog"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c("v-card-title", [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v("Edit Sub-Metric")
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-container",
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: { label: "Metric Name" },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Purpose of the metrics",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Method of application",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-textarea", {
+                                        attrs: {
+                                          label:
+                                            "Measurement, formula and data element computation",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem,
+                                          callback: function($$v) {
+                                            _vm.editedItem = $$v
+                                          },
+                                          expression: "editedItem"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Measure type",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Input to measurement",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "ISO/IEC 12207 SLCP Reference",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Target audience",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.editedItem.metric_name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedItem,
+                                              "metric_name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedItem.metric_name"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: ""
+                                      },
+                                      on: { click: _vm.save }
+                                    },
+                                    [_vm._v("Save")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "#CD4D4D", text: "" },
+                                      on: { click: _vm.close }
+                                    },
+                                    [_vm._v("Cancel")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
                     ],
                     1

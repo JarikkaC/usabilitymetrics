@@ -32,19 +32,19 @@
                             <v-toolbar-title
                                 class="subheading font-weight-bold"
                             >
-                                {{ submetric.submetric_name }} 
+                                {{ submetric.submetric_name }}
                             </v-toolbar-title>
 
                             <v-spacer></v-spacer>
-                                <v-btn
-                                    small
-                                    fab
-                                    dark
-                                    color="indigo"
-                                    @click="editItem(item)"
-                                >
-                                    <v-icon> mdi-pencil</v-icon>
-                                </v-btn>
+                            <v-btn
+                                small
+                                fab
+                                dark
+                                color="indigo"
+                                @click="dialog = !dialog"
+                            >
+                                <v-icon> mdi-pencil</v-icon>
+                            </v-btn>
                         </v-toolbar>
                         <v-card-text>
                             <div
@@ -149,6 +149,88 @@
                                 </v-col>
                             </v-row>
                         </v-card-text>
+
+                        <!-- -------------------------------------------------------------------------- -->
+
+                        <v-dialog
+                            v-model="dialog"
+                            max-width="700px"
+                            max-height="700px"
+                        >
+                            <v-card>
+                                <v-card-title>
+                                    <span class="headline"
+                                        >Edit Sub-Metric</span
+                                    >
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-container>
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Metric Name"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Purpose of the metrics"
+                                            persistent-hint
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Method of application"
+                                            persistent-hint
+                                        ></v-text-field>
+
+                                        <v-textarea
+                                            v-model="editedItem"
+                                            label="Measurement, formula and data element computation"
+                                            persistent-hint
+                                        ></v-textarea>
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Measure type"
+                                            persistent-hint
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Input to measurement"
+                                            persistent-hint
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="ISO/IEC 12207 SLCP Reference"
+                                            persistent-hint
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Target audience"
+                                            persistent-hint
+                                        ></v-text-field>
+                                    </v-container>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="save"
+                                        >Save</v-btn
+                                    >
+
+                                    <v-btn color="#CD4D4D" text @click="close"
+                                        >Cancel</v-btn
+                                    >
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </v-card>
                 </v-row>
             </div>
@@ -166,6 +248,7 @@ export default {
     },
     data() {
         return {
+            dialog: false,
             itemsPerPage: 2,
             submetrics: [],
             metrics: [],
@@ -225,7 +308,10 @@ export default {
                     sortable: false,
                     value: "target"
                 }
-            ]
+            ],
+            editedItem: {
+                submetric_name: ""
+            }
         };
     },
 
