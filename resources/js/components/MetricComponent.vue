@@ -42,8 +42,7 @@
                         outlined
                         fab
                         color="indigo"
-                        @click="dialog=!dialog,editItem(item)"
-                       
+                        @click="(dialog = !dialog), editItem(item)"
                     >
                         <v-icon> mdi-pencil</v-icon>
                     </v-btn>
@@ -65,34 +64,42 @@
 
             <v-dialog v-model="dialog" max-width="500px">
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">Edit Metric Name</span>
-                    </v-card-title>
+                    <v-form v-model="valid">
+                        <v-card-title>
+                            <span class="headline">Edit Metric Name</span>
+                        </v-card-title>
 
-                    <v-card-text>
-                        <v-container>
-                            <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="editedItem.metric_name"
-                                        label="Metric Name"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-card-text>
+                        <v-card-text>
+                            <v-container>
+                                <v-row>
+                                    <v-col>
+                                        <v-text-field
+                                            v-model="editedItem.metric_name"
+                                            label="Metric Name"
+                                            :rules="[required('Metric Name')]"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card-text>
 
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
 
-                        <v-btn color="blue darken-1" text @click="save"
-                            >Save</v-btn
-                        >
+                            <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="save"
+                                :disabled="!valid"
+                            >
+                                Save
+                            </v-btn>
 
-                        <v-btn color="#CD4D4D" text @click="close"
-                            >Cancel</v-btn
-                        >
-                    </v-card-actions>
+                            <v-btn color="#CD4D4D" text @click="close">
+                                Cancel
+                            </v-btn>
+                        </v-card-actions>
+                    </v-form>
                 </v-card>
             </v-dialog>
 
@@ -107,6 +114,10 @@ export default {
         this.getMetric();
     },
     data: () => ({
+        valid: false,
+        required(propertyType) {
+            return v => (v && v.length > 0) || propertyType + " is required";
+        },
         dialog: false,
         headers: [
             {
@@ -127,10 +138,10 @@ export default {
         editedID: null,
         editedIndex: -1,
         editedItem: {
-            metric_name: "",
+            metric_name: ""
         },
         defaultItem: {
-            metric_name: "",
+            metric_name: ""
         }
     }),
 
@@ -159,23 +170,23 @@ export default {
         //     return result;
         // },
 
-         save() {
+        save() {
             if (this.editedIndex > -1) {
                 Object.assign(
                     this.metrics[this.editedIndex],
                     this.editedItem
                 ) &&
                     axios.put("/api/metrics/" + this.editedID, {
-                        metric_name: this.editedItem.metric_name,
+                        metric_name: this.editedItem.metric_name
                     });
             } else {
                 this.metrics.push({
                     user_id: this.usernow.user_id,
-                    metric_name: this.editedItem.metric_name,
+                    metric_name: this.editedItem.metric_name
                 }) &&
                     axios.post("api/metrics", {
                         user_id: this.usernow.user_id,
-                        metric_name: this.editedItem.metric_name,
+                        metric_name: this.editedItem.metric_name
                     });
             }
             this.close();
@@ -202,7 +213,7 @@ export default {
                 this.editedItem = Object.assign({}, this.defaultItem);
                 this.editedIndex = -1;
             }, 300);
-        },
+        }
     }
 };
 </script>
