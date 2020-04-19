@@ -2630,13 +2630,6 @@ __webpack_require__.r(__webpack_exports__);
       return this.projects.filter(function (project) {
         return project.user_id == _this.usernow.user_id;
       });
-    },
-    nameErrors: function nameErrors() {
-      var errors = [];
-      if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.maxLength && errors.push("Name must be at most 10 characters long");
-      !this.$v.name.required && errors.push("Name is required.");
-      return errors;
     }
   },
   watch: {
@@ -3840,6 +3833,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "id"],
   mounted: function mounted() {
@@ -3850,6 +3858,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      valid: false,
+      required: function required(propertyType) {
+        return function (v) {
+          return v && v.length > 0 || propertyType + " is required";
+        };
+      },
       today: new Date(),
       upload: false,
       projects: [],
@@ -45031,7 +45045,7 @@ var render = function() {
           _c(
             "v-card-title",
             [
-              _vm._v("\n            Prepare Evaluation\n\n            "),
+              _vm._v("\n            Prepare Evaluation\n            "),
               _c("v-spacer"),
               _vm._v(" "),
               _c(
@@ -45051,17 +45065,16 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _c("v-card-text", [
-            _vm._v(
-              "\n            เพื่อเริ่มต้นการประเมินสื่อเชิงภาพ กรุณา upload\n            สื่อเชิงภาพที่ต้องการการประเมินของคุณ และสร้าง model\n            ที่จะใช้เป็นตัวชี้วัดในการประเมิน\n        "
-            )
-          ]),
-          _vm._v(" "),
           _c(
-            "v-card-text",
+            "v-container",
             [
+              _c("v-card-text", [
+                _vm._v(
+                  "\n                เพื่อเริ่มต้นการประเมินสื่อเชิงภาพ\n                กรุณาเลือกโปรเจคที่ต้องการ เพื่ออัปโหลดสื่อเชิงภาพ\n                หรือรูปภาพที่ต้องการประเมินเข้าไป และเลือกตัวขี้วัด\n                (Metrics) ที่ต้องการใช้ประเมินรูปภาพนั้น\n            "
+                )
+              ]),
+              _vm._v(" "),
               _c("v-select", {
-                staticClass: "m-5",
                 attrs: {
                   items: _vm.projectFil,
                   "item-text": "project_name",
@@ -45073,7 +45086,7 @@ var render = function() {
                     }
                   ],
                   required: "",
-                  outlined: ""
+                  solo: ""
                 },
                 model: {
                   value: _vm.getProjectID,
@@ -45082,169 +45095,206 @@ var render = function() {
                   },
                   expression: "getProjectID"
                 }
-              }),
-              _vm._v(" "),
-              _c("v-row", { staticClass: "mr-5 ml-5" }, [
-                _c("h5", { staticClass: "mt-3 mx-3" }, [
-                  _vm._v("Upload Your Graphic Media")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("v-row", { staticClass: "mr-5 ml-5" }, [
-                _c("input", {
-                  staticClass: "ml-5 mt-5 mr-5",
-                  attrs: { id: "uploadImage", type: "file" },
-                  on: { change: _vm.onImageChange }
-                })
-              ]),
-              _vm._v(" "),
-              _c("center", [
-                _vm.image
-                  ? _c("img", {
-                      staticClass: "img-responsive",
-                      attrs: { src: _vm.image, height: "400px" }
-                    })
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("v-row", { staticClass: "mr-5 ml-5 mt-5" })
+              })
             ],
             1
           ),
           _vm._v(" "),
           _c(
-            "v-card-text",
+            "v-container",
             [
-              _c("v-row", { staticClass: "mr-5 ml-5" }, [
-                _c("h5", { staticClass: "mt-3 mx-3" }, [
-                  _vm._v("Select Metric")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("v-row", { staticClass: "mr-5 ml-5" }, [
-                _c("p", { staticClass: "mt-3 mx-3" }, [
-                  _vm._v(
-                    "\n                    เลือก Metric ที่ต้องการเพื่อสร้าง Measurement Model\n                "
+              _c(
+                "v-card",
+                { staticClass: "mx-12", attrs: { outlined: "" } },
+                [
+                  _c("v-card-title", [
+                    _vm._v(
+                      "\n                    Upload Your Graphic Media\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("v-card-text", [
+                    _vm._v(
+                      "\n                    อัปโหลดสื่อเชิงภาพหรือรูปภาพที่ต้องการทำการประเมินความสามารถในการใช้งาน\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-item",
+                    { staticClass: "mx-5" },
+                    [
+                      _c("input", {
+                        staticClass: "mt-3",
+                        attrs: { id: "uploadImage", type: "file" },
+                        on: { change: _vm.onImageChange }
+                      }),
+                      _vm._v(" "),
+                      _c("center", [
+                        _vm.image
+                          ? _c("img", {
+                              staticClass: "img-responsive mt-3",
+                              attrs: { src: _vm.image, height: "400px" }
+                            })
+                          : _vm._e()
+                      ])
+                    ],
+                    1
                   )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            [
+              _c("v-card-title", [_vm._v("Select Usability Metrics ")]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "\n                เลือกตัวขี้วัด (Metrics)\n                ที่ต้องการเพื่อสร้างแบบจำลองวัดความสามารถในการใช้งาน\n                (Usability Measurement Model)\n\n                "
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n\n                ** ถ้าหากไม่มีตัวชี้วัด (Metrics) ที่ต้องการ\n                สามารถเพิ่มตัวชี้วัดได้ที่หน้า "
+                ),
+                _c("a", { attrs: { href: "/metric/addmetric/" } }, [
+                  _vm._v("Metrics")
                 ])
               ]),
               _vm._v(" "),
               _c(
-                "v-row",
+                "v-card-text",
                 [
                   _c(
-                    "v-col",
+                    "v-row",
                     [
                       _c(
-                        "v-card",
-                        { staticClass: "mx-auto", attrs: { width: "800px" } },
-                        [
-                          _vm._l(_vm.metrics, function(metric) {
-                            return [
-                              _c(
-                                "v-card-text",
-                                {
-                                  key: metric.metric_name,
-                                  staticClass: "ml-5"
-                                },
-                                [
-                                  _c(
-                                    "v-row",
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          staticClass: "mr-2",
-                                          attrs: { small: "", color: "#F4D03F" }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                        mdi-checkbox-blank-circle\n                                    "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("h5", [
-                                        _vm._v(_vm._s(metric.metric_name))
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm._l(metric.submetric, function(item) {
-                                return metric.submetric
-                                  ? [
-                                      item.submetric_name
-                                        ? _c("v-checkbox", {
-                                            key: item.submetric_name,
-                                            staticClass: "ml-10",
-                                            attrs: {
-                                              "return-object": "",
-                                              label: item.submetric_name,
-                                              value: item
-                                            },
-                                            model: {
-                                              value: _vm.selected,
-                                              callback: function($$v) {
-                                                _vm.selected = $$v
-                                              },
-                                              expression: "selected"
-                                            }
-                                          })
-                                        : _vm._e()
-                                    ]
-                                  : _vm._e()
-                              }),
-                              _c("v-divider")
-                            ]
-                          })
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "text-center mt-5" },
+                        "v-col",
                         [
                           _c(
-                            "v-btn",
+                            "v-card",
                             {
-                              staticClass: "ml-5 mr-3",
-                              attrs: { dark: "", large: "", color: "teal" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.postMetric(
-                                    _vm.projectFil.project_id
-                                  )
-                                }
-                              }
+                              staticClass: "mx-auto",
+                              attrs: { width: "800px" }
                             },
                             [
-                              _vm._v(
-                                "\n                            Save\n                        "
-                              )
-                            ]
+                              _vm._l(_vm.metrics, function(metric) {
+                                return [
+                                  _c(
+                                    "v-card-text",
+                                    {
+                                      key: metric.metric_name,
+                                      staticClass: "ml-5"
+                                    },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        { attrs: { align: "center" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              staticClass: "mr-2",
+                                              attrs: {
+                                                small: "",
+                                                color: "#F4D03F"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                            mdi-checkbox-blank-circle\n                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("h5", [
+                                            _vm._v(_vm._s(metric.metric_name))
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(metric.submetric, function(item) {
+                                    return metric.submetric
+                                      ? [
+                                          item.submetric_name
+                                            ? _c("v-checkbox", {
+                                                key: item.submetric_name,
+                                                staticClass: "ml-10",
+                                                attrs: {
+                                                  "return-object": "",
+                                                  label: item.submetric_name,
+                                                  value: item
+                                                },
+                                                model: {
+                                                  value: _vm.selected,
+                                                  callback: function($$v) {
+                                                    _vm.selected = $$v
+                                                  },
+                                                  expression: "selected"
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e()
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-divider")
+                                ]
+                              })
+                            ],
+                            2
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-btn",
-                            {
-                              staticClass: "ml-5 mr-3",
-                              attrs: {
-                                outlined: "",
-                                large: "",
-                                color: "grey",
-                                href: "/evaluation/"
-                              }
-                            },
+                            "div",
+                            { staticClass: "text-center mt-5" },
                             [
-                              _vm._v(
-                                "\n                            Back\n                        "
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "ml-5 mr-3",
+                                  attrs: { dark: "", large: "", color: "teal" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.postMetric(
+                                        _vm.projectFil.project_id
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Save\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "ml-5 mr-3",
+                                  attrs: {
+                                    outlined: "",
+                                    large: "",
+                                    color: "grey",
+                                    href: "/evaluation/"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Back\n                            "
+                                  )
+                                ]
                               )
-                            ]
+                            ],
+                            1
                           )
                         ],
                         1

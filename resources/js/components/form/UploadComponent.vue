@@ -3,22 +3,23 @@
         <v-card class="m-4">
             <v-card-title>
                 Prepare Evaluation
-
                 <v-spacer></v-spacer>
                 <v-btn color="#F4D03F" outlined href="/metric">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>
                     Back
                 </v-btn>
             </v-card-title>
+
             <v-divider></v-divider>
-            <v-card-text>
-                เพื่อเริ่มต้นการประเมินสื่อเชิงภาพ กรุณา upload
-                สื่อเชิงภาพที่ต้องการการประเมินของคุณ และสร้าง model
-                ที่จะใช้เป็นตัวชี้วัดในการประเมิน
-            </v-card-text>
-            <v-card-text>
+
+            <v-container>
+                <v-card-text>
+                    เพื่อเริ่มต้นการประเมินสื่อเชิงภาพ
+                    กรุณาเลือกโปรเจคที่ต้องการ เพื่ออัปโหลดสื่อเชิงภาพ
+                    หรือรูปภาพที่ต้องการประเมินเข้าไป และเลือกตัวขี้วัด
+                    (Metrics) ที่ต้องการใช้ประเมินรูปภาพนั้น
+                </v-card-text>
                 <v-select
-                    class="m-5"
                     :items="projectFil"
                     item-text="project_name"
                     item-value="id"
@@ -26,104 +27,118 @@
                     v-model="getProjectID"
                     :rules="[v => !!v || 'Project is required']"
                     required
-                    outlined
+                    solo
                 ></v-select>
+            </v-container>
 
-                <v-row class="mr-5 ml-5">
-                    <h5 class="mt-3 mx-3">Upload Your Graphic Media</h5>
-                </v-row>
+            <v-container>
+                <v-card outlined class="mx-12">
+                    <v-card-title>
+                        Upload Your Graphic Media
+                    </v-card-title>
+                    <v-card-text>
+                        อัปโหลดสื่อเชิงภาพหรือรูปภาพที่ต้องการทำการประเมินความสามารถในการใช้งาน
+                    </v-card-text>
 
-                <v-row class="mr-5 ml-5">
-                    <input
-                        class="ml-5 mt-5 mr-5"
-                        id="uploadImage"
-                        type="file"
-                        @change="onImageChange"
-                    />
-                </v-row>
-                <center>
-                    <img
-                        :src="image"
-                        v-if="image"
-                        class="img-responsive"
-                        height="400px"
-                    />
-                </center>
-                <v-row class="mr-5 ml-5 mt-5"> </v-row>
-            </v-card-text>
+                    <v-card-item class="mx-5">
+                        <input
+                            class="mt-3"
+                            id="uploadImage"
+                            type="file"
+                            @change="onImageChange"
+                        />
+                        <center>
+                            <img
+                                :src="image"
+                                v-if="image"
+                                class="img-responsive mt-3"
+                                height="400px"
+                            />
+                        </center>
+                    </v-card-item>
+                </v-card>
+            </v-container>
 
-            <v-card-text>
-                <v-row class="mr-5 ml-5">
-                    <h5 class="mt-3 mx-3">Select Metric</h5>
-                </v-row>
-                <v-row class="mr-5 ml-5">
-                    <p class="mt-3 mx-3">
-                        เลือก Metric ที่ต้องการเพื่อสร้าง Measurement Model
-                    </p>
-                </v-row>
+            <v-container>
+                <v-card-title>Select Usability Metrics </v-card-title>
+                <v-card-text>
+                    เลือกตัวขี้วัด (Metrics)
+                    ที่ต้องการเพื่อสร้างแบบจำลองวัดความสามารถในการใช้งาน
+                    (Usability Measurement Model)
 
-                <v-row>
-                    <v-col>
-                        <v-card class="mx-auto" width="800px">
-                            <template v-for="metric in metrics">
-                                <v-card-text
-                                    :key="metric.metric_name"
-                                    class="ml-5"
-                                >
-                                    <v-row>
-                                        <v-icon
-                                            small
-                                            class="mr-2"
-                                            color="#F4D03F"
-                                        >
-                                            mdi-checkbox-blank-circle
-                                        </v-icon>
-                                        <h5>{{ metric.metric_name }}</h5>
-                                    </v-row>
-                                </v-card-text>
+                    <br />
 
-                                <template
-                                    v-if="metric.submetric"
-                                    v-for="item in metric.submetric"
-                                >
-                                    <v-checkbox
-                                        return-object
-                                        v-model="selected"
-                                        v-if="item.submetric_name"
-                                        :key="item.submetric_name"
-                                        class="ml-10"
-                                        :label="item.submetric_name"
-                                        :value="item"
+                    ** ถ้าหากไม่มีตัวชี้วัด (Metrics) ที่ต้องการ
+                    สามารถเพิ่มตัวชี้วัดได้ที่หน้า <a href="/metric/addmetric/">Metrics</a>
+                </v-card-text>
+
+                <v-card-text>
+                    <v-row>
+                        <v-col>
+                            <v-card class="mx-auto" width="800px">
+                                <template v-for="metric in metrics">
+                                    <v-card-text
+                                        :key="metric.metric_name"
+                                        class="ml-5"
                                     >
-                                    </v-checkbox> </template
-                                ><v-divider></v-divider>
-                            </template>
-                        </v-card>
+                                        <v-row align="center">
+                                            <v-icon
+                                                small
+                                                class="mr-2"
+                                                color="#F4D03F"
+                                            >
+                                                mdi-checkbox-blank-circle
+                                            </v-icon>
+                                            <h5>{{ metric.metric_name }}</h5>
+                                        </v-row>
+                                    </v-card-text>
 
-                        <div class="text-center mt-5">
-                            <v-btn
-                                class="ml-5 mr-3"
-                                dark
-                                large
-                                color="teal"
-                                @click="postMetric(projectFil.project_id)"
-                            >
-                                Save
-                            </v-btn>
+                                    <template
+                                        v-if="metric.submetric"
+                                        v-for="item in metric.submetric"
+                                    >
+                                        <v-checkbox
+                                            return-object
+                                            v-model="selected"
+                                            v-if="item.submetric_name"
+                                            :key="item.submetric_name"
+                                            class="ml-10"
+                                            :label="item.submetric_name"
+                                            :value="item"
+                                        >
+                                        </v-checkbox>
+                                    </template>
 
-                            <v-btn
-                                outlined
-                                large
-                                color="grey"
-                                class="ml-5 mr-3"
-                                href="/evaluation/"
-                            >
-                                Back
-                            </v-btn>
-                        </div>
-                    </v-col>
-                </v-row>
-            </v-card-text>
+                                    <v-divider></v-divider>
+                                    
+                                </template>
+                            </v-card>
+
+                            <div class="text-center mt-5">
+                                <v-btn
+                                    class="ml-5 mr-3"
+                                    dark
+                                    large
+                                    color="teal"
+                                    @click="postMetric(projectFil.project_id)"
+                                >
+                                    Save
+                                </v-btn>
+
+                                <v-btn
+                                    outlined
+                                    large
+                                    color="grey"
+                                    class="ml-5 mr-3"
+                                    href="/evaluation/"
+                                >
+                                    Back
+                                </v-btn>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-container>
 
             <v-dialog v-model="dialog" max-width="400">
                 <v-card>
@@ -180,6 +195,11 @@ export default {
         this.postMetric();
     },
     data: () => ({
+        valid: false,
+        required(propertyType) {
+            return v => (v && v.length > 0) || propertyType + " is required";
+        },
+
         today: new Date(),
         upload: false,
         projects: [],
