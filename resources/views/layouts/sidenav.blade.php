@@ -40,14 +40,12 @@
         <v-row class="md-3" no-gutters>
 
             @if (Route::has('login'))
-                @auth
-                    <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
-                @endauth
+            @auth
+                <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
             @else
-                <h1>fdskldskldsakldasklads</h1>
-                <leftnav-component></leftnav-component>
+                
+            @endauth
             @endif
-            
 
             <v-col class="md-9">
                 @yield('content')

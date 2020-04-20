@@ -3,7 +3,6 @@
         <v-card class="m-4">
             <v-card-title>
                 Evaluation Form
-
                 <v-spacer></v-spacer>
                 <v-btn color="grey" outlined href="/metric">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>
@@ -39,13 +38,11 @@
                     column
                 >
                     <v-radio
+                        v-for="choice in getChoice(question)"
                         :label="choice.toString()"
-                        v-for="choice in question.choices"
                         :key="choice"
                         :value="choice"
-                    >
-                        {{ choice }}
-                    </v-radio>
+                    />
                 </v-radio-group>
                 <h5 class="p-3">Comment:</h5>
                 <v-textarea
@@ -65,15 +62,6 @@
                 <v-btn class="m-2" large dark color="teal" @click="submit">
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
-                </v-btn>
-                <v-btn
-                    class="m-2"
-                    large
-                    outlined
-                    color="grey"
-                    href="/evaluation/"
-                >
-                    Back
                 </v-btn>
             </v-row>
         </v-card>
@@ -106,7 +94,7 @@
                             <v-icon height="700px">
                                 mdi-check-outline
                             </v-icon>
-                        </v-btn>
+                        </template>
 
                         <h2><b>คุณได้ตอบคำถามเรียบร้อยแล้ว!!</b></h2>
                         <h5>
@@ -116,27 +104,6 @@
 
                         <br />
                     </center>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                            color="green darken-1"
-                            text
-                            @click="dialog = false"
-                            href="/report/"
-                        >
-                            See Report
-                        </v-btn>
-
-                        <v-btn
-                            color="grey darken-1"
-                            text
-                            @click="dialog = false"
-                            href="/evaluation/"
-                        >
-                            Back
-                        </v-btn>
-                    </v-card-actions>
                 </v-container>
             </v-card>
         </v-dialog>
@@ -160,11 +127,9 @@ export default {
         questions: [],
         submetric: []
     }),
-
     methods: {
         async getPicture() {
-            console.log('dddd')
-            console.log(this.picture_path);
+            // console.log(this.picture_path);
             await axios
                 .get("/api/pictures/" + this.picture_path)
                 .then(response => {
@@ -172,7 +137,6 @@ export default {
                 });
             await this.getQuestion();
         },
-
         async getQuestion() {
             for (let index = 0; index < this.picture.length; index++) {
                 const element = await this.picture[index];
@@ -181,28 +145,25 @@ export default {
                 await axios
                     .get("/api/questions/" + submetric_id)
                     .then(async response => {
-                        await console.log(">>>", response.data);
                         await this.questions.push(...response.data);
                     });
-                await this.questions.forEach(question => {
-                    question.choices = [];
-                    for (let index = 0; index < question.max_select; index++) {
-                        question.choices.push(index + 1);
-                    }
-                });
             }
         },
-
+        getChoice(question) {
+            let choices = [];
+            for (let index = 0; index < question.max_select; index++) {
+                choices.push(index + 1);
+            }
+            return choices;
+        },
         getSubmetric() {
             axios.get("/api/submetrics/").then(response => {
                 this.submetric = response.data;
             });
         },
-
         zoom(val) {
             this.pictureZoom = val;
         },
-
         submit() {
             for (let index = 0; index < this.questions.length; index++) {
                 const element = this.questions[index];
@@ -216,7 +177,6 @@ export default {
             this.savedialog = true;
         }
     },
-
     computed: {
         submetricFill: function() {
             return this.submetric.filter(submetric => {
@@ -224,7 +184,6 @@ export default {
             });
         }
     },
-
     watch: {
         dialog(val) {
             val || this.close();

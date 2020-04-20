@@ -3,7 +3,6 @@
         <v-card class="m-4">
             <v-card-title>
                 Create Your Metrics
-
                 <v-spacer></v-spacer>
                 <v-btn color="#F4D03F" outlined href="/metric">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>

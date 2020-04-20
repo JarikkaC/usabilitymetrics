@@ -3233,7 +3233,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4112,39 +4111,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["picture_path"],
   created: function () {
@@ -4199,18 +4165,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log('dddd');
-                console.log(this.picture_path);
-                _context2.next = 4;
+                _context2.next = 2;
                 return axios.get("/api/pictures/" + this.picture_path).then(function (response) {
                   _this.picture = response.data;
                 });
 
-              case 4:
-                _context2.next = 6;
+              case 2:
+                _context2.next = 4;
                 return this.getQuestion();
 
-              case 6:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -4239,7 +4203,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 1:
                 if (!(index < this.picture.length)) {
-                  _context4.next = 15;
+                  _context4.next = 13;
                   break;
                 }
 
@@ -4267,13 +4231,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         switch (_context3.prev = _context3.next) {
                           case 0:
                             _context3.next = 2;
-                            return console.log(">>>", response.data);
-
-                          case 2:
-                            _context3.next = 4;
                             return (_this2$questions = _this2.questions).push.apply(_this2$questions, _toConsumableArray(response.data));
 
-                          case 4:
+                          case 2:
                           case "end":
                             return _context3.stop();
                         }
@@ -4287,21 +4247,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }());
 
               case 10:
-                _context4.next = 12;
-                return this.questions.forEach(function (question) {
-                  question.choices = [];
-
-                  for (var _index = 0; _index < question.max_select; _index++) {
-                    question.choices.push(_index + 1);
-                  }
-                });
-
-              case 12:
                 index++;
                 _context4.next = 1;
                 break;
 
-              case 15:
+              case 13:
               case "end":
                 return _context4.stop();
             }
@@ -4315,6 +4265,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return getQuestion;
     }(),
+    getChoice: function getChoice(question) {
+      var choices = [];
+
+      for (var index = 0; index < question.max_select; index++) {
+        choices.push(index + 1);
+      }
+
+      return choices;
+    },
     getSubmetric: function getSubmetric() {
       var _this3 = this;
 
@@ -44009,7 +43968,7 @@ var render = function() {
           _c(
             "v-card-title",
             [
-              _vm._v("\n            Create Your Metrics\n\n            "),
+              _vm._v("\n            Create Your Metrics\n            "),
               _c("v-spacer"),
               _vm._v(" "),
               _c(
@@ -45602,7 +45561,7 @@ var render = function() {
           _c(
             "v-card-title",
             [
-              _vm._v("\n            Evaluation Form\n\n            "),
+              _vm._v("\n            Evaluation Form\n            "),
               _c("v-spacer"),
               _vm._v(" "),
               _c(
@@ -45680,21 +45639,11 @@ var render = function() {
                       expression: "question.level_selected"
                     }
                   },
-                  _vm._l(question.choices, function(choice) {
-                    return _c(
-                      "v-radio",
-                      {
-                        key: choice,
-                        attrs: { label: choice.toString(), value: choice }
-                      },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(choice) +
-                            "\n                "
-                        )
-                      ]
-                    )
+                  _vm._l(_vm.getChoice(question), function(choice) {
+                    return _c("v-radio", {
+                      key: choice,
+                      attrs: { label: choice.toString(), value: choice }
+                    })
                   }),
                   1
                 ),
@@ -45743,20 +45692,6 @@ var render = function() {
                   _vm._v("\n                Submit\n            ")
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "m-2",
-                  attrs: {
-                    large: "",
-                    outlined: "",
-                    color: "grey",
-                    href: "/evaluation/"
-                  }
-                },
-                [_vm._v("\n                Back\n            ")]
               )
             ],
             1
@@ -45857,56 +45792,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("br")
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            color: "green darken-1",
-                            text: "",
-                            href: "/report/"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.dialog = false
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        See Report\n                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            color: "grey darken-1",
-                            text: "",
-                            href: "/evaluation/"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.dialog = false
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Back\n                    "
-                          )
-                        ]
-                      )
                     ],
                     1
                   )
