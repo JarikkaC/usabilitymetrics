@@ -58,24 +58,42 @@
                         }}
                     </v-btn>
 
-                    <v-data-table
-                        :headers="headers_freq"
-                        :items="stat_Answer(answerFills(question.id))"
-                        multi-sort
-                        hide-details
-                        hide-default-footer
-                        outlined
-                        class="elevation-1 mx-10 mt-3 mb-3"
-                    ></v-data-table>
+                    <v-row>
+                        <v-col cols="6">
+                            <v-data-table
+                                :headers="headers_freq"
+                                :items="stat_Answer(answerFills(question.id))"
+                                multi-sort
+                                hide-details
+                                hide-default-footer
+                                outlined
+                                class="elevation-1 mx-10 mt-3 mb-3"
+                            ></v-data-table>
+                        </v-col>
 
-                    <div id="chart">
-                        <apexchart
-                            type="bar"
-                            height="350"
-                            :options="chartOptions"
-                            :series="series"
-                        ></apexchart>
-                    </div>
+                        <v-col cols="6" align="center">
+                            <div id="chart">
+                                <apexchart
+                                    type="bar"
+                                    width="500px"
+                                    :options="
+                                        chartOptions(
+                                            stat_Answer(
+                                                answerFills(question.id)
+                                            )
+                                        )
+                                    "
+                                    :series="
+                                        series(
+                                            stat_Answer(
+                                                answerFills(question.id)
+                                            )
+                                        )
+                                    "
+                                ></apexchart>
+                            </div>
+                        </v-col>
+                    </v-row>
                 </v-card-text>
             </div>
 
@@ -132,7 +150,7 @@ export default {
                 value: "level_selected"
             },
             {
-                text: "count",
+                text: "จำนวนคำตอบ",
                 align: "left",
                 sortable: false,
                 value: "count"
@@ -157,33 +175,7 @@ export default {
                 sortable: false,
                 value: "created_at"
             }
-        ],
-        series: [
-            {
-                data: [1,2,5]
-            }
-        ],
-        chartOptions: {
-            chart: {
-                type: "bar",
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: true
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: [
-                    "South Korea",
-                    "Canada",
-                    "United Kingdom",
-                ]
-            }
-        }
+        ]
     }),
 
     methods: {
@@ -209,7 +201,6 @@ export default {
             for (let index = 0; index < this.picture.length; index++) {
                 const element = await this.picture[index];
                 let submetric_id = await element.submetric_id;
-                //console.log('submetric_id',submetric_id)
                 await axios
                     .get("/api/questions/" + submetric_id)
                     .then(async response => {
@@ -225,7 +216,6 @@ export default {
         getAnswer() {
             axios.get("/api/answers/").then(response => {
                 this.answers = response.data;
-                console.log(this.answers);
             });
         },
 
@@ -263,9 +253,43 @@ export default {
                 }
             }
             produce.sort((a, b) => parseInt(b.count) - parseInt(a.count));
-            console.log(produce);
-            
             return produce;
+        },
+        chartOptions(produce) {
+            let chartOptions = {
+                chart: {
+                    type: "bar",
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                }
+            };
+            var _name = [];
+            for (var k = 0; k < produce.length; k++) {
+                _name.push(produce[k].level_selected);
+            }
+            var _fullname = {};
+            _fullname.categories = _name;
+            chartOptions.xaxis = _fullname;
+            return chartOptions;
+        },
+        series(produce) {
+            var _total = [];
+            for (var l = 0; l < produce.length; l++) {
+                _total.push(parseInt(produce[l].count));
+            }
+            var _fulltotal = {};
+            _fulltotal.data = _total;
+            var _fulltotalarr = [];
+            _fulltotalarr.push(_fulltotal);
+            let series = _fulltotalarr;
+            return series;
         }
     },
 

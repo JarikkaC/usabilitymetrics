@@ -3234,10 +3234,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      valid: false,
       dialog: false,
       metric_name: "",
       metricnameRules: [function (v) {
@@ -4490,6 +4490,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["usernow", "picture_path"],
   created: function () {
@@ -4542,7 +4560,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         sortable: false,
         value: "level_selected"
       }, {
-        text: "count",
+        text: "จำนวนคำตอบ",
         align: "left",
         sortable: false,
         value: "count"
@@ -4562,27 +4580,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         align: "left",
         sortable: false,
         value: "created_at"
-      }],
-      series: [{
-        data: [1, 2, 5]
-      }],
-      chartOptions: {
-        chart: {
-          type: "bar",
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        xaxis: {
-          categories: ["South Korea", "Canada", "United Kingdom"]
-        }
-      }
+      }]
     };
   },
   methods: {
@@ -4719,7 +4717,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.get("/api/answers/").then(function (response) {
         _this4.answers = response.data;
-        console.log(_this4.answers);
       });
     },
     zoom: function zoom(val) {
@@ -4757,8 +4754,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       produce.sort(function (a, b) {
         return parseInt(b.count) - parseInt(a.count);
       });
-      console.log(produce);
       return produce;
+    },
+    chartOptions: function chartOptions(produce) {
+      var chartOptions = {
+        chart: {
+          type: "bar",
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        }
+      };
+      var _name = [];
+
+      for (var k = 0; k < produce.length; k++) {
+        _name.push(produce[k].level_selected);
+      }
+
+      var _fullname = {};
+      _fullname.categories = _name;
+      chartOptions.xaxis = _fullname;
+      return chartOptions;
+    },
+    series: function series(produce) {
+      var _total = [];
+
+      for (var l = 0; l < produce.length; l++) {
+        _total.push(parseInt(produce[l].count));
+      }
+
+      var _fulltotal = {};
+      _fulltotal.data = _total;
+      var _fulltotalarr = [];
+
+      _fulltotalarr.push(_fulltotal);
+
+      var series = _fulltotalarr;
+      return series;
     }
   },
   computed: {
@@ -42888,24 +42926,6 @@ var render = function() {
                                                     "\n                                                    Evaluation\n                                                "
                                                   )
                                                 ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  attrs: {
-                                                    color: "indigo",
-                                                    dark: "",
-                                                    href:
-                                                      /evaluation/ +
-                                                      picture[0].picture_path
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                    Edit Form\n                                                "
-                                                  )
-                                                ]
                                               )
                                             ],
                                             1
@@ -44014,7 +44034,7 @@ var render = function() {
             [
               _c("p", { staticClass: "ml-5 mr-5" }, [
                 _vm._v(
-                  "\n                At vero eos et accusamus et iusto odio dignissimos ducimus\n                qui blanditiis praesentium voluptatum deleniti atque\n                corrupti quos dolores et quas molestias excepturi sint\n                occaecati cupiditate non provident, similique sunt in culpa\n                qui officia deserunt mollitia animi, id est laborum et\n                dolorum fuga.\n            "
+                  "\n                สร้างตัวชี้วัดที่ต้องการใช้ในการประเมิน\n                โดยผู้ใช้ต้องกรอกข้อมูลให้ครบถ้วน เพื่อประโยชน์ในการใช้ประเมิน\n            "
                 )
               ]),
               _vm._v(" "),
@@ -44022,377 +44042,79 @@ var render = function() {
                 "v-container",
                 [
                   _c(
-                    "v-row",
-                    { staticClass: "text-center" },
+                    "v-form",
+                    {
+                      model: {
+                        value: _vm.valid,
+                        callback: function($$v) {
+                          _vm.valid = $$v
+                        },
+                        expression: "valid"
+                      }
+                    },
                     [
                       _c(
-                        "v-col",
+                        "v-row",
+                        { staticClass: "text-center" },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              label: "Metric Name",
-                              "persistent-hint": "",
-                              filled: "",
-                              rules: [
-                                function(v) {
-                                  return !!v || "Metric Name is require!"
+                          _c(
+                            "v-col",
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Metric Name",
+                                  "persistent-hint": "",
+                                  filled: "",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Metric Name is require!"
+                                    }
+                                  ],
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.metric_name,
+                                  callback: function($$v) {
+                                    _vm.metric_name = $$v
+                                  },
+                                  expression: "metric_name"
                                 }
-                              ],
-                              required: ""
-                            },
-                            model: {
-                              value: _vm.metric_name,
-                              callback: function($$v) {
-                                _vm.metric_name = $$v
-                              },
-                              expression: "metric_name"
-                            }
-                          })
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    _vm._l(_vm.submetrics, function(s, indexSubmetrics) {
-                      return _c(
-                        "v-card",
-                        { key: indexSubmetrics, staticClass: "mt-5" },
-                        [
-                          _c("v-card-title", { staticClass: "ml-3" }, [
-                            _vm._v("เพิ่มรายละเอียดของ Sub-metric")
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center ml-5 mr-5 mt-3" },
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        _vm._l(_vm.submetrics, function(s, indexSubmetrics) {
+                          return _c(
+                            "v-card",
+                            { key: indexSubmetrics, staticClass: "mt-5" },
                             [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Sub-Metric Name",
-                                      "persistent-hint": "",
-                                      outlined: "",
-                                      rules: [
-                                        function(v) {
-                                          return (
-                                            !!v || "Sub-metric Name is require!"
-                                          )
-                                        }
-                                      ],
-                                      required: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics]
-                                          .submetric_name,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "submetric_name",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics]\n                                            .submetric_name\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center ml-5 mr-5" },
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-textarea", {
-                                    attrs: {
-                                      label: "Purpose of the metrics",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].purpose,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "purpose",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].purpose\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
+                              _c("v-card-title", { staticClass: "ml-3" }, [
+                                _vm._v("เพิ่มรายละเอียดของ Sub-metric")
+                              ]),
                               _vm._v(" "),
                               _c(
-                                "v-col",
-                                [
-                                  _c("v-textarea", {
-                                    attrs: {
-                                      label: "Method of application",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].method,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "method",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].method\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center ml-5 mr-5" },
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-textarea", {
-                                    attrs: {
-                                      label:
-                                        "Measurement, formula and data element computation",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics]
-                                          .measurement,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "measurement",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics]\n                                            .measurement\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-textarea", {
-                                    attrs: {
-                                      label: "Input to measurement",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].input,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "input",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].input\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center ml-5 mr-5" },
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Measure type",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].type,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "type",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].type\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Metric scale type",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].scale,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "scale",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].scale\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center ml-5 mr-5" },
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "ISO/IEC 12207 SLCP Reference",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].iso,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "iso",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].iso\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Target audience",
-                                      "persistent-hint": "",
-                                      outlined: ""
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.submetrics[indexSubmetrics].target,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.submetrics[indexSubmetrics],
-                                          "target",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "\n                                        submetrics[indexSubmetrics].target\n                                    "
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            {
-                              staticClass: "mr-5 mt-3 ml-5",
-                              staticStyle: { color: "#5f7daf" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            หมายเหตุ: ในการสร้างคำถาม\n                            ต้องเป็นคำถามที่ไม่ใช่คำถามปลายเปิด\n                            เนื่องจากข้อจำกัดในการใช้งานเว็บแอพลิเคชั่น\n                            และในแต่ละ metric สามารถกำหนดคำถามได้หลายคำถาม\n                            โดยวิธีการเพิ่มคำถาม ทำได้โดยกดที่ปุ่ม +\n                            ด้านหลังข้อความ และสามารถลบคำถามที่เพิ่มไปได้\n                            โดยการกดที่ปุ่มรูปถังขยะ\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm._l(
-                            _vm.submetrics[indexSubmetrics].questions,
-                            function(q, indexQuestions) {
-                              return _c(
                                 "v-row",
-                                {
-                                  key: indexQuestions,
-                                  staticClass: "text-center ml-5 mr-5 mt-3"
-                                },
+                                { staticClass: "text-center ml-5 mr-5 mt-3" },
                                 [
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "8" } },
                                     [
                                       _c("v-text-field", {
                                         attrs: {
-                                          label: "Question",
+                                          label: "Sub-Metric Name",
                                           "persistent-hint": "",
                                           outlined: "",
                                           rules: [
                                             function(v) {
                                               return (
-                                                !!v || "Question is require!"
+                                                !!v ||
+                                                "Sub-metric Name is require!"
                                               )
                                             }
                                           ],
@@ -44401,55 +44123,51 @@ var render = function() {
                                         model: {
                                           value:
                                             _vm.submetrics[indexSubmetrics]
-                                              .questions[indexQuestions]
-                                              .question,
+                                              .submetric_name,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.submetrics[indexSubmetrics]
-                                                .questions[indexQuestions],
-                                              "question",
+                                              _vm.submetrics[indexSubmetrics],
+                                              "submetric_name",
                                               $$v
                                             )
                                           },
                                           expression:
-                                            "\n                                        submetrics[indexSubmetrics]\n                                            .questions[indexQuestions]\n                                            .question\n                                    "
+                                            "\n                                        submetrics[indexSubmetrics]\n                                            .submetric_name\n                                    "
                                         }
                                       })
                                     ],
                                     1
-                                  ),
-                                  _vm._v(" "),
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                { staticClass: "text-center ml-5 mr-5" },
+                                [
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "2" } },
                                     [
-                                      _c("v-select", {
+                                      _c("v-textarea", {
                                         attrs: {
-                                          items: _vm.items,
-                                          label: "Level",
-                                          outlined: "",
-                                          rules: [
-                                            function(v) {
-                                              return !!v || "Level is require!"
-                                            }
-                                          ],
-                                          required: ""
+                                          label: "Purpose of the metrics",
+                                          "persistent-hint": "",
+                                          outlined: ""
                                         },
                                         model: {
                                           value:
                                             _vm.submetrics[indexSubmetrics]
-                                              .questions[indexQuestions]
-                                              .max_select,
+                                              .purpose,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.submetrics[indexSubmetrics]
-                                                .questions[indexQuestions],
-                                              "max_select",
+                                              _vm.submetrics[indexSubmetrics],
+                                              "purpose",
                                               $$v
                                             )
                                           },
                                           expression:
-                                            "\n                                        submetrics[indexSubmetrics]\n                                            .questions[indexQuestions]\n                                            .max_select\n                                    "
+                                            "\n                                        submetrics[indexSubmetrics].purpose\n                                    "
                                         }
                                       })
                                     ],
@@ -44458,19 +44176,379 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "2" } },
                                     [
-                                      indexQuestions ===
-                                      _vm.submetrics[indexSubmetrics].questions
-                                        .length -
+                                      _c("v-textarea", {
+                                        attrs: {
+                                          label: "Method of application",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .method,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "method",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics].method\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                { staticClass: "text-center ml-5 mr-5" },
+                                [
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-textarea", {
+                                        attrs: {
+                                          label:
+                                            "Measurement, formula and data element computation",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .measurement,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "measurement",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics]\n                                            .measurement\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-textarea", {
+                                        attrs: {
+                                          label: "Input to measurement",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .input,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "input",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics].input\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                { staticClass: "text-center ml-5 mr-5" },
+                                [
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Measure type",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .type,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "type",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics].type\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Metric scale type",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .scale,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "scale",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics].scale\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                { staticClass: "text-center ml-5 mr-5" },
+                                [
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "ISO/IEC 12207 SLCP Reference",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics].iso,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "iso",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics].iso\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          label: "Target audience",
+                                          "persistent-hint": "",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.submetrics[indexSubmetrics]
+                                              .target,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.submetrics[indexSubmetrics],
+                                              "target",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "\n                                        submetrics[indexSubmetrics].target\n                                    "
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider"),
+                              _vm._v(" "),
+                              _c(
+                                "p",
+                                {
+                                  staticClass: "mr-5 mt-3 ml-5",
+                                  staticStyle: { color: "#5f7daf" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            หมายเหตุ: ในการสร้างคำถาม\n                            ต้องเป็นคำถามที่ไม่ใช่คำถามปลายเปิด\n                            เนื่องจากข้อจำกัดในการใช้งานเว็บแอพลิเคชั่น\n                            และในแต่ละ metric สามารถกำหนดคำถามได้หลายคำถาม\n                            โดยวิธีการเพิ่มคำถาม ทำได้โดยกดที่ปุ่ม +\n                            ด้านหลังข้อความ และสามารถลบคำถามที่เพิ่มไปได้\n                            โดยการกดที่ปุ่มรูปถังขยะ\n                        "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(
+                                _vm.submetrics[indexSubmetrics].questions,
+                                function(q, indexQuestions) {
+                                  return _c(
+                                    "v-row",
+                                    {
+                                      key: indexQuestions,
+                                      staticClass: "text-center ml-5 mr-5 mt-3"
+                                    },
+                                    [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "8" } },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label: "Question",
+                                              "persistent-hint": "",
+                                              outlined: "",
+                                              rules: [
+                                                function(v) {
+                                                  return (
+                                                    !!v ||
+                                                    "Question is require!"
+                                                  )
+                                                }
+                                              ],
+                                              required: ""
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.submetrics[indexSubmetrics]
+                                                  .questions[indexQuestions]
+                                                  .question,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.submetrics[
+                                                    indexSubmetrics
+                                                  ].questions[indexQuestions],
+                                                  "question",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "\n                                        submetrics[indexSubmetrics]\n                                            .questions[indexQuestions]\n                                            .question\n                                    "
+                                            }
+                                          })
+                                        ],
                                         1
-                                        ? _c(
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "2" } },
+                                        [
+                                          _c("v-select", {
+                                            attrs: {
+                                              items: _vm.items,
+                                              label: "Level",
+                                              outlined: "",
+                                              rules: [
+                                                function(v) {
+                                                  return (
+                                                    !!v || "Level is require!"
+                                                  )
+                                                }
+                                              ],
+                                              required: ""
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.submetrics[indexSubmetrics]
+                                                  .questions[indexQuestions]
+                                                  .max_select,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.submetrics[
+                                                    indexSubmetrics
+                                                  ].questions[indexQuestions],
+                                                  "max_select",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "\n                                        submetrics[indexSubmetrics]\n                                            .questions[indexQuestions]\n                                            .max_select\n                                    "
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "2" } },
+                                        [
+                                          indexQuestions ===
+                                          _vm.submetrics[indexSubmetrics]
+                                            .questions.length -
+                                            1
+                                            ? _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    small: "",
+                                                    outlined: "",
+                                                    color: "indigo"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.addQuestion(
+                                                            indexSubmetrics
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                        mdi-plus\n                                    "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _c(
                                             "v-btn",
                                             {
                                               attrs: {
                                                 small: "",
                                                 outlined: "",
-                                                color: "indigo"
+                                                color: "red"
                                               }
                                             },
                                             [
@@ -44479,7 +44557,8 @@ var render = function() {
                                                 {
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.addQuestion(
+                                                      return _vm.deleteQuestion(
+                                                        _vm.item,
                                                         indexSubmetrics
                                                       )
                                                     }
@@ -44487,42 +44566,12 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        mdi-plus\n                                    "
+                                                    "\n                                        mdi-delete\n                                    "
                                                   )
                                                 ]
                                               )
                                             ],
                                             1
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            small: "",
-                                            outlined: "",
-                                            color: "red"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.deleteQuestion(
-                                                    _vm.item,
-                                                    indexSubmetrics
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                        mdi-delete\n                                    "
-                                              )
-                                            ]
                                           )
                                         ],
                                         1
@@ -44530,73 +44579,78 @@ var render = function() {
                                     ],
                                     1
                                   )
-                                ],
-                                1
-                              )
-                            }
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { staticClass: "text-center" },
-                            [
+                                }
+                              ),
+                              _vm._v(" "),
                               _c(
-                                "v-col",
-                                { attrs: { cols: "12" } },
+                                "v-row",
+                                { staticClass: "text-center" },
                                 [
-                                  indexSubmetrics === _vm.submetrics.length - 1
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "mb-2",
-                                          attrs: {
-                                            color: "teal",
-                                            dark: "",
-                                            outlined: ""
-                                          },
-                                          on: { click: _vm.addSubmetric }
-                                        },
-                                        [
-                                          _c("v-icon", [_vm._v(" mdi-plus")]),
-                                          _vm._v(
-                                            "\n                                    Add Sub-Metric\n                                "
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12" } },
+                                    [
+                                      indexSubmetrics ===
+                                      _vm.submetrics.length - 1
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              staticClass: "mb-2",
+                                              attrs: {
+                                                color: "teal",
+                                                dark: "",
+                                                outlined: ""
+                                              },
+                                              on: { click: _vm.addSubmetric }
+                                            },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v(" mdi-plus")
+                                              ]),
+                                              _vm._v(
+                                                "\n                                    Add Sub-Metric\n                                "
+                                              )
+                                            ],
+                                            1
                                           )
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.submetrics.length > 1
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "mb-2",
-                                          attrs: {
-                                            color: "red",
-                                            dark: "",
-                                            outlined: ""
-                                          },
-                                          on: { click: _vm.deleteSubmetric }
-                                        },
-                                        [
-                                          _c("v-icon", [_vm._v(" mdi-delete")]),
-                                          _vm._v(
-                                            "\n                                    Detete Sub-Metric\n                                "
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.submetrics.length > 1
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              staticClass: "mb-2",
+                                              attrs: {
+                                                color: "red",
+                                                dark: "",
+                                                outlined: ""
+                                              },
+                                              on: { click: _vm.deleteSubmetric }
+                                            },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v(" mdi-delete")
+                                              ]),
+                                              _vm._v(
+                                                "\n                                    Detete Sub-Metric\n                                "
+                                              )
+                                            ],
+                                            1
                                           )
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
                             ],
-                            1
+                            2
                           )
-                        ],
-                        2
+                        }),
+                        1
                       )
-                    }),
+                    ],
                     1
                   )
                 ],
@@ -44618,9 +44672,10 @@ var render = function() {
                   staticClass: "m-2",
                   attrs: {
                     large: "",
-                    dark: "",
+                    light: "",
                     color: "teal",
-                    href: "/metric/"
+                    href: "/metric/",
+                    disabled: !_vm.valid
                   },
                   on: { click: _vm.submit }
                 },
@@ -46007,30 +46062,55 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c("v-data-table", {
-                      staticClass: "elevation-1 mx-10 mt-3 mb-3",
-                      attrs: {
-                        headers: _vm.headers_freq,
-                        items: _vm.stat_Answer(_vm.answerFills(question.id)),
-                        "multi-sort": "",
-                        "hide-details": "",
-                        "hide-default-footer": "",
-                        outlined: ""
-                      }
-                    }),
-                    _vm._v(" "),
                     _c(
-                      "div",
-                      { attrs: { id: "chart" } },
+                      "v-row",
                       [
-                        _c("apexchart", {
-                          attrs: {
-                            type: "bar",
-                            height: "350",
-                            options: _vm.chartOptions,
-                            series: _vm.series
-                          }
-                        })
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "6" } },
+                          [
+                            _c("v-data-table", {
+                              staticClass: "elevation-1 mx-10 mt-3 mb-3",
+                              attrs: {
+                                headers: _vm.headers_freq,
+                                items: _vm.stat_Answer(
+                                  _vm.answerFills(question.id)
+                                ),
+                                "multi-sort": "",
+                                "hide-details": "",
+                                "hide-default-footer": "",
+                                outlined: ""
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-col", { attrs: { cols: "6", align: "center" } }, [
+                          _c(
+                            "div",
+                            { attrs: { id: "chart" } },
+                            [
+                              _c("apexchart", {
+                                attrs: {
+                                  type: "bar",
+                                  width: "500px",
+                                  options: _vm.chartOptions(
+                                    _vm.stat_Answer(
+                                      _vm.answerFills(question.id)
+                                    )
+                                  ),
+                                  series: _vm.series(
+                                    _vm.stat_Answer(
+                                      _vm.answerFills(question.id)
+                                    )
+                                  )
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
                       ],
                       1
                     )

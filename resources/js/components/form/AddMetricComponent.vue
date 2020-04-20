@@ -13,14 +13,11 @@
             <v-divider></v-divider>
             <v-card-text>
                 <p class="ml-5 mr-5">
-                    At vero eos et accusamus et iusto odio dignissimos ducimus
-                    qui blanditiis praesentium voluptatum deleniti atque
-                    corrupti quos dolores et quas molestias excepturi sint
-                    occaecati cupiditate non provident, similique sunt in culpa
-                    qui officia deserunt mollitia animi, id est laborum et
-                    dolorum fuga.
+                    สร้างตัวชี้วัดที่ต้องการใช้ในการประเมิน
+                    โดยผู้ใช้ต้องกรอกข้อมูลให้ครบถ้วน เพื่อประโยชน์ในการใช้ประเมิน
                 </p>
                 <v-container>
+                    <v-form v-model="valid">
                     <v-row class="text-center">
                         <v-col>
                             <v-text-field
@@ -273,6 +270,7 @@
                             </v-row>
                         </v-card>
                     </div>
+                    </v-form>
                 </v-container>
             </v-card-text>
             <!-- -------------------------------------------------------------- -->
@@ -281,10 +279,11 @@
                 <v-btn
                     class="m-2"
                     large
-                    dark
+                    light
                     color="teal"
                     @click="submit"
                     href="/metric/"
+                    :disabled="!valid"
                 >
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
@@ -342,6 +341,7 @@
 <script>
 export default {
     data: () => ({
+        valid: false,
         dialog: false,
         metric_name: "",
         metricnameRules: [v => !!v || "Metric name is required"],
@@ -411,7 +411,7 @@ export default {
             }
             this.dialog = true;
         },
-        
+
         addSubmetric() {
             this.submetrics.push({
                 submetric_name: null,
