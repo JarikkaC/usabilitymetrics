@@ -4111,6 +4111,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["picture_path"],
   created: function () {
@@ -45561,7 +45567,7 @@ var render = function() {
           _c(
             "v-card-title",
             [
-              _vm._v("\n            Evaluation Form\n            "),
+              _vm._v("\n            Evaluation Form\n\n            "),
               _c("v-spacer"),
               _vm._v(" "),
               _c(
@@ -45695,103 +45701,103 @@ var render = function() {
               )
             ],
             1
-          )
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { "max-width": "1000px" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
-        [
+          ),
+          _vm._v(" "),
           _c(
-            "v-card",
+            "v-dialog",
+            {
+              attrs: { "max-width": "1000px" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
+            },
             [
               _c(
-                "v-card-text",
+                "v-card",
                 [
-                  _c("v-container", [
-                    _c("img", {
-                      attrs: {
-                        src: "/storage/" + this.picture_path,
-                        width: "100%"
-                      }
-                    })
-                  ])
+                  _c(
+                    "v-card-text",
+                    [
+                      _c("v-container", [
+                        _c("img", {
+                          attrs: {
+                            src: "/storage/" + this.picture_path,
+                            width: "100%"
+                          }
+                        })
+                      ])
+                    ],
+                    1
+                  )
                 ],
                 1
               )
             ],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { "max-width": "400" },
-          model: {
-            value: _vm.savedialog,
-            callback: function($$v) {
-              _vm.savedialog = $$v
-            },
-            expression: "savedialog"
-          }
-        },
-        [
+          ),
+          _vm._v(" "),
           _c(
-            "v-card",
+            "v-dialog",
+            {
+              attrs: { "max-width": "400" },
+              model: {
+                value: _vm.savedialog,
+                callback: function($$v) {
+                  _vm.savedialog = $$v
+                },
+                expression: "savedialog"
+              }
+            },
             [
               _c(
-                "v-container",
+                "v-card",
                 [
                   _c(
-                    "center",
+                    "v-container",
                     [
                       _c(
-                        "v-btn",
-                        {
-                          staticClass: "m-5",
-                          attrs: {
-                            outlined: "",
-                            fab: "",
-                            color: "green darken-1",
-                            height: "70px",
-                            width: "70px"
-                          }
-                        },
+                        "center",
                         [
-                          _c("v-icon", { attrs: { height: "700px" } }, [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "m-5",
+                              attrs: {
+                                outlined: "",
+                                fab: "",
+                                color: "green darken-1",
+                                height: "70px",
+                                width: "70px"
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { height: "700px" } }, [
+                                _vm._v(
+                                  "\n                                mdi-check-outline\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("h2", [
+                            _c("b", [_vm._v("คุณได้ตอบคำถามเรียบร้อยแล้ว!!")])
+                          ]),
+                          _vm._v(" "),
+                          _c("h5", [
                             _vm._v(
-                              "\n                            mdi-check-outline\n                        "
+                              "\n                            เพื่อดูรายงานผลการประเมิน กรุณาคลิกที่หน้า\n                            Report หรือกลับไปที่หน้าประเมิน\n                        "
                             )
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c("br")
                         ],
                         1
-                      ),
-                      _vm._v(" "),
-                      _c("h2", [
-                        _c("b", [_vm._v("คุณได้ตอบคำถามเรียบร้อยแล้ว!!")])
-                      ]),
-                      _vm._v(" "),
-                      _c("h5", [
-                        _vm._v(
-                          "\n                        เพื่อดูรายงานผลการประเมิน กรุณาคลิกที่หน้า Report\n                        หรือกลับไปที่หน้าประเมิน\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("br")
+                      )
                     ],
                     1
                   )
@@ -45802,7 +45808,7 @@ var render = function() {
             1
           )
         ],
-        1
+        2
       )
     ],
     1

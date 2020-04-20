@@ -3,13 +3,17 @@
         <v-card class="m-4">
             <v-card-title>
                 Evaluation Form
+
                 <v-spacer></v-spacer>
+
                 <v-btn color="grey" outlined href="/metric">
                     <v-icon class="mr-2"> mdi-arrow-left </v-icon>
                     Back
                 </v-btn>
             </v-card-title>
+
             <v-divider></v-divider>
+
             <v-container>
                 <center>
                     <img
@@ -19,6 +23,7 @@
                     />
                 </center>
             </v-container>
+
             <v-divider></v-divider>
 
             <v-card-text class="ml-5">
@@ -59,54 +64,55 @@
 
             <v-row class="m-3">
                 <v-spacer></v-spacer>
+
                 <v-btn class="m-2" large dark color="teal" @click="submit">
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
                 </v-btn>
             </v-row>
-        </v-card>
 
-        <v-dialog v-model="dialog" max-width="1000px">
-            <v-card>
-                <v-card-text>
+            <v-dialog v-model="dialog" max-width="1000px">
+                <v-card>
+                    <v-card-text>
+                        <v-container>
+                            <img
+                                :src="'/storage/' + this.picture_path"
+                                width="100%"
+                            />
+                        </v-container>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+
+            <v-dialog v-model="savedialog" max-width="400">
+                <v-card>
                     <v-container>
-                        <img
-                            :src="'/storage/' + this.picture_path"
-                            width="100%"
-                        />
+                        <center>
+                            <v-btn
+                                class="m-5"
+                                outlined
+                                fab
+                                color="green darken-1"
+                                height="70px"
+                                width="70px"
+                            >
+                                <v-icon height="700px">
+                                    mdi-check-outline
+                                </v-icon>
+                            </v-btn>
+
+                            <h2><b>คุณได้ตอบคำถามเรียบร้อยแล้ว!!</b></h2>
+                            <h5>
+                                เพื่อดูรายงานผลการประเมิน กรุณาคลิกที่หน้า
+                                Report หรือกลับไปที่หน้าประเมิน
+                            </h5>
+
+                            <br />
+                        </center>
                     </v-container>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-
-        <v-dialog v-model="savedialog" max-width="400">
-            <v-card>
-                <v-container>
-                    <center>
-                        <v-btn
-                            class="m-5"
-                            outlined
-                            fab
-                            color="green darken-1"
-                            height="70px"
-                            width="70px"
-                        >
-                            <v-icon height="700px">
-                                mdi-check-outline
-                            </v-icon>
-                        </template>
-
-                        <h2><b>คุณได้ตอบคำถามเรียบร้อยแล้ว!!</b></h2>
-                        <h5>
-                            เพื่อดูรายงานผลการประเมิน กรุณาคลิกที่หน้า Report
-                            หรือกลับไปที่หน้าประเมิน
-                        </h5>
-
-                        <br />
-                    </center>
-                </v-container>
-            </v-card>
-        </v-dialog>
+                </v-card>
+            </v-dialog>
+        </v-card>
     </v-app>
 </template>
 
