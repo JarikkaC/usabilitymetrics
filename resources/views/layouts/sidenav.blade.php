@@ -30,6 +30,7 @@
         #app {
             font-family: 'Prompt', sans-serif;
         }
+
     </style>
 </head>
 
@@ -41,9 +42,9 @@
 
             @if (Route::has('login'))
             @auth
-                <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
+            <leftnav-component username="{{ Auth::user()->username}}"></leftnav-component>
             @else
-                
+
             @endauth
             @endif
 
@@ -52,19 +53,7 @@
             </v-col>
 
         </v-row>
-
-
-
-
-
     </div>
-
-
-
-
-
-
-
 </body>
 
 </html>

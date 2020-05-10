@@ -26,13 +26,35 @@
 
             <v-divider></v-divider>
 
+            <div class="link">
+                <v-card class="mx-10">
+                    <v-row align="center">
+                        <v-col cols="9">
+                            <v-text-field
+                                v-model="url"
+                                ref="textToCopy"
+                                dense
+                                class="mx-5"
+                            >
+                            </v-text-field>
+                        </v-col>
+                        <v-col cols="3">
+                            <v-btn color="indigo" dark @click="copyURL">
+                                <v-icon>mdi-copy </v-icon>Copy Link</v-btn
+                            >
+                        </v-col>
+                    </v-row>
+                </v-card>
+            </div>
+
             <v-card-text class="ml-5">
                 หมายเหตุ: ในกรณีที่ต้องการเปลี่ยนแปลงคำถาม
                 สามารถแก้ไขคำถามได้โดยคลิกที่ หน้า
                 <a href="/metric/">Metrics</a> และกดเข้าไปแก้ไข
             </v-card-text>
 
-            <div v-for="question in questions" :key="question.id">
+
+            <div v-for="question in questions" :key="question.id" class="ml-5"> 
                 <h4 class="p-3">Question:</h4>
                 <p class="ml-5">
                     {{ question.question }}
@@ -54,7 +76,7 @@
                     label="write a comment"
                     persistent-hint
                     outlined
-                    class="ml-5 mr-5"
+                    class="mx-5"
                     v-model="question.comment"
                 >
                 </v-textarea>
@@ -65,7 +87,7 @@
             <v-row class="m-3">
                 <v-spacer></v-spacer>
 
-                <v-btn class="m-2" large dark color="teal" @click="submit">
+                <v-btn class="m-2" large dark color="teal" @click="submit" href="http://127.0.0.1:8000/">
                     <v-icon large class="mr-3">mdi-application-import</v-icon>
                     Submit
                 </v-btn>
@@ -131,7 +153,12 @@ export default {
         picture: [],
         project: [],
         questions: [],
-        submetric: []
+        submetric: [],
+        
+
+        url: "http://127.0.0.1:8000/evaluation/image_2020-4-20_15-5_53.png",
+
+        
     }),
     methods: {
         async getPicture() {
@@ -181,7 +208,13 @@ export default {
                 });
             }
             this.savedialog = true;
-        }
+        },
+
+        copyURL() {
+            let textToCopy = this.$refs.textToCopy.$el.querySelector("input");
+            textToCopy.select();
+            document.execCommand("copy");
+        },
     },
     computed: {
         submetricFill: function() {

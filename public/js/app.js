@@ -3263,16 +3263,7 @@ __webpack_require__.r(__webpack_exports__);
           question: null,
           max_select: null
         }]
-      }] // editedIndex: -1,
-      // editedItem: {
-      //     id: "",
-      //     metric_name: ""
-      // },
-      // defaultItem: {
-      //     id: "",
-      //     metric_name: 0
-      // }
-
+      }]
     };
   },
   methods: {
@@ -3346,30 +3337,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     resetValidation: function resetValidation() {
       this.$refs.form.resetValidation();
-    } // editItem(item) {
-    //     this.editedIndex = this.metrics.indexOf(item);
-    //     this.editedItem = Object.assign({}, item);
-    // },
-    // deleteItem(item) {
-    //     const index = this.metrics.indexOf(item);
-    //     confirm("Are you sure you want to delete this Model?") &&
-    //         this.metrics.splice(index, 1);
-    // },
-    // close() {
-    //     setTimeout(() => {
-    //         this.editedItem = Object.assign({}, this.defaultItem);
-    //         this.editedIndex = -1;
-    //     }, 300);
-    // },
-    // save() {
-    //     if (this.editedIndex > -1) {
-    //         Object.assign(this.metrics[this.editedIndex], this.editedItem);
-    //     } else {
-    //         this.metrics.push(this.editedItem);
-    //     }
-    //     this.close();
-    // }
-
+    }
   }
 });
 
@@ -4117,6 +4085,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["picture_path"],
   created: function () {
@@ -4157,7 +4147,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       picture: [],
       project: [],
       questions: [],
-      submetric: []
+      submetric: [],
+      url: "http://127.0.0.1:8000/evaluation/image_2020-4-20_15-5_53.png"
     };
   },
   methods: {
@@ -4302,6 +4293,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       this.savedialog = true;
+    },
+    copyURL: function copyURL() {
+      var textToCopy = this.$refs.textToCopy.$el.querySelector("input");
+      textToCopy.select();
+      document.execCommand("copy");
     }
   },
   computed: {
@@ -45609,6 +45605,67 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "link" },
+            [
+              _c(
+                "v-card",
+                { staticClass: "mx-10" },
+                [
+                  _c(
+                    "v-row",
+                    { attrs: { align: "center" } },
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "9" } },
+                        [
+                          _c("v-text-field", {
+                            ref: "textToCopy",
+                            staticClass: "mx-5",
+                            attrs: { dense: "" },
+                            model: {
+                              value: _vm.url,
+                              callback: function($$v) {
+                                _vm.url = $$v
+                              },
+                              expression: "url"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "3" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "indigo", dark: "" },
+                              on: { click: _vm.copyURL }
+                            },
+                            [
+                              _c("v-icon", [_vm._v("mdi-copy ")]),
+                              _vm._v("Copy Link")
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
           _c("v-card-text", { staticClass: "ml-5" }, [
             _vm._v(
               "\n            หมายเหตุ: ในกรณีที่ต้องการเปลี่ยนแปลงคำถาม\n            สามารถแก้ไขคำถามได้โดยคลิกที่ หน้า\n            "
@@ -45620,7 +45677,7 @@ var render = function() {
           _vm._l(_vm.questions, function(question) {
             return _c(
               "div",
-              { key: question.id },
+              { key: question.id, staticClass: "ml-5" },
               [
                 _c("h4", { staticClass: "p-3" }, [_vm._v("Question:")]),
                 _vm._v(" "),
@@ -45657,7 +45714,7 @@ var render = function() {
                 _c("h5", { staticClass: "p-3" }, [_vm._v("Comment:")]),
                 _vm._v(" "),
                 _c("v-textarea", {
-                  staticClass: "ml-5 mr-5",
+                  staticClass: "mx-5",
                   attrs: {
                     label: "write a comment",
                     "persistent-hint": "",
@@ -45688,7 +45745,12 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "m-2",
-                  attrs: { large: "", dark: "", color: "teal" },
+                  attrs: {
+                    large: "",
+                    dark: "",
+                    color: "teal",
+                    href: "http://127.0.0.1:8000/"
+                  },
                   on: { click: _vm.submit }
                 },
                 [

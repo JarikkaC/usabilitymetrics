@@ -367,15 +367,6 @@ export default {
             }
         ]
 
-        // editedIndex: -1,
-        // editedItem: {
-        //     id: "",
-        //     metric_name: ""
-        // },
-        // defaultItem: {
-        //     id: "",
-        //     metric_name: 0
-        // }
     }),
 
     methods: {
@@ -462,32 +453,7 @@ export default {
         resetValidation() {
             this.$refs.form.resetValidation();
         }
-        // editItem(item) {
-        //     this.editedIndex = this.metrics.indexOf(item);
-        //     this.editedItem = Object.assign({}, item);
-        // },
-
-        // deleteItem(item) {
-        //     const index = this.metrics.indexOf(item);
-        //     confirm("Are you sure you want to delete this Model?") &&
-        //         this.metrics.splice(index, 1);
-        // },
-
-        // close() {
-        //     setTimeout(() => {
-        //         this.editedItem = Object.assign({}, this.defaultItem);
-        //         this.editedIndex = -1;
-        //     }, 300);
-        // },
-
-        // save() {
-        //     if (this.editedIndex > -1) {
-        //         Object.assign(this.metrics[this.editedIndex], this.editedItem);
-        //     } else {
-        //         this.metrics.push(this.editedItem);
-        //     }
-        //     this.close();
-        // }
+        
     }
 };
 </script>
